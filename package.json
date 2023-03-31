@@ -1,7 +1,7 @@
 {
   "name": "movie-picker",
   "version": "1.0.0",
-  "description": "L'applicazione definitiva per smettere di fare zapping sulla tua piattaforma streaming preferita. Iscriviti, metti mi piace o non mi piace hai film che ti appariranno e scegli il film da vedere. Ai delle preferenze? Imposta i filtri che desideri e lascia trovare all'app i film migliori per te.",
+  "description": "L'applicazione definitiva per smettere di fare zapping sulla tua piattaforma streaming preferita. Iscriviti, metti mi piace o non mi piace hai film che ti appariranno e scegli il film da vedere. Hai delle preferenze? Imposta i filtri che desideri e lascia trovare all'app i film migliori per te.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
