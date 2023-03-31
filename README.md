@@ -28,3 +28,7 @@ In entrambe le modalità, la schermata mostrerà:
 ### Modalità discovery:
 Verrà mostrata una serie di film coerenti con le scelte di ricerca dell'utente, gli elementi della schermata sono quelli base già nominati.   
 L'utente potra aggiungere film alla lista desideri o semplicemente 
+
+
+
+Test
