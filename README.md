@@ -27,4 +27,10 @@ In entrambe le modalità, la schermata mostrerà:
 
 ### Modalità discovery:
 Verrà mostrata una serie di film coerenti con le scelte di ricerca dell'utente, gli elementi della schermata sono quelli base già nominati.   
-L'utente potra aggiungere film alla lista desideri o semplicemente
+L'utente potra aggiungere film alla lista desideri o semplicemente esprimere la propria preferenza sul film visualizzato utilizzando i bottoni mi piace/non mi piace, permettendo all'applicazione di prevedere meglio i film che potrebbero piacere all'utente.
+
+### Modalità Watch now:
+Aggiunta di un elemento:
+  - Button: Trovato! (Permetterà all'utente di interrompere la ricerca in quanto ha trovato il film che vuole vedere, verrà visualizzata una schermata di buona visione.)
+
+Verrà mostrata una serie di film (come prima.) ma questa volta verranno conteggiati i mi piace, e una volta raggiunto un tot (es. (20 mi piace) or (50 visualizzazioni and >= 2 mi piace) ) verrà effettuato il torneo con combattimenti a 2 dei film piaciuti /*Da modificare quest'ultima riga*/
