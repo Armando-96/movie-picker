@@ -9,7 +9,7 @@ Generi e tag saranno modificabili in ogni momento nelle impostazioni.
 
 Saranno presenti delle opzioni avanzate dove potrà essere specificata la volontà dell'utente di avere limiti rigidi sui film da visualizzare (nell'applicazione), ovvero vedere solo i film dei generi e/o tag richiesti, oppure avere dei limiti morbidi e quindi occasionalmente (per esempio ogni 5 film) vedere anche film della quale non si è espressa la preferenza di genere o tag, oppure ancora gestire la quantità minima di tag richiesti che il film deve matchare, o combinazioni varie di tali proprietà.   
 Di Default saranno impostate delle soglie morbide senza limiti di tag.   
-Altre proprietà saranno: attori, regista, ratings.
+Altre proprietà saranno: attori, regista, ratings, durata.
 
 L'applicazione avrà 2 modalità:
   - Discovery: l'utente vuole semplicemente dare un'occhiata alle ultime uscite, ai film presenti sulle piattaforme o farsi un idea (per esempio durante la pausa pranzo) di quale film vedere la sera stessa.
@@ -33,4 +33,6 @@ L'utente potra aggiungere film alla lista desideri o semplicemente esprimere la 
 Aggiunta di un elemento:
   - Button: Trovato! (Permetterà all'utente di interrompere la ricerca in quanto ha trovato il film che vuole vedere, verrà visualizzata una schermata di buona visione.)
 
-Verrà mostrata una serie di film (come prima.) ma questa volta verranno conteggiati i mi piace, e una volta raggiunto un tot (es. (20 mi piace) or (50 visualizzazioni and >= 2 mi piace) ) verrà effettuato il torneo con combattimenti a 2 dei film piaciuti /*Da modificare quest'ultima riga*/
+Verrà mostrata una serie di film (come prima.) ma questa volta verranno conteggiati i mi piace, e una volta raggiunto un tot (es. (20 mi piace) or (50 visualizzazioni and >= 2 mi piace) ), se non è stato premuto il tasto "Trovato!" verranno confrontati 2 film alla volta su una schermata divisa in 2 dove l'utente esprime la preferenza fra i 2, o se i due sono sullo stesso livello (in tal caso uno dei due viene riproposto in combinazione a un altro film, in modo da agevolare la decisione), alla fine di questi confronti (stile torneo) verrà selezionato un unico film quello che l'utente presumibilmente vedrà.   
+
+*NB: Ragionare sui tag in quanto di difficile implementazione e probabilmente assenti nel database.* 
