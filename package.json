@@ -1,0 +1,25 @@
+{
+  "name": "movie-picker",
+  "version": "1.0.0",
+  "description": "L'applicazione definitiva per smettere di fare zapping sulla tua piattaforma streaming preferita. Iscriviti, metti mi piace o non mi piace hai film che ti appariranno e scegli il film da vedere. Ai delle preferenze? Imposta i filtri che desideri e lascia trovare all'app i film migliori per te.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Web-languages-and-technologies-Project/movie-picker.git"
+  },
+  "author": "Lorenzo Sibi & Armando Nardelli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Web-languages-and-technologies-Project/movie-picker/issues"
+  },
+  "homepage": "https://github.com/Web-languages-and-technologies-Project/movie-picker#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
