@@ -2,7 +2,7 @@ const axios = require('axios');
 const express = require('express');
 const app = express();
 
-const TMDB_API_KEY = 'TUO_API_KEY';
+const TMDB_API_KEY = 'fcece093f96283eb8c3865c3be14e4d4';
 
 app.get('/movies', async (req, res) => {
   try {
