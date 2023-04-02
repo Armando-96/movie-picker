@@ -4,8 +4,13 @@
   "description": "L'applicazione definitiva per smettere di fare zapping sulla tua piattaforma streaming preferita. Iscriviti, metti mi piace o non mi piace hai film che ti appariranno e scegli il film da vedere. Hai delle preferenze? Imposta i filtri che desideri e lascia trovare all'app i film migliori per te.",
   "main": "app.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "nodemon utils.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+=======
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon utils.js"
+>>>>>>> 057ccd41092d72e98bee322d773f9101f8f78339
   },
   "repository": {
     "type": "git",
