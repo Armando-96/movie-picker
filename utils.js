@@ -1,27 +1,34 @@
-const axios = require('axios');
-const express = require('express');
+const Movie = require("./model/movie.js");
+
+const axios = require("axios");
+const express = require("express");
 const app = express();
 
-const TMDB_API_KEY = 'fcece093f96283eb8c3865c3be14e4d4';
+const TMDB_API_KEY = "fcece093f96283eb8c3865c3be14e4d4";
 
-app.get('/movies', async (req, res) => {
+app.get("/movies", async (req, res) => {
   try {
-    const response = await axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_API_KEY}`);
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_API_KEY}`
+    );
     const movies = response.data.results;
     const randomMovies = [];
     for (let i = 0; i < 100; i++) {
       const randomIndex = Math.floor(Math.random() * movies.length);
-      randomMovies.push(movies[randomIndex]);
+      randomMovies.push(new Movie(movies[randomIndex]));
     }
+
     res.json(randomMovies);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Errore durante la richiesta di film randomici' });
+    res
+      .status(500)
+      .json({ message: "Errore durante la richiesta di film randomici" });
   }
 });
 
 app.listen(3000, () => {
-  console.log('Server avviato sulla porta 3000');
+  console.log("Server avviato sulla porta 3000");
 });
 /*
   In questa funzione, utilizziamo la libreria Axios per effettuare una richiesta GET all'API di TMDB per i film più votati. Quindi, selezioniamo casualmente 100 film
