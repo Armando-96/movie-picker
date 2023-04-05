@@ -18,7 +18,12 @@
   },
   "homepage": "https://github.com/Web-languages-and-technologies-Project/movie-picker#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "body-parser": "^1.20.2",
+    "bootstrap": "^5.2.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "jquery": "^3.6.4",
+    "pug": "^3.0.2"
   },
   "devDependencies": {
     "axios": "^1.3.4",

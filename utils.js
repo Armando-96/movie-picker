@@ -1,12 +1,47 @@
 const Movie = require("./model/movie.js");
-
+const Configuration = require("./model/configuration.js");
 const axios = require("axios");
+const pug = require("pug");
 const express = require("express");
+const path = require("path");
 const app = express();
 
-const TMDB_API_KEY = "fcece093f96283eb8c3865c3be14e4d4";
+// My functions
+const { initialConfiguration } = require("./configure.js");
 
-app.get("/movies", async (req, res) => {
+const PORT = 3000;
+
+// APY KEY per il database TMDB
+const TMDB_API_KEY = "fcece093f96283eb8c3865c3be14e4d4";
+const CONFIGURATION = initialConfiguration(TMDB_API_KEY);
+
+// set the view engine to pug
+app.set("view engine", "pug");
+
+app.use(express.static("public"));
+
+app.use(
+  "/css",
+  express.static(path.join(__dirname, "node_modules/bootstrap/dist/css"))
+);
+app.use(
+  "/js",
+  express.static(path.join(__dirname, "node_modules/bootstrap/dist/js"))
+);
+app.use(
+  "/js",
+  express.static(path.join(__dirname, "node_modules/jquery/dist"))
+);
+
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "public", "404.html"));
+});
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+app.get("/api/movies/top_rated", async (req, res) => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_API_KEY}`
@@ -27,11 +62,43 @@ app.get("/movies", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Server avviato sulla porta 3000");
+app.get("/api/configuration", async (req, res) => {
+  const getConfigurations = initialConfiguration(TMDB_API_KEY);
+  getConfigurations
+    .then((config) => {
+      let configuration = new Configuration(config);
+      res.json(configuration);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
-/*
-  In questa funzione, utilizziamo la libreria Axios per effettuare una richiesta GET all'API di TMDB per i film più votati. Quindi, selezioniamo casualmente 100 film
-  da questa lista utilizzando un ciclo for e il metodo Math.random(). Infine, restituiamo questi film come JSON alla richiesta del client tramite il metodo res.json().
-  Assicurati di sostituire "TUO_API_KEY" con la tua chiave API di TMDB per far funzionare correttamente la funzione.
-*/
+
+app.get("/api/movies/random", async (req, res) => {
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_API_KEY}`
+    );
+    const movies = response.data.results;
+    const firstMovie = new Movie(
+      movies[Math.ceil(Math.random() * movies.length - 1)]
+    );
+    CONFIGURATION.then((config) => {
+      res.render("partials/movie_card.pug", {
+        movie: firstMovie,
+        config: config,
+      });
+    }).catch((err) => {
+      console.log(err);
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Errore durante la richiesta film randomico" });
+  }
+});
+
+app.listen(3000, () => {
+  console.log(`Server avviato sulla porta ${PORT}`);
+});
