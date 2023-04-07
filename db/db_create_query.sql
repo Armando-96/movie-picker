@@ -1,6 +1,8 @@
 --Una volta creato il database, 
 --eseguire questo file per creare le tabelle
 --con postgresql
+--I nomi delle tabelle users e sessions sono al prulare perchè user e session sono parole chiave di postgresql
+
 CREATE TABLE USERS (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE,
