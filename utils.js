@@ -5,6 +5,9 @@ const pug = require("pug");
 const express = require("express");
 const path = require("path");
 const app = express();
+//Le api relative al database
+const dbRoutes = require("./db/routes");
+
 
 // My functions
 const { initialConfiguration } = require("./configure.js");
@@ -32,6 +35,9 @@ app.use(
   "/js",
   express.static(path.join(__dirname, "node_modules/jquery/dist"))
 );
+
+//Impostiamo il middleware per la gestione delle api relative al database
+app.use("/api/db", dbRoutes);
 
 // app.use((req, res, next) => {
 //   res.sendFile(path.join(__dirname, "public", "404.html"));
