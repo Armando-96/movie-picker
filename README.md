@@ -35,4 +35,4 @@ Aggiunta di un elemento:
 
 Verrà mostrata una serie di film (come prima.) ma questa volta verranno conteggiati i mi piace, e una volta raggiunto un tot (es. (20 mi piace) or (50 visualizzazioni and >= 2 mi piace) ), se non è stato premuto il tasto "Trovato!" verranno confrontati 2 film alla volta su una schermata divisa in 2 dove l'utente esprime la preferenza fra i 2, o se i due sono sullo stesso livello (in tal caso uno dei due viene riproposto in combinazione a un altro film, in modo da agevolare la decisione), alla fine di questi confronti (stile torneo) verrà selezionato un unico film quello che l'utente presumibilmente vedrà.   
 
-*NB: Ragionare sui tag in quanto di difficile implementazione e probabilmente assenti nel database.* 
+*NB: Ragionare sui tag in quanto di difficile implementazione e probabilmente assenti nel database. * 
