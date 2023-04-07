@@ -6,12 +6,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <script>
+        function validateForm() {
+            var password = document.forms["form_utente"]["password"].value;
+            var confirm_password = document.forms["form_utente"]["confirm_password"].value;
+
+            if (password != confirm_password) {
+                alert("Le password non coincidono");
+                return false;
+            } else return true;
+        }
+    </script>
+
 </head>
 
 <body>
     <h1>Register</h1>
 
-    <form action="/api/db/users" method="post">
+    <form onsubmit="return validateForm();" action="http://localhost:3000/api/db/users" method="post"
+        name="form_utente">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username"><br>
 
