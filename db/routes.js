@@ -10,6 +10,6 @@ router.get('/all', controller.getAll);                      //Restituisce tutte 
 router.get('/users/:id', controller.getUserById);           //Restituisce la tupla con id = :id della tabella users
 
 router.post('/users', controller.createUser);               //Crea una nuova tupla nella tabella users
-
+router.post('/login', controller.login);
 
 module.exports = router;

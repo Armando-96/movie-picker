@@ -9,7 +9,17 @@
 </head>
 
 <body>
-    <h1>Login</h1>
+    <h1>Effettua il login</h1>
+    <form action="http://localhost:3000/api/db/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <input type="submit" value="Accedi">
+    </form>
+    <h3>Se non possiedi un account effettua la <a href="./register.html">registrazione</a></h3>
 </body>
 
 </html>

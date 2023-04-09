@@ -3,6 +3,8 @@
 
 const pool = require("./db");
 const queries = require("./queries");
+const path = require("path");
+const { getMovie, getMaxIdSessions, initializeSession } = require("./utils");
 
 const getUsers = (req, res) => {
     pool.query(queries.getUsers, (error, results) => {
@@ -73,7 +75,24 @@ const createUser = (req, res) => {
 
 };
 
+const login = async (req, res) => {
+    const { username, password } = req.body;
 
+    const results = await pool.query(queries.getUserByUsername, [username]);
+
+    const exist = results.rows.length;
+
+    if (exist) {
+        const user = results.rows[0];
+        if (user.password === password) {
+            initializeSession(user, res)//Ora c'è solo discovery, ma poi andrà messa una schermata di scelta fra discovery e watch now
+        } else {
+            res.status(400).send("Wrong password");
+        }
+    } else {
+        res.status(400).send("Username doesn't exist");
+    }
+}
 
 module.exports = {
     getUsers,
@@ -82,4 +101,5 @@ module.exports = {
     getAll,
     getUserById,
     createUser,
+    login,
 };

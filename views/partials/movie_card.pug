@@ -5,7 +5,14 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Movie Card
     body 
+        div Sessione attuale: #{id_session}
         h1 #{movie.title}
         h3 #{movie.overview}
         p  #{movie.rating}
         img(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
+        br
+        p Fai la tua scelta #{username}
+        button(name="like", onclick="") Like 
+        button(name="dislike", onclick="") Dislike 
+        //Per like e dislike fare in succesisone una put per aggiungere l'interazione e una get o post per richiedere il film successivo
+        //tramite metodi javascript (fetch, onclick="metodo()") 
