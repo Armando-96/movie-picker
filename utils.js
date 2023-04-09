@@ -8,7 +8,6 @@ const app = express();
 //Le api relative al database
 const dbRoutes = require("./db/routes");
 
-
 // My functions
 const { initialConfiguration } = require("./configure.js");
 
@@ -40,10 +39,6 @@ app.use(
 app.use("/api/db", dbRoutes);
 //Installiamo il body parser json di express
 app.use(express.json());
-
-// app.use((req, res, next) => {
-//   res.sendFile(path.join(__dirname, "public", "404.html"));
-// });
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
@@ -105,6 +100,10 @@ app.get("/api/movies/random", async (req, res) => {
       .status(500)
       .json({ message: "Errore durante la richiesta film randomico" });
   }
+});
+
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, "public", "404.html"));
 });
 
 app.listen(3000, () => {

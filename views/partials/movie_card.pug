@@ -4,8 +4,11 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Movie Card
+        link(rel="stylesheet", href="/css/bootstrap.min.css")
+        link(rel="stylesheet", href="/public/css/style.css")
     body 
-        h1 #{movie.title}
-        h3 #{movie.overview}
-        p  #{movie.rating}
-        img(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
+        div(class="mx-4 my-5 my-5")
+            h1 #{movie.title}
+            p #{movie.overview}
+            p  #{movie.rating}
+            img(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
