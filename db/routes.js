@@ -12,4 +12,7 @@ router.get('/users/:id', controller.getUserById);           //Restituisce la tup
 router.post('/users', controller.createUser);               //Crea una nuova tupla nella tabella users
 router.post('/login', controller.login);
 
+router.get('/next', controller.addInteraction);
+router.get('/end', controller.endSession);
+
 module.exports = router;
