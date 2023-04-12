@@ -7,14 +7,38 @@
     <!-- Importazione Bootstrap -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
     <title>Document</title>
+<<<<<<< HEAD
   </head>
+=======
+
+    <script>
+        function validateForm() {
+            var password = document.forms["form_utente"]["password"].value;
+            var confirm_password = document.forms["form_utente"]["confirm_password"].value;
+
+            if (password != confirm_password) {
+                alert("Le password non coincidono");
+                return false;
+            } else return true;
+        }
+    </script>
+
+</head>
+>>>>>>> 2e6253909185dc543289dc0275d58bfbee80c090
 
   <body>
     <h1>Register</h1>
 
+<<<<<<< HEAD
     <form action="/api/db/users" method="post">
       <label for="username">Username:</label>
       <input type="text" id="username" name="username" /><br />
+=======
+    <form onsubmit="return validateForm();" action="http://localhost:3000/api/db/users" method="post"
+        name="form_utente">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br>
+>>>>>>> 2e6253909185dc543289dc0275d58bfbee80c090
 
       <label for="password">Password:</label>
       <input type="password" id="password" name="password" /><br />

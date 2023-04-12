@@ -20,6 +20,13 @@ const CONFIGURATION = initialConfiguration(TMDB_API_KEY);
 // set the view engine to pug
 app.set("view engine", "pug");
 
+//Installiamo il body parser json di express
+app.use(express.json());
+
+//Installiamo il body parser per le richieste di tipo x-www-form-urlencoded
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(express.static("public"));
 
 app.use(
@@ -37,8 +44,6 @@ app.use(
 
 //Impostiamo il middleware per la gestione delle api relative al database
 app.use("/api/db", dbRoutes);
-//Installiamo il body parser json di express
-app.use(express.json());
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));

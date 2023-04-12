@@ -51,8 +51,26 @@ const getUserById = (req, res) => {
 };
 
 const createUser = (req, res) => {
-    console.log(req.body);
-    res.status(200).send("In fase di sviluppo");
+    const { username, password } = req.body;
+    pool.query(queries.getUserByUsername, [username], (error, results) => {
+        if (error) {
+            throw error;
+        }
+        const exist = results.rows.length;
+
+        if (exist) {
+            res.status(400).send("Username already exists");
+        } else {
+            pool.query(queries.createUser, [username, password], (error, results) => {
+                if (error) {
+                    throw error;
+                }
+                res.status(201).send('User added');
+            });
+        }
+
+    });
+
 };
 
 

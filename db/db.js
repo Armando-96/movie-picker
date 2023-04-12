@@ -9,10 +9,10 @@ const Pool = require('pg').Pool;
 //al database è dato dal parametro max di default è 10
 //se dobbiamo connetterci a più database, dobbiamo creare più oggetti pool
 const pool = new Pool({
-    user: 'postgres',
+    user: 'postgres',//cambiare a seconda del nome utente utilizzato per accedere al database
     host: 'localhost',
-    database: 'moviepicker',
-    password: 'postgres',
+    database: 'moviepicker', //cambiare a seconda del nome del database utilizzato
+    password: 'postgres', //cambiare a seconda della password utilizzata per accedere al database
     port: 5432,
 });
 
