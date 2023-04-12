@@ -5,6 +5,10 @@ const pug = require("pug");
 const express = require("express");
 const path = require("path");
 const app = express();
+
+//Importiamo il modulo per la gestione dei cookie
+const cookieParser = require('cookie-parser');
+
 //Le api relative al database
 const dbRoutes = require("./db/routes");
 
@@ -26,6 +30,9 @@ app.use(express.json());
 //Installiamo il body parser per le richieste di tipo x-www-form-urlencoded
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
+
+//Installiamo il middleware per la gestione dei cookie
+app.use(cookieParser());
 
 app.use(express.static("public"));
 

@@ -3,6 +3,8 @@
 
 const pool = require("./db");
 const queries = require("./queries");
+const path = require("path");
+const { getMovie, initializeSession } = require("./utils");
 
 const getUsers = (req, res) => {
     pool.query(queries.getUsers, (error, results) => {
@@ -65,7 +67,7 @@ const createUser = (req, res) => {
                 if (error) {
                     throw error;
                 }
-                res.status(201).send('User added');
+                res.status(201).sendFile(path.resolve("./public/login.html"));
             });
         }
 
@@ -73,6 +75,39 @@ const createUser = (req, res) => {
 
 };
 
+const login = async (req, res) => {
+    const { username, password } = req.body;
+    const results = await pool.query(queries.getUserByUsername, [username]);
+    const exist = results.rows.length;
+    if (exist) {
+        const user = results.rows[0];
+        if (user.password === password) {
+            initializeSession(user, res)//Ora c'è solo discovery, ma poi andrà messa una schermata di scelta fra discovery e watch now
+        } else {
+            res.status(400).send("Wrong password");
+        }
+    } else {
+        res.status(400).send("Username doesn't exist");
+    }
+}
+
+const addInteraction = async (req, res) => {
+    const { preference, id_movie } = req.query;
+    const id_session = Number(req.cookies.id_session);
+    pool.query(queries.createInteraction, [id_session, id_movie, preference]);
+    pool.query(queries.incViews, [id_session]);
+    if (preference === "like")
+        pool.query(queries.incLikes, [id_session]);
+    getMovie(req.cookies.username, Number(req.cookies.id_session), res);
+}
+
+const endSession = async (req, res) => {
+    //Eliminiamo i cookie
+    res.clearCookie("id_session");
+    res.clearCookie("id_user");
+    res.clearCookie("username");
+    res.send("Session ended pagina di buona visione");
+}
 
 
 module.exports = {
@@ -82,4 +117,7 @@ module.exports = {
     getAll,
     getUserById,
     createUser,
+    login,
+    addInteraction,
+    endSession,
 };
