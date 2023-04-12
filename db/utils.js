@@ -48,11 +48,6 @@ const getMovie = async (username, id_session, res) => {
 const initializeSession = async (user, res) => {
     const id_session = await getMaxIdSessions() + 1;
     createSession(id_session, user.id);
-    //Inseriamo l'id della sessione nel cookie e altri dati di convenienza
-    res.cookie("id_session", String(id_session));
-    res.cookie("id_user", String(user.id));
-    res.cookie("username", user.username);
-
     getMovie(user.username, id_session, res);
 }
 

@@ -12,8 +12,8 @@ CREATE TABLE USERS (
 CREATE TABLE SESSIONS (
     id SERIAL PRIMARY KEY,
     id_user INTEGER,
-    n_likes INTEGER DEFAULT 0,
-    n_views INTEGER DEFAULT 0,
+    n_likes INTEGER,
+    n_views INTEGER,
     FOREIGN KEY (id_user) REFERENCES USERS(id)
 );
 
