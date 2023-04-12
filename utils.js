@@ -5,8 +5,13 @@ const pug = require("pug");
 const express = require("express");
 const path = require("path");
 const app = express();
+
+//Importiamo il modulo per la gestione dei cookie
+const cookieParser = require('cookie-parser');
+
 //Le api relative al database
 const dbRoutes = require("./db/routes");
+
 
 // My functions
 const { initialConfiguration } = require("./configure.js");
@@ -27,6 +32,9 @@ app.use(express.json());
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//Installiamo il middleware per la gestione dei cookie
+app.use(cookieParser());
+
 app.use(express.static("public"));
 
 app.use(
@@ -44,6 +52,10 @@ app.use(
 
 //Impostiamo il middleware per la gestione delle api relative al database
 app.use("/api/db", dbRoutes);
+
+// app.use((req, res, next) => {
+//   res.sendFile(path.join(__dirname, "public", "404.html"));
+// });
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
@@ -105,10 +117,6 @@ app.get("/api/movies/random", async (req, res) => {
       .status(500)
       .json({ message: "Errore durante la richiesta film randomico" });
   }
-});
-
-app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, "public", "404.html"));
 });
 
 app.listen(3000, () => {
