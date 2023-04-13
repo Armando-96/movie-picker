@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Web-languages-and-technologies-Project/movie-picker#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "bootstrap": "^5.2.3",
     "cookie-parser": "^1.4.6",

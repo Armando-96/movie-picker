@@ -1,44 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css"
+  </head>
 
-    <script>
-        function validateForm() {
-            var password = document.forms["form_utente"]["password"].value;
-            var confirm_password = document.forms["form_utente"]["confirm_password"].value;
-
-            if (password != confirm_password) {
-                alert("Le password non coincidono");
-                return false;
-            } else return true;
-        }
-    </script>
-
-</head>
-
-<body>
+  <body>
     <h1>Register</h1>
 
-    <form onsubmit="return validateForm();" action="http://localhost:3000/api/db/users" method="post"
-        name="form_utente">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username"><br>
+    <form
+      onsubmit="return validateForm();"
+      action="http://localhost:3000/api/db/users"
+      method="post"
+      name="form_utente"
+    >
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" /><br />
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password"><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" /><br />
 
-        <label for="confirm_password">Conferma Password:</label>
-        <input type="password" id="confirm_password" name="confirm_password"><br>
+      <label for="confirm_password">Conferma Password:</label>
+      <input
+        type="password"
+        id="confirm_password"
+        name="confirm_password"
+      /><br />
 
-        <input type="submit" value="Registrati">
-        <input type="reset" value="Reset">
+      <input class="btn btn-primary" type="submit" value="Registrati" />
+      <input class="btn btn-secondary" type="reset" value="Reset" />
     </form>
     <h3>Se possiedi un account effettua il <a href="./login.html">login</a></h3>
-</body>
-
+    <script src="./js/validate-form.js"></script>
+  </body>
 </html>
