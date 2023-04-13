@@ -18,15 +18,19 @@ const createSession = (id_session, id_user) => {
     pool.query(queries.createSession, [id_session, id_user]);
 }
 
-const getMovie = async (username, id_session, res) => {
+//Funzione che restituisce un film randomico in json
+const getMovie = async () => {
+    const response = await axios.get(
+        `https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_API_KEY}`
+    );
+    const movies = response.data.results;
+    return movies[Math.ceil(Math.random() * movies.length - 1)];
+}
+
+const renderFirstMovie = async (username, id_session, res) => {
     try {
-        const response = await axios.get(
-            `https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_API_KEY}`
-        );
-        const movies = response.data.results;
-        const firstMovie = new Movie(
-            movies[Math.ceil(Math.random() * movies.length - 1)]
-        );
+        const movie_json = await getMovie();
+        const firstMovie = new Movie(movie_json);
         CONFIGURATION.then((config) => {
             res.render("partials/movie_card.pug", {
                 movie: firstMovie,
@@ -43,7 +47,7 @@ const getMovie = async (username, id_session, res) => {
             .status(500)
             .json({ message: "Errore durante la richiesta film randomico" });
     }
-};
+}
 
 const initializeSession = async (user, res) => {
     const id_session = await getMaxIdSessions() + 1;
@@ -52,8 +56,12 @@ const initializeSession = async (user, res) => {
     res.cookie("id_session", String(id_session));
     res.cookie("id_user", String(user.id));
     res.cookie("username", user.username);
+    renderFirstMovie(user.username, id_session, res);
+}
 
-    getMovie(user.username, id_session, res);
+const checkFilm = async (id_movie, id_session) => {
+    const result = await pool.query(queries.checkFilm, [id_movie, id_session]);
+    return result.rows.length;
 }
 
 
@@ -61,4 +69,5 @@ module.exports = {
     getMovie,
     getMaxIdSessions,
     initializeSession,
+    checkFilm,
 };
