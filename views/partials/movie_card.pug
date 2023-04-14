@@ -4,26 +4,25 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         script.
-            function like(){
-                window.location.href= 'next' + '?'+ 'preference=like&' + 'id_movie=' + #{movie.id};//Non capisco perchè utilizzi come prefisso /api/db??
+            function inizializza(){
+                localStorage.setItem("id_movie", #{movie.id});
+                localStorage.setItem("prefix_poster_path", "#{config.images.base_url}" + "#{config.images.backdrop_sizes[0]}");
             }
-            function dislike(){
-                window.location.href= 'next' + '?'+ 'preference=dislike&' + 'id_movie=' + #{movie.id};
-            }
-            function end(){
-                window.location.href= 'end';
-            }
+        script
+            include ./script.js       
         title Movie Card
-    body 
+    body(onload="inizializza()", id="body") 
         div Sessione attuale: #{id_session}
-        h1 #{movie.title}
-        h3 #{movie.overview}
-        p  #{movie.rating}
-        img(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
+        h1(id="title")
+            #{movie.title}
+        h3(id="overview")
+            #{movie.overview}
+        p(id="rating")
+            #{movie.rating}
+        div(id="poster")
+            img(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
         br
         p Fai la tua scelta #{username}
         button(name="like", onclick="like()") Like 
         button(name="dislike", onclick="dislike()") Dislike 
-        button(name="end", onclick="end()") End 
-        //Per like e dislike fare in succesisone una put per aggiungere l'interazione e una get o post per richiedere il film successivo
-        //tramite metodi javascript (fetch, onclick="metodo()") 
+        button(name="end", onclick="end()") End

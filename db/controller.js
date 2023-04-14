@@ -4,7 +4,7 @@
 const pool = require("./db");
 const queries = require("./queries");
 const path = require("path");
-const { getMovie, initializeSession } = require("./utils");
+const { getMovie, initializeSession, checkFilm } = require("./utils");
 
 const getUsers = (req, res) => {
     pool.query(queries.getUsers, (error, results) => {
@@ -94,11 +94,27 @@ const login = async (req, res) => {
 const addInteraction = async (req, res) => {
     const { preference, id_movie } = req.query;
     const id_session = Number(req.cookies.id_session);
-    pool.query(queries.createInteraction, [id_session, id_movie, preference]);
-    pool.query(queries.incViews, [id_session]);
-    if (preference === "like")
-        pool.query(queries.incLikes, [id_session]);
-    getMovie(req.cookies.username, Number(req.cookies.id_session), res);
+
+    if (!(await checkFilm(id_movie, id_session))) {
+        pool.query(queries.createInteraction, [id_session, id_movie, preference]);
+        pool.query(queries.incViews, [id_session]);
+        if (preference === "like")
+            pool.query(queries.incLikes, [id_session]);
+    }
+
+    let next = await getMovie();
+    let duplicate = await checkFilm(next.id, id_session);
+    let i = 0;
+    while (duplicate) {
+        i++;
+        if (i > 50) break;
+        next = await getMovie();
+        duplicate = await checkFilm(next.id, id_session);
+    }
+    if (i <= 50)
+        res.send(next);
+    else
+        res.send({ "nonext": true });//Non ci sono più film da mostrare
 }
 
 const endSession = async (req, res) => {

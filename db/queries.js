@@ -13,7 +13,7 @@ const createSession = "INSERT INTO sessions ( id, id_user ) VALUES ($1, $2)";
 const createInteraction = "INSERT INTO interaction ( id_session, id_film, preference ) VALUES ($1, $2, $3)";
 const incLikes = "UPDATE sessions SET n_likes = n_likes + 1  WHERE id = $1";
 const incViews = "UPDATE sessions SET n_views = n_views + 1  WHERE id = $1";
-
+const checkFilm = "SELECT * FROM interaction WHERE id_session = $2 AND id_film = $1";
 
 module.exports = {
     getUsers,
@@ -28,4 +28,5 @@ module.exports = {
     createInteraction,
     incLikes,
     incViews,
+    checkFilm,
 };
