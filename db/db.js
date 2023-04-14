@@ -13,7 +13,7 @@ const pool = new Pool({
   host: "localhost",
   database: "moviepicker", //cambiare a seconda del nome del database utilizzato
   password: "postgres", //cambiare a seconda della password utilizzata per accedere al database
-  port: 5432,
+  port: 8080,
 });
 
 module.exports = pool;

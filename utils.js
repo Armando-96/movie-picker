@@ -1,10 +1,3 @@
-const Movie = require("./model/movie.js");
-const {
-  Configuration,
-  initialConfiguration,
-} = require("./model/configuration.js");
-const axios = require("axios");
-const pug = require("pug");
 const express = require("express");
 const path = require("path");
 const app = express();
@@ -17,6 +10,7 @@ const bodyParser = require("body-parser");
 // Importazione delle routes
 const configurationRoute = require("./routes/configuration-route.js");
 const movieRoute = require("./routes/movies-route.js");
+const loginRouter = require("./routes/login-route.js");
 
 const PORT = 3000;
 
@@ -47,6 +41,7 @@ app.use(
 app.use("/api/db", dbRoutes);
 app.use("/api/configuration", configurationRoute);
 app.use("/api/movies", movieRoute);
+app.use("/api/user/login", loginRouter);
 
 // Homepage
 app.get("/", (req, res) => {
