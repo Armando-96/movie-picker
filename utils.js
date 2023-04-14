@@ -11,6 +11,7 @@ const bodyParser = require("body-parser");
 const configurationRoute = require("./routes/configuration-route.js");
 const movieRoute = require("./routes/movies-route.js");
 const loginRouter = require("./routes/login-route.js");
+const signupRouter = require("./routes/signup-route.js");
 
 const PORT = 3000;
 
@@ -29,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Definizione delle cartelle statiche
 app.use(express.static("public"));
 app.use(
-  ["/css", "/js", "/js"],
+  ["/css", "/bootstrap/js", "/bootstrap/jquery"],
   [
     express.static(path.join(__dirname, "node_modules/bootstrap/dist/css")),
     express.static(path.join(__dirname, "node_modules/bootstrap/dist/js")),
@@ -41,7 +42,8 @@ app.use(
 app.use("/api/db", dbRoutes);
 app.use("/api/configuration", configurationRoute);
 app.use("/api/movies", movieRoute);
-app.use("/api/user/login", loginRouter);
+app.use("/user/login", loginRouter);
+app.use("/user/signup", signupRouter);
 
 // Homepage
 app.get("/", (req, res) => {
