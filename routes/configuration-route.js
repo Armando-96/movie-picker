@@ -4,7 +4,7 @@ const {
   initialConfiguration,
 } = require("../model/configuration.js");
 const { TMDB_API_KEY } = require("../model/global-variables.js");
-
+const configurationController = require("../controllers/configuration-controllers.js");
 const configurationRouter = express.Router();
 
 configurationRouter.get("/", async (req, res) => {

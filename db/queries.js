@@ -19,6 +19,12 @@ const incViews =
   "UPDATE sessions SET n_views = n_views + 1  WHERE session_id = $1";
 const checkFilm =
   "SELECT * FROM interactions WHERE session_id = $2 AND movie_id = $1";
+const checkMovie = "SELECT * FROM movies WHERE movie_id = $1";
+const insertMovie = "INSERT INTO movies (movie_id, title, overview, duration, poster_path, rating) VALUES ($1, $2, $3, $4, $5, $6)";
+const insertGenre = "INSERT INTO genres (genre_id, genre_name) VALUES ($1, $2)";
+const checkGenres = "SELECT * FROM genres";
+const insertMovieGenres = "INSERT INTO movies_genres (movie_id, genre_id) VALUES ($1, $2)";
+
 
 module.exports = {
   getUsers,
@@ -34,4 +40,9 @@ module.exports = {
   incLikes,
   incViews,
   checkFilm,
+  insertMovie,
+  checkMovie,
+  insertGenre,
+  checkGenres,
+  insertMovieGenres
 };

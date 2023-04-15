@@ -55,6 +55,9 @@ app.use((req, res, next) => {
   res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
 });
 
+const { insertGenres } = require('./controllers/configuration-controllers.js');
+insertGenres(); // Inserimento dei generi nel database
+
 app.listen(3000, () => {
   console.log(`Server avviato sulla porta ${PORT}`);
 });

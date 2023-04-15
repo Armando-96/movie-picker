@@ -35,8 +35,11 @@ const endSession = async (req, res) => {
 const addInteraction = async (req, res) => {
     const { preference, id_movie } = req.query;
     const id_session = Number(req.cookies.id_session);
-
+    const movie = (await axios.get(`https://api.themoviedb.org/3/movie/${id_movie}?api_key=${TMDB_API_KEY}&language=en-US`)).data;
     if (!(await checkFilm(id_movie, id_session))) {
+        if (!(await checkMovie(id_movie))) {
+            await insertMovie(movie);
+        }
         pool.query(queries.createInteraction, [id_session, id_movie, preference]);
         pool.query(queries.incViews, [id_session]);
         if (preference === "like")
@@ -94,6 +97,18 @@ const checkFilm = async (id_movie, id_session) => {
     return result.rows.length;
 };
 
+const checkMovie = async (id_movie) => {
+    const result = await pool.query(queries.checkMovie, [id_movie]);
+    return result.rows.length;
+};
+
+const insertMovie = async (movie) => {
+    await pool.query(queries.insertMovie, [movie.id, movie.title, movie.overview, movie.runtime, movie.backdrop_path, movie.vote_average]);
+    const genres = movie.genres;
+    for (let i = 0; i < genres.length; i++) {
+        pool.query(queries.insertMovieGenres, [movie.id, genres[i].id]);
+    }
+};
 module.exports = {
     initializeSession,
     endSession,
