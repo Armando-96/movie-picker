@@ -3,13 +3,7 @@
 --con postgresql
 --I nomi delle tabelle users e sessions sono al prulare perchè user e session sono parole chiave di postgresql
 
-CREATE TABLE USERS (
-    id SERIAL PRIMARY KEY,
-    username TEXT UNIQUE,
-    password TEXT
-);
-
-CREATE TABLE IF NOT EXISTS public.users_test
+CREATE TABLE IF NOT EXISTS public.users
 (
     user_id SERIAL PRIMARY KEY,
     username varchar(30) NOT NULL,
@@ -23,17 +17,17 @@ CREATE TABLE IF NOT EXISTS public.users_test
 );
 
 CREATE TABLE SESSIONS (
-    id SERIAL PRIMARY KEY,
-    id_user INTEGER,
+    session_id SERIAL PRIMARY KEY,
+    user_id INTEGER,
     n_likes INTEGER DEFAULT 0,
     n_views INTEGER DEFAULT 0,
-    FOREIGN KEY (id_user) REFERENCES USERS(id)
+    FOREIGN KEY (user_id) REFERENCES USERS(user_id) ON DELETE CASCADE
 );
 
 CREATE TABLE INTERACTION (
-    id_session INTEGER,
-    id_film TEXT,
+    session_id INTEGER,
+    movie_id TEXT,
     preference TEXT CHECK(preference IN ('like', 'dislike', 'selected')),
-    PRIMARY KEY (id_session, id_film),
-    FOREIGN KEY (id_session) REFERENCES SESSIONS(id) ON DELETE CASCADE
+    PRIMARY KEY (session_id, movie_id),
+    FOREIGN KEY (session_id) REFERENCES SESSIONS(session_id) ON DELETE CASCADE
 );

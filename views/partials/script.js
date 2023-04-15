@@ -9,7 +9,11 @@ function dislike() {
 }
 function end() {
     localStorage.clear();
-    window.location.href = 'end';
+    //window.location.href = 'end';
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "/session/end", false);
+    xhr.send();
+    document.getElementById("body").innerHTML = xhr.responseText;
 }
 
 function addInteraction() {
@@ -17,7 +21,7 @@ function addInteraction() {
     preference = localStorage.getItem("preference");
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = nextFilm;
-    xhr.open("GET", "next" + '?' + 'preference=' + preference + '&' + 'id_movie=' + id_movie, true);
+    xhr.open("GET", "/session/next" + '?' + 'preference=' + preference + '&' + 'id_movie=' + id_movie, true);
     xhr.send();
 }
 

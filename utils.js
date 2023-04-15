@@ -4,7 +4,6 @@ const app = express();
 
 const cookieParser = require("cookie-parser"); //Importiamo il modulo per la gestione dei cookie
 
-const dbRoutes = require("./db/routes"); //Le api relative al database
 const bodyParser = require("body-parser");
 
 // Importazione delle routes
@@ -12,6 +11,7 @@ const configurationRoute = require("./routes/configuration-route.js");
 const movieRoute = require("./routes/movies-route.js");
 const loginRouter = require("./routes/login-route.js");
 const signupRouter = require("./routes/signup-route.js");
+const sessionRoute = require("./routes/session-route.js");
 
 const PORT = 3000;
 
@@ -39,7 +39,7 @@ app.use(
 );
 
 // Registriamo gli endpoint
-app.use("/api/db", dbRoutes);
+app.use("/session", sessionRoute);
 app.use("/api/configuration", configurationRoute);
 app.use("/api/movies", movieRoute);
 app.use("/user/login", loginRouter);
