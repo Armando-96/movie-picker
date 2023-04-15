@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS public.users_test
     CONSTRAINT unique_email UNIQUE (email),
     CONSTRAINT unique_salt UNIQUE (salt),
     CONSTRAINT unique_username UNIQUE (username)
-)
+);
 
 CREATE TABLE SESSIONS (
     id SERIAL PRIMARY KEY,
