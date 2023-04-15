@@ -11,13 +11,12 @@ CREATE TABLE USERS (
 
 CREATE TABLE IF NOT EXISTS public.users_test
 (
-    user_id integer NOT NULL DEFAULT nextval('"UsersTest_user_id_seq"'::regclass),
-    username character varying(30) COLLATE pg_catalog."default" NOT NULL,
-    email character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    salt character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    bcrypt_hash character varying(255) COLLATE pg_catalog."default" NOT NULL,
-    user_location character varying(50) COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT "UsersTest_pkey" PRIMARY KEY (user_id),
+    user_id SERIAL PRIMARY KEY,
+    username varchar(30) NOT NULL,
+    email varchar(255) NOT NULL,
+    salt varchar(255) NOT NULL,
+    bcrypt_hash varchar(255) NOT NULL,
+    user_location varchar(50) NOT NULL,
     CONSTRAINT unique_email UNIQUE (email),
     CONSTRAINT unique_salt UNIQUE (salt),
     CONSTRAINT unique_username UNIQUE (username)
