@@ -40,6 +40,7 @@ CREATE TABLE INTERACTIONS (
     session_id INTEGER,
     movie_id TEXT,
     preference TEXT CHECK(preference IN ('like', 'dislike', 'selected')),
+    interaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (session_id, movie_id),
     FOREIGN KEY (session_id) REFERENCES SESSIONS(session_id) ON DELETE CASCADE,
     FOREIGN KEY (movie_id) REFERENCES MOVIES(movie_id) ON DELETE CASCADE
