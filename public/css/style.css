@@ -1,4 +1,25 @@
+.center-vertical {
+  top: 48%;
+  left: 50%;
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
 .form-signin {
   max-width: 330px;
   padding: 15px;
+}
+
+.border-radius-0 {
+  border-radius: 0px;
+}
+
+.border-radius-b-0 {
+  border-radius: 8px 8px 0px 0px;
+}
+
+.border-radius-t-0 {
+  border-radius: 0px 0px 8px 8px;
 }
