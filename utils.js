@@ -29,14 +29,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Definizione delle cartelle statiche
 app.use(express.static("public"));
-app.use(
-  ["/css", "/bootstrap/js", "/bootstrap/jquery"],
-  [
-    express.static(path.join(__dirname, "node_modules/bootstrap/dist/css")),
-    express.static(path.join(__dirname, "node_modules/bootstrap/dist/js")),
-    express.static(path.join(__dirname, "node_modules/jquery/dist")),
-  ]
-);
+// app.use(
+//   ["/css", "/bootstrap/js", "/bootstrap/jquery"],
+//   [
+//     express.static(path.join(__dirname, "node_modules/bootstrap/dist/css")),
+//     express.static(path.join(__dirname, "node_modules/bootstrap/dist/js")),
+//     express.static(path.join(__dirname, "node_modules/jquery/dist")),
+//   ]
+// );
+
+// Homepage
+app.get("/test", (req, res) => {
+  console.log("Homepage");
+  res.render("layouts", { title: "Home" });
+  // res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 // Registriamo gli endpoint
 app.use("/session", sessionRoute);
@@ -45,17 +52,11 @@ app.use("/api/movies", movieRoute);
 app.use("/user/login", loginRouter);
 app.use("/user/signup", signupRouter);
 
-// Homepage
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
 // Pagina di errore 404
 app.use((req, res, next) => {
   res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
 });
-
-const { insertGenres } = require('./controllers/configuration-controllers.js');
+const { insertGenres } = require("./controllers/configuration-controllers.js");
 insertGenres(); // Inserimento dei generi nel database
 
 app.listen(3000, () => {
