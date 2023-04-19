@@ -24,6 +24,26 @@ const insertMovie = "INSERT INTO movies (movie_id, title, overview, duration, po
 const insertGenre = "INSERT INTO genres (genre_id, genre_name) VALUES ($1, $2)";
 const checkGenres = "SELECT * FROM genres";
 const insertMovieGenres = "INSERT INTO movies_genres (movie_id, genre_id) VALUES ($1, $2)";
+const countPositive =
+  `SELECT count(*)
+   from interactions i join sessions s on i.session_id = s.session_id 
+   where user_id = $1 and (i.preference = 'like' or i.preference = 'selected')`;
+const getMagior3Genres = //query per recuperare i 3 generi più visti dall'utente prende in input l'id dell'utente
+  `select genre_id, count(*) conteggio
+  from(
+    select genre_name, g.genre_id genre_id, interaction_date, u.user_id
+    from interactions i join sessions s on i.session_id = s.session_id
+    join users u on u.user_id = s.user_id
+    join movies m on i.movie_id = m.movie_id
+    join movies_genres mg on m.movie_id = mg.movie_id
+    join genres g on mg.genre_id = g.genre_id
+    where u.user_id = $1
+    order by interaction_date desc
+    limit 100
+  ) sq
+  group by genre_id, genre_name
+  order by conteggio desc
+  limit 3;`
 
 
 module.exports = {
@@ -44,5 +64,7 @@ module.exports = {
   checkMovie,
   insertGenre,
   checkGenres,
-  insertMovieGenres
+  insertMovieGenres,
+  countPositive,
+  getMagior3Genres,
 };

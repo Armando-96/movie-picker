@@ -21,7 +21,7 @@ const initializeSession = async (user, res) => {
     res.cookie("id_session", String(id_session));
     res.cookie("id_user", String(user.user_id));
     res.cookie("username", user.username);
-    renderFirstMovie(user.username, id_session, res);
+    renderFirstMovie(user, id_session, res);
 };
 
 const endSession = async (req, res) => {
@@ -46,19 +46,59 @@ const addInteraction = async (req, res) => {
             pool.query(queries.incLikes, [id_session]);
     }
 
-    let next = await getMovie();
+    let num_piaciuti = (await pool.query(queries.countPositive, [Number(req.cookies.id_user)])).rows[0].count;
+    let getMovieFunction = getRandomMovie;
+    if (num_piaciuti > 50) getMovieFunction = getFilteredMovieGenre;
+
+    let next = await getMovieFunction(req.cookies.id_user);
     let duplicate = await checkFilm(next.id, id_session);
     let i = 0;
     while (duplicate) {
+        num_piaciuti = (await pool.query(queries.countPositive, [Number(req.cookies.id_user)])).rows[0].count;
+        if (num_piaciuti > 50) getMovieFunction = getFilteredMovieGenre;
         i++;
         if (i > 50) break;
-        next = await getMovie();
+        next = await getMovieFunction(req.cookies.id_user);
         duplicate = await checkFilm(next.id, id_session);
     }
     if (i <= 50)
         res.send(next);
     else
         res.send({ "nonext": true });//Non ci sono più film da mostrare
+}
+
+//Funzione che restituisce un film filtrato in json
+const getFilteredMovieGenre = async (user_id) => {
+    return getRandomMovie();//temp
+    const magior3Genres = (await pool.query(queries.getMagior3Genres, [user_id])).rows;
+    const genresString = magior3Genres.map((genre) => genre.genre_id).join(",");
+
+    const total_pages = Number((await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&with_genres=${genresString}`)).data.total_pages);
+    const page = Math.ceil(Math.random() * total_pages);
+
+    const response = await axios.get(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genresString}`
+    );
+    const movies = response.data.results;
+    const scelto = movies[Math.ceil(Math.random() * movies.length - 1)];
+    console.log("Stringa generi: " + genresString + "generi restituito: " + scelto.genre_ids);
+    return scelto;
+}
+
+
+//Funzione che restituisce un film randomico in json
+//Verranno restituiti film che vengono considerati trand del momento, utilizzando le api nella sezione "Trending"
+const getRandomMovie = async () => {
+    const total_pages = Number((await axios.get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}&page=1`)).data.total_pages);
+    const page = Math.ceil(Math.random() * total_pages);
+
+    const response = await axios.get(
+        `https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}&page=${page}`
+    );
+
+    const movies = response.data.results;
+    return movies[Math.ceil(Math.random() * movies.length - 1)];
+
 }
 
 //Funzione che restituisce un film randomico in json
@@ -70,15 +110,20 @@ const getMovie = async () => {
     return movies[Math.ceil(Math.random() * movies.length - 1)];
 };
 
-const renderFirstMovie = async (username, id_session, res) => {
+const renderFirstMovie = async (user, id_session, res) => {
     try {
-        const movie_json = await getMovie();
+        let num_piaciuti = (await pool.query(queries.countPositive, [Number(user.user_id)])).rows[0].count;
+        let getMovieFunction = getRandomMovie;
+        if (num_piaciuti > 50) getMovieFunction = getFilteredMovieGenre;
+
+        const movie_json = await getMovieFunction(user.id);
         const firstMovie = new Movie(movie_json);
+
         CONFIGURATION.then((config) => {
             res.render("partials/movie_card.pug", {
                 movie: firstMovie,
                 config: config,
-                username: username,
+                username: user.username,
                 id_session: id_session,
             });
         }).catch((err) => {
@@ -92,17 +137,18 @@ const renderFirstMovie = async (username, id_session, res) => {
     }
 };
 
-const checkFilm = async (id_movie, id_session) => {
+const checkFilm = async (id_movie, id_session) => {//Controlla se il film è già stato mostrato nella sessione
     const result = await pool.query(queries.checkFilm, [id_movie, id_session]);
     return result.rows.length;
 };
 
-const checkMovie = async (id_movie) => {
+const checkMovie = async (id_movie) => {//Controlla se il film è già presente nel database
     const result = await pool.query(queries.checkMovie, [id_movie]);
     return result.rows.length;
 };
 
 const insertMovie = async (movie) => {
+    if (movie.backdrop_path == null) movie.backdrop_path = "Non disponibile";
     await pool.query(queries.insertMovie, [movie.id, movie.title, movie.overview, movie.runtime, movie.backdrop_path, movie.vote_average]);
     const genres = movie.genres;
     for (let i = 0; i < genres.length; i++) {
