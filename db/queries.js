@@ -43,7 +43,12 @@ const getMagior3Genres = //query per recuperare i 3 generi più visti dall'utent
   ) sq
   group by genre_id, genre_name
   order by conteggio desc
-  limit 3;`
+  limit 2;`
+const getInteractionsCount = //query per recuperare il numero di interazioni di un utente
+  `select count(i.movie_id)
+  from interactions i join sessions s on i.session_id = s.session_id
+  	join users u on s.user_id = u.user_id
+  where u.user_id = $1;`
 
 
 module.exports = {
@@ -67,4 +72,5 @@ module.exports = {
   insertMovieGenres,
   countPositive,
   getMagior3Genres,
+  getInteractionsCount,
 };

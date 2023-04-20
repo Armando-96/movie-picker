@@ -47,9 +47,10 @@ const addInteraction = async (req, res) => {
     }
 
     let num_piaciuti = (await pool.query(queries.countPositive, [Number(req.cookies.id_user)])).rows[0].count;
+    let num_interazioni = (await pool.query(queries.getInteractionsCount, [req.cookies.id_user])).rows[0].count;
     let getMovieFunction = getRandomMovie;
-    if (num_piaciuti > 50) getMovieFunction = getFilteredMovieGenre;
-
+    if (num_piaciuti > 50 && num_interazioni % 3 != 0) getMovieFunction = getFilteredMovieGenre;//Ogni 2 film filtrati, viene mostrato un film randomico
+    //console.log("num_interazioni: " + num_interazioni);//Debug 
     let next = await getMovieFunction(req.cookies.id_user);
     let duplicate = await checkFilm(next.id, id_session);
     let i = 0;
@@ -69,11 +70,14 @@ const addInteraction = async (req, res) => {
 
 //Funzione che restituisce un film filtrato in json
 const getFilteredMovieGenre = async (user_id) => {
-    return getRandomMovie();//temp
     const magior3Genres = (await pool.query(queries.getMagior3Genres, [user_id])).rows;
-    const genresString = magior3Genres.map((genre) => genre.genre_id).join(",");
+    let genresString = "";
+    for (let i = 0; i < magior3Genres.length; i++) {
+        genresString += magior3Genres[i].genre_id;
+        if (i != magior3Genres.length - 1) genresString += ",";
+    }
 
-    const total_pages = Number((await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&with_genres=${genresString}`)).data.total_pages);
+    const total_pages = 500;//Le api di tmdb per la sezione discover, limitano il numero di pagine accessibili a 500, in trending a 1000
     const page = Math.ceil(Math.random() * total_pages);
 
     const response = await axios.get(
@@ -81,7 +85,7 @@ const getFilteredMovieGenre = async (user_id) => {
     );
     const movies = response.data.results;
     const scelto = movies[Math.ceil(Math.random() * movies.length - 1)];
-    console.log("Stringa generi: " + genresString + "generi restituito: " + scelto.genre_ids);
+    //console.log("Stringa generi: " + genresString + " generi restituito: " + scelto.genre_ids);//Debug
     return scelto;
 }
 
@@ -89,7 +93,7 @@ const getFilteredMovieGenre = async (user_id) => {
 //Funzione che restituisce un film randomico in json
 //Verranno restituiti film che vengono considerati trand del momento, utilizzando le api nella sezione "Trending"
 const getRandomMovie = async () => {
-    const total_pages = Number((await axios.get(`https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}&page=1`)).data.total_pages);
+    const total_pages = 1000;//Le api di tmdb per la sezione discover, limitano il numero di pagine accessibili a 500, in trending a 1000
     const page = Math.ceil(Math.random() * total_pages);
 
     const response = await axios.get(
@@ -116,7 +120,7 @@ const renderFirstMovie = async (user, id_session, res) => {
         let getMovieFunction = getRandomMovie;
         if (num_piaciuti > 50) getMovieFunction = getFilteredMovieGenre;
 
-        const movie_json = await getMovieFunction(user.id);
+        const movie_json = await getMovieFunction(user.user_id);
         const firstMovie = new Movie(movie_json);
 
         CONFIGURATION.then((config) => {
