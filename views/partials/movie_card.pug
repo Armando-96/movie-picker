@@ -9,16 +9,14 @@ html(lang="en")
                 localStorage.setItem("prefix_poster_path", "#{config.images.base_url}" + "#{config.images.backdrop_sizes[0]}");
             }
         script
-            include ./script.js       
+            include ./jQuery.js  
+            include ./script.js
         title Movie Card
     body(onload="inizializza()", id="body") 
         div Sessione attuale: #{id_session}
-        h1(id="title")
-            #{movie.title}
-        h3(id="overview")
-            #{movie.overview}
-        p(id="rating")
-            #{movie.rating}
+        h1(id="title")= movie.title
+        h3(id="overview")= movie.overview
+        p(id="rating")= movie.rating
         div(id="poster")
             img(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
         br

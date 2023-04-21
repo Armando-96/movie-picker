@@ -1,41 +1,32 @@
-
 function like() {
-    localStorage.setItem("preference", "like");
-    addInteraction();
+    addInteraction("like");
 }
 function dislike() {
-    localStorage.setItem("preference", "dislike");
-    addInteraction();
+    addInteraction("dislike");
 }
+
 function end() {
     localStorage.clear();
-    //window.location.href = 'end';
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", "/session/end", false);
-    xhr.send();
-    document.getElementById("body").innerHTML = xhr.responseText;
+    $("#body").load("/session/end");
 }
 
-function addInteraction() {
+function addInteraction(preference_choice) {
     id_movie = localStorage.getItem("id_movie");
-    preference = localStorage.getItem("preference");
+    preference = preference_choice;
     const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = nextFilm;
-    xhr.open("GET", "/session/next" + '?' + 'preference=' + preference + '&' + 'id_movie=' + id_movie, true);
-    xhr.send();
-}
-
-function nextFilm(event) {
-    if (event.target.readyState == 4 && event.target.status == 200) {
-        const film = JSON.parse(event.target.responseText);
-        if (film.nonext) {
-            document.getElementById("body").innerHTML = '<h1>Non ci sono più film da mostrare</h1>';
-            return;
+    $.get("/session/next" + '?' + 'preference=' + preference + '&' + 'id_movie=' + id_movie, function (data, status) {
+        if (status == "success") {
+            if (data.nonext) {
+                $("#body").html('<h1>Non ci sono più film da mostrare</h1>');
+            } else {
+                localStorage.setItem("id_movie", data.id);
+                $("#title").html(data.original_title);
+                $("#rating").html(data.vote_average);
+                $("#overview").html(data.overview);
+                $("#poster").html("<img src=" + localStorage.getItem("prefix_poster_path") + data.poster_path + ">");
+            }
+        } else {
+            alert("Errore nella richiesta");
         }
-        localStorage.setItem("id_movie", film.id);
-        document.getElementById("title").innerHTML = film.original_title;
-        document.getElementById("rating").innerHTML = film.vote_average;
-        document.getElementById("overview").innerHTML = film.overview;
-        document.getElementById("poster").innerHTML = "<img src=" + localStorage.getItem("prefix_poster_path") + film.poster_path + ">";
-    }
+    });
 }
