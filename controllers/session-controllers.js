@@ -3,6 +3,7 @@ const queries = require("./../db/queries.js");
 const axios = require("axios");
 const { TMDB_API_KEY, CONFIGURATION } = require("./../model/global-variables.js");
 const Movie = require("./../model/movie.js");
+const path = require("path");
 
 const getMaxIdSessions = async function getMaxIdSessions() {
     const result = await pool.query(queries.getMaxIdSessions);
@@ -13,6 +14,18 @@ const createSession = (id_session, id_user) => {
     pool.query(queries.createSession, [id_session, id_user]);
 };
 
+const chooseMod = async (req, res) => {
+    const { mod } = req.query;
+    const user_id = Number(req.cookies.id_user);
+    const session_id = Number(req.cookies.id_session);
+    const user = (await pool.query(queries.getUserById, [user_id])).rows[0];
+    if (mod === "discovery") {
+        renderFirstMovie(user, session_id, res);
+    } else if (mod === "watchNow") {
+        res.send("Modalità watch Now da implementare");
+    }
+};
+
 
 const initializeSession = async (user, res) => {
     const id_session = (await getMaxIdSessions()) + 1;
@@ -21,7 +34,8 @@ const initializeSession = async (user, res) => {
     res.cookie("id_session", String(id_session));
     res.cookie("id_user", String(user.user_id));
     res.cookie("username", user.username);
-    renderFirstMovie(user, id_session, res);
+    res.sendFile(path.resolve("./public/scelta.html"));
+    //renderFirstMovie(user, id_session, res);
 };
 
 const endSession = async (req, res) => {
@@ -163,4 +177,6 @@ module.exports = {
     initializeSession,
     endSession,
     addInteraction,
+    renderFirstMovie,
+    chooseMod,
 };
