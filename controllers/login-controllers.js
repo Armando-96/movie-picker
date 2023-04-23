@@ -20,12 +20,9 @@ module.exports.loginPost = async (req, res) => {
       }
       if (result) {
         const user = results.rows[0];
+        console.log("variabile user", user);
         req.session.username = username;
-        console.log("req.session:", req.session);
-        res.send(
-          `Hey there, welcome ${username} <a href=\'/logout'>click to logout</a>`
-        );
-        //initializeSession(user, res);
+        initializeSession(user, res);
         // res.send("Complimenti ti sei loggato con successo!");
       } else res.status(400).send("Password errata");
     });
@@ -35,11 +32,9 @@ module.exports.loginPost = async (req, res) => {
 };
 
 module.exports.loginGet = (req, res) => {
-  console.log("req.session", req.session);
+  console.log(req.session);
   if (req.session.username) {
     let username = req.session.username;
-    res.send(
-      `Hey there, welcome ${username} <a href=\'/logout'>click to logout</a>`
-    );
+    initializeSession(username, res);
   } else res.sendFile(path.resolve("./public/login.html"));
 };
