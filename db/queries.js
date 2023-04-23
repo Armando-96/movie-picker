@@ -10,6 +10,8 @@ const getUserByUsername = "SELECT * FROM users WHERE username = $1";
 const createUser = "INSERT INTO users ( username, password) VALUES ($1, $2)";
 const getMaxIdSessions = "SELECT MAX(session_id) FROM sessions";
 const createSession =
+  "INSERT INTO sessions ( user_id ) VALUES ($1) RETURNING session_id";
+const createSessionOld =
   "INSERT INTO sessions ( session_id, user_id ) VALUES ($1, $2)";
 const createInteraction =
   "INSERT INTO interactions ( session_id, movie_id, preference ) VALUES ($1, $2, $3)";
@@ -62,6 +64,7 @@ module.exports = {
   getUserByUsername,
   getMaxIdSessions,
   createSession,
+  createSessionOld,
   createInteraction,
   incLikes,
   incViews,

@@ -1,28 +1,33 @@
-script
-    include ./jQuery.js  
-    include ./script.js
-script.
-    function inizializza(){
-        localStorage.setItem("movie_id", #{movie.id});
-        localStorage.setItem("prefix_poster_path", "#{config.images.base_url}" + "#{config.images.backdrop_sizes[0]}");
-        localStorage.setItem("session_id", "#{session_id}");
-        if("#{mod}"=="whatchnow"){
-            $("#select").css("display", "inline");
-        }
-    }
-title Movie Card
-body#body(onload="inizializza()") 
-div.
-    Sessione attuale: #{id_session}
-h1#title= movie.title
-h3#overview= movie.overview
-p#rating= movie.rating
-div#poster
-    img(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
-br
-p.
-    Fai la tua scelta #{username}
-button(name="like", onclick="like()") Like 
-button(name="dislike", onclick="dislike()") Dislike
-button#select(name="select", onclick="select()", style="display:none;") Watch Now!
-button(name="end", onclick="end()") End
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible",content="IE=edge")
+        meta(name="viewport",content="width=device-width, initial-scale=1.0")
+        script
+            include ./jQuery.js  
+            include ./script.js
+        script.
+            function inizializza(){
+                localStorage.setItem("movie_id", #{movie.id});
+                localStorage.setItem("prefix_poster_path", "#{config.images.base_url}" + "#{config.images.backdrop_sizes[0]}");
+                localStorage.setItem("session_id", "#{session_id}");
+                if("#{mod}"=="whatchnow"){
+                    $("#select").css("display", "inline");
+                }
+            }
+        title Movie Card
+    body#body(onload="inizializza()") 
+        div.
+            Sessione attuale: #{session_id}
+        h1#title= movie.title
+        h3#overview= movie.overview
+        p#rating= movie.rating
+        div#poster
+            img(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
+        br
+        p.
+            Fai la tua scelta #{username}
+        button(name="like", onclick="like()") Like 
+        button(name="dislike", onclick="dislike()") Dislike
+        button#select(name="select", onclick="select()", style="display:none;") Watch Now!
+        button(name="end", onclick="end()") End

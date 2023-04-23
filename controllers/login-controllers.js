@@ -22,7 +22,12 @@ module.exports.loginPost = async (req, res) => {
         const user = results.rows[0];
         console.log("variabile user", user);
         req.session.username = username;
-        initializeSession(user, res);
+        req.session.user_id = user.user_id;
+        req.session.username = user.username;
+        //res.cookie("user_id", String(user.user_id));
+        //res.cookie("username", user.username);
+        res.sendFile(path.resolve("./public/scelta.html"));
+        //initializeSession(user, res);
         // res.send("Complimenti ti sei loggato con successo!");
       } else res.status(400).send("Password errata");
     });
@@ -32,9 +37,10 @@ module.exports.loginPost = async (req, res) => {
 };
 
 module.exports.loginGet = (req, res) => {
-  console.log(req.session);
+  //console.log(req.session);
   if (req.session.username) {
     let username = req.session.username;
-    initializeSession(username, res);
+    res.sendFile(path.resolve("./public/scelta.html"));
+    //initializeSession(username, res);
   } else res.sendFile(path.resolve("./public/login.html"));
 };
