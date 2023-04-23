@@ -11,14 +11,14 @@ function end() {
 }
 
 function addInteraction(preference_choice) {
-    id_movie = localStorage.getItem("id_movie");
+    movie_id = localStorage.getItem("movie_id");
     preference = preference_choice;
-    $.get("/session/next" + '?' + 'preference=' + preference + '&' + 'id_movie=' + id_movie, function (data, status) {
+    $.get("/session/next" + '?' + 'preference=' + preference + '&' + 'movie_id=' + movie_id, function (data, status) {
         if (status == "success") {
             if (data.nonext) {
                 $("#body").html('<h1>Non ci sono più film da mostrare</h1>');
             } else {
-                localStorage.setItem("id_movie", data.id);
+                localStorage.setItem("movie_id", data.id);
                 $("#title").html(data.original_title);
                 $("#rating").html(data.vote_average);
                 $("#overview").html(data.overview);

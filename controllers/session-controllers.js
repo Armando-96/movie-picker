@@ -16,14 +16,14 @@ const getMaxIdSessions = async function getMaxIdSessions() {
     return result.rows[0].max;
 };
 
-const createSession = (id_session, id_user) => {
-    pool.query(queries.createSession, [id_session, id_user]);
+const createSession = (session_id, user_id) => {
+    pool.query(queries.createSession, [session_id, user_id]);
 };
 
 const chooseMod = async (req, res) => {
     const { mod } = req.query;
-    const user_id = Number(req.cookies.id_user);
-    const session_id = Number(req.cookies.id_session);
+    const user_id = Number(req.cookies.user_id);
+    const session_id = Number(req.cookies.session_id);
     const user = (await pool.query(queries.getUserById, [user_id])).rows[0];
     if (mod === "discovery") {
         renderFirstMovieDiscovery(user, session_id, res);
@@ -33,61 +33,61 @@ const chooseMod = async (req, res) => {
 };
 
 const initializeSession = async (user, res) => {
-    const id_session = (await getMaxIdSessions()) + 1;
-    createSession(id_session, user.user_id);
+    const session_id = (await getMaxIdSessions()) + 1;
+    createSession(session_id, user.user_id);
     //Inseriamo l'id della sessione nel cookie e altri dati di convenienza
-    res.cookie("id_session", String(id_session));
-    res.cookie("id_user", String(user.user_id));
+    res.cookie("session_id", String(session_id));
+    res.cookie("user_id", String(user.user_id));
     res.cookie("username", user.username);
     res.sendFile(path.resolve("./public/scelta.html"));
 };
 
 const endSession = async (req, res) => {
     //Eliminiamo i cookie
-    res.clearCookie("id_session");
-    res.clearCookie("id_user");
+    res.clearCookie("session_id");
+    res.clearCookie("user_id");
     res.clearCookie("username");
     res.send("Session ended pagina di buona visione");
 };
 
 const addInteraction = async (req, res) => {
-    const { preference, id_movie } = req.query;
-    const id_session = Number(req.cookies.id_session);
+    const { preference, movie_id } = req.query;
+    const session_id = Number(req.cookies.session_id);
     const movie = (
         await axios.get(
-            `https://api.themoviedb.org/3/movie/${id_movie}?api_key=${TMDB_API_KEY}&language=en-US`
+            `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${TMDB_API_KEY}&language=en-US`
         )
     ).data;
-    if (!(await checkFilm(id_movie, id_session))) {
-        if (!(await checkMovie(id_movie))) {
+    if (!(await checkFilm(movie_id, session_id))) {
+        if (!(await checkMovie(movie_id))) {
             await insertMovie(movie);
         }
-        pool.query(queries.createInteraction, [id_session, id_movie, preference]);
-        pool.query(queries.incViews, [id_session]);
-        if (preference === "like") pool.query(queries.incLikes, [id_session]);
+        pool.query(queries.createInteraction, [session_id, movie_id, preference]);
+        pool.query(queries.incViews, [session_id]);
+        if (preference === "like") pool.query(queries.incLikes, [session_id]);
     }
 
     let num_interazioni = (
-        await pool.query(queries.getInteractionsCount, [req.cookies.id_user])
+        await pool.query(queries.getInteractionsCount, [req.cookies.user_id])
     ).rows[0].count;
     let next = null;
     if (num_interazioni % 3 != 0)
         //Ogni 2 film filtrati, viene mostrato un film randomico
-        next = await getMovieFunction(req.cookies.id_user);
+        next = await getMovieFunction(req.cookies.user_id);
     else next = await getRandomMovie();
 
-    let duplicate = await checkFilm(next.id, id_session);
+    let duplicate = await checkFilm(next.id, session_id);
     let i = 0;
     while (duplicate) {
         num_piaciuti = (
-            await pool.query(queries.countPositive, [Number(req.cookies.id_user)])
+            await pool.query(queries.countPositive, [Number(req.cookies.user_id)])
         ).rows[0].count;
         if (num_piaciuti > THRESHOLD_FOR_FILTERING)
             getMovieFunction = getFilteredMovieGenre;
         i++;
         if (i > 50) break; //qui 50 indica il limite prima di considerare i film finiti
-        next = await getMovieFunction(req.cookies.id_user);
-        duplicate = await checkFilm(next.id, id_session);
+        next = await getMovieFunction(req.cookies.user_id);
+        duplicate = await checkFilm(next.id, session_id);
     }
     //console.log("Movie: " + next.title + " num_iterazioni resto: " + num_interazioni % 3 + " generi: " + next.genre_ids);//Debug
     if (i <= 50) res.send(next);
@@ -127,7 +127,7 @@ const getRandomMovie = async () => {
     return movies[Math.ceil(Math.random() * movies.length - 1)];
 };
 
-const renderFirstMovieDiscovery = async (user, id_session, res) => {
+const renderFirstMovieDiscovery = async (user, session_id, res) => {
     try {
         const movie_json = await getMovieFunction(user.user_id);
         const firstMovie = new Movie(movie_json);
@@ -137,7 +137,7 @@ const renderFirstMovieDiscovery = async (user, id_session, res) => {
                 movie: firstMovie,
                 config: config,
                 username: user.username,
-                id_session: id_session,
+                session_id: session_id,
                 mod: "discovery",
             });
         }).catch((err) => {
@@ -151,7 +151,7 @@ const renderFirstMovieDiscovery = async (user, id_session, res) => {
     }
 };
 
-const renderFirstMovieWhatchNow = async (user, id_session, res) => {
+const renderFirstMovieWhatchNow = async (user, session_id, res) => {
     try {
         const movie_json = await getMovieFunction(user.user_id);
         const firstMovie = new Movie(movie_json);
@@ -160,7 +160,7 @@ const renderFirstMovieWhatchNow = async (user, id_session, res) => {
                 movie: firstMovie,
                 config: config,
                 username: user.username,
-                id_session: id_session,
+                session_id: session_id,
                 mod: "whatchnow",
             });
         }).catch((err) => {
@@ -183,15 +183,15 @@ const getMovieFunction = async (user_id) => {
     else return getRandomMovie();
 };
 
-const checkFilm = async (id_movie, id_session) => {
+const checkFilm = async (movie_id, session_id) => {
     //Controlla se il film è già stato mostrato nella sessione
-    const result = await pool.query(queries.checkFilm, [id_movie, id_session]);
+    const result = await pool.query(queries.checkFilm, [movie_id, session_id]);
     return result.rows.length;
 };
 
-const checkMovie = async (id_movie) => {
+const checkMovie = async (movie_id) => {
     //Controlla se il film è già presente nel database
-    const result = await pool.query(queries.checkMovie, [id_movie]);
+    const result = await pool.query(queries.checkMovie, [movie_id]);
     return result.rows.length;
 };
 
@@ -211,23 +211,9 @@ const insertMovie = async (movie) => {
     }
 };
 
-const getNumLikeInSession = async (req, res) => {
-    const id_session = req.cookies.id_session;
-    const result = await pool.query(queries.getNumLikeInSession, [id_session]);
-    res.send(JSON.stringify(result.rows[0]));//Invia un json con una proprietà "n_likes" che indica il numero di like nella sessione
-};
-
-const getLikeMovies = async (req, res) => {
-    const id_session = req.cookies.id_session;
-    const result = await pool.query(queries.getLikeMovies, [id_session]);
-    res.send(JSON.stringify(result.rows));//Invia un array di json con i film piaciuti nella sessione
-};
-
 module.exports = {
     initializeSession,
     endSession,
     addInteraction,
     chooseMod,
-    getNumLikeInSession,
-    getLikeMovies,
 };
