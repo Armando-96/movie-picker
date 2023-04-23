@@ -28,7 +28,7 @@ const countPositive =
   `SELECT count(*)
    from interactions i join sessions s on i.session_id = s.session_id 
    where user_id = $1 and (i.preference = 'like' or i.preference = 'selected')`;
-const getMagior3Genres = //query per recuperare i 3 generi più visti dall'utente prende in input l'id dell'utente
+const getMagior2Genres = //query per recuperare i 2 generi più visti dall'utente prende in input l'id dell'utente
   `select genre_id, count(*) conteggio
   from(
     select genre_name, g.genre_id genre_id, interaction_date, u.user_id
@@ -43,13 +43,14 @@ const getMagior3Genres = //query per recuperare i 3 generi più visti dall'utent
   ) sq
   group by genre_id, genre_name
   order by conteggio desc
-  limit 2;`
+  limit 2;`;
 const getInteractionsCount = //query per recuperare il numero di interazioni di un utente
   `select count(i.movie_id)
   from interactions i join sessions s on i.session_id = s.session_id
   	join users u on s.user_id = u.user_id
-  where u.user_id = $1;`
-
+  where u.user_id = $1;`;
+const getNumLikeInSession = "select n_likes from sessions where session_id = $1;";
+const getLikeMoviesInSession = "select movie_id from interactions i where session_id = $1 and preference = 'like';";
 
 module.exports = {
   getUsers,
@@ -71,6 +72,8 @@ module.exports = {
   checkGenres,
   insertMovieGenres,
   countPositive,
-  getMagior3Genres,
+  getMagior2Genres,
   getInteractionsCount,
+  getNumLikeInSession,
+  getLikeMoviesInSession,
 };

@@ -13,7 +13,6 @@ function end() {
 function addInteraction(preference_choice) {
     id_movie = localStorage.getItem("id_movie");
     preference = preference_choice;
-    const xhr = new XMLHttpRequest();
     $.get("/session/next" + '?' + 'preference=' + preference + '&' + 'id_movie=' + id_movie, function (data, status) {
         if (status == "success") {
             if (data.nonext) {
