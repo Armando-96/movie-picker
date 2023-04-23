@@ -1,14 +1,16 @@
 const express = require("express");
 const axios = require("axios");
 const path = require("path");
-const { login } = require("./../controllers/login-controllers.js");
+const {
+  loginGet,
+  loginPost,
+} = require("./../controllers/login-controllers.js");
+const sessions = require("express-session");
 
 loginRouter = express.Router();
 
-loginRouter.post("/", login);
+loginRouter.post("/", loginPost);
 
-loginRouter.get("/", (req, res) => {
-  res.sendFile(path.resolve("./public/login.html"));
-});
+loginRouter.get("/", loginGet);
 
 module.exports = loginRouter;

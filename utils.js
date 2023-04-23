@@ -1,4 +1,5 @@
 const express = require("express");
+const sessions = require("express-session");
 const path = require("path");
 const app = express();
 
@@ -14,6 +15,7 @@ const signupRouter = require("./routes/signup-route.js");
 const sessionRoute = require("./routes/session-route.js");
 
 const PORT = 3000;
+const SIX_HOURS = 1000 * 60 * 60 * 6;
 
 // set the view engine to pug
 app.set("view engine", "pug");
@@ -26,6 +28,15 @@ app.use(cookieParser());
 
 //Installiamo il body parser per le richieste di tipo x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(
+  sessions({
+    secret: "secret-string",
+    saveUninitialized: true,
+    cookie: { maxAge: SIX_HOURS }, // Durata della sessione di massimo 6 ore
+    resave: false,
+  })
+);
 
 // Definizione delle cartelle statiche
 app.use(express.static("public"));
@@ -40,7 +51,6 @@ app.use(express.static("public"));
 
 // Homepage
 app.get("/test", (req, res) => {
-  console.log("Homepage");
   res.render("layouts", { title: "Home" });
   // res.sendFile(path.join(__dirname, "public", "index.html"));
 });
