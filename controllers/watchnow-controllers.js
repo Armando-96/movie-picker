@@ -28,15 +28,15 @@ const initial = async (req, res) => {
 };
 
 const getNumLikeInSession = async (req, res) => {
-  const id_session = req.cookies.id_session;
-  const result = await pool.query(queries.getNumLikeInSession, [id_session]);
-  res.send(JSON.stringify(result.rows[0])); //Invia un json con una proprietà "n_likes" che indica il numero di like nella sessione
+  const session_id = req.session.session_id;
+  const result = await pool.query(queries.getNumLikeInSession, [session_id]);
+  res.send(JSON.stringify(result.rows[0]));//Invia un json con una proprietà "n_likes" che indica il numero di like nella sessione
 };
 
 const getLikeMovies = async (req, res) => {
-  const id_session = req.cookies.id_session;
-  const result = await pool.query(queries.getLikeMovies, [id_session]);
-  res.send(JSON.stringify(result.rows)); //Invia un array di json con i film piaciuti nella sessione
+  const session_id = req.session.session_id;
+  const result = await pool.query(queries.getLikeMoviesInSession, [session_id]);
+  res.send(JSON.stringify(result.rows));//Invia un array di json con i film piaciuti nella sessione
 };
 
 module.exports = {
