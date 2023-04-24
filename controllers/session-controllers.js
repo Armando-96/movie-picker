@@ -12,6 +12,11 @@ const Movie = require("./../model/movie.js");
 const path = require("path");
 
 const chooseMod = async (req, res) => {
+    if (!req.session.user_id) {
+        console.log("PASSSATO");
+        res.redirect(301, "/user/login");
+        return;
+    }
     const { mod } = req.query;
     const user_id = Number(req.session.user_id);
     const session_id = await initializeSession(user_id, req, res);
