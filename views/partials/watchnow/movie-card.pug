@@ -1,0 +1,10 @@
+div
+    Sessione attuale: #{session_id}
+    h1#title= movie.title
+    h3#overview= movie.overview
+    p#rating= movie.rating
+    div#poster
+        img(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
+    br
+    p Fai la tua scelta #{username}
+// informazioni da passare: config, movie, session_id, username
