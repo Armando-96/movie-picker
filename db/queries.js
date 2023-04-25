@@ -52,7 +52,7 @@ const getInteractionsCount = //query per recuperare il numero di interazioni di 
   	join users u on s.user_id = u.user_id
   where u.user_id = $1;`;
 const getNumLikeInSession = "select n_likes from sessions where session_id = $1;";
-const getLikeMoviesInSession = "select movie_id from interactions i where session_id = $1 and preference = 'like';";
+const getLikeMoviesInSession = "select m.movie_id, m.title, m.overview, m.poster_path, m.rating from interactions i join movies m on i.movie_id = m.movie_id where session_id = $1 and preference = 'like';";
 
 module.exports = {
   getUsers,
