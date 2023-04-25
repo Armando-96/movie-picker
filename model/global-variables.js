@@ -7,8 +7,8 @@ const DB_USER = "postgres";
 const DB_PORT = os.type() === "Windows_NT" ? 5432 : 8080;
 const CONFIGURATION = initialConfiguration(TMDB_API_KEY); // Promise
 const THRESHOLD_FOR_FILTERING = 50;
-const TOTAL_PAGES_DISCOVER = 500;//Le api di tmdb per la sezione discover, limitano il numero di pagine accessibili a 500
-const TOTAL_PAGES_TRENDING = 1000;//in trending a 1000
+const TOTAL_PAGES_DISCOVER = 500; //Le api di tmdb per la sezione discover, limitano il numero di pagine accessibili a 500
+const TOTAL_PAGES_TRENDING = 1000; //in trending a 1000
 module.exports = {
   TMDB_API_KEY,
   DB_PASSWORD,
