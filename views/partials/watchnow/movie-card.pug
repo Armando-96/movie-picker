@@ -1,10 +1,7 @@
-div
-    Sessione attuale: #{session_id}
-    h1#title= movie.title
-    h3#overview= movie.overview
-    p#rating= movie.rating
-    div#poster
-        img(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
-    br
-    p Fai la tua scelta #{username}
-// informazioni da passare: config, movie, session_id, username
+.card(style="width: 18rem;")
+    img#poster.card-img-top.border-radius-b-0(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
+    .card-body.overflow-scroll(style="max-height: 15rem;")
+        h5#title.card-title= movie.title
+        p#overview.card-text= movie.overview
+        p  
+            span#rating.badge.bg-primary= "Rating " + movie.rating

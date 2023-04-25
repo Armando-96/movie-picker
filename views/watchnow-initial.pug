@@ -1,9 +1,13 @@
 extends layouts
 
 block content
-    h1 Watch Now
-    p Welcome to the Watch Now page!
+    p sessione attuale: #{session_id}
     include partials/watchnow/exit
     include partials/watchnow/cumulator
-    include partials/watchnow/movie-card
-    include partials/watchnow/panel-initial
+    .container
+        .row
+            .col
+                include partials/watchnow/movie-card
+        .row
+            .col
+                include partials/watchnow/panel-initial
