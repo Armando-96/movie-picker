@@ -13,7 +13,7 @@ block content
                 include partials/watchnow/panel-initial
 block scripts
     script.
-        localstorage.setItem("movie_id", "#{movie.id}");
-        localStorage.setItem("prefix_poster_path", "#{config.images.base_url}" + "#{config.images.backdrop_sizes[0]}");
+        let movie_id = "#{movie.id}";
+        let prefix_poster_path = "#{config.images.base_url}" + "#{config.images.backdrop_sizes[0]}";
     script(src="/js/watchnow-initial.js")
 
