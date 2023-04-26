@@ -14,6 +14,7 @@ const loginRouter = require("./routes/login-route.js");
 const signupRouter = require("./routes/signup-route.js");
 const sessionRoute = require("./routes/session-route.js");
 const watchNowRoute = require("./routes/watchnow-route.js");
+const discoveryRoute = require("./routes/discovery-route.js");
 
 const PORT = 3000;
 const SIX_HOURS = 1000 * 60 * 60 * 6;
@@ -63,6 +64,7 @@ app.use("/api/movies", movieRoute);
 app.use("/user/login", loginRouter);
 app.use("/user/signup", signupRouter);
 app.use("/watchnow", watchNowRoute);
+app.use("/discovery", discoveryRoute);
 
 // Pagina di errore 404
 app.use((req, res, next) => {

@@ -2,18 +2,17 @@ extends layouts
 
 block content
     p sessione attuale: #{session_id}
-    include partials/watchnow/exit
-    include partials/watchnow/cumulator
+    include partials/discovery/exit
     .container
         .row
             .col
-                include partials/watchnow/movie-card
+                include partials/discovery/movie-card
         .row
             .col
-                include partials/watchnow/panel-initial
+                include partials/discovery/panel-initial
 block scripts
     script.
         localstorage.setItem("movie_id", "#{movie.id}");
         localStorage.setItem("prefix_poster_path", "#{config.images.base_url}" + "#{config.images.backdrop_sizes[0]}");
-    script(src="/js/watchnow-initial.js")
+    script(src="/js/discovery-initial.js")
 

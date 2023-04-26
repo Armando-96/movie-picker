@@ -12,18 +12,16 @@ const Movie = require("./../model/movie.js");
 const path = require("path");
 
 const chooseMod = async (req, res) => {
-  /*//Probabilmente crea problemi
-    if (!req.session.user_id) {
-        res.redirect(301, "/user/login");
-        return;
-    }
-    */
+  //Temporaneo, in attesa di sviluppo, placeholder per agevolare il debugging e sviluppo
+  if (!req.session.user_id) {
+    res.sendFile(path.resolve("./public/login.html"));
+    return;
+  }
   const { mod } = req.query;
   const user_id = Number(req.session.user_id);
   const session_id = await initializeSession(user_id, req, res);
-  const user = (await pool.query(queries.getUserById, [user_id])).rows[0];
   if (mod === "discovery") {
-    renderFirstMovieDiscovery(user, session_id, res);
+    res.redirect("/discovery");
   } else if (mod === "watchNow") {
     res.redirect("/watchnow");
   }
@@ -36,15 +34,7 @@ const initializeSession = async (user_id, req, res) => {
   return session_id;
 };
 
-const endSession = async (req, res) => {
-  //Eliminiamo i cookie
-  res.clearCookie("session_id");
-  res.clearCookie("user_id");
-  res.clearCookie("username");
-  res.send("Session ended pagina di buona visione");
-};
-
-const addInteractionOld = async (req, res) => {
+const addInteraction = async (req, res) => {
   const { preference, movie_id } = req.query;
   const session_id = Number(req.session.session_id);
   const movie = (
@@ -56,9 +46,14 @@ const addInteractionOld = async (req, res) => {
     if (!(await checkMovie(movie_id))) {
       await insertMovie(movie);
     }
-    pool.query(queries.createInteraction, [session_id, movie_id, preference]);
+    await pool.query(queries.createInteraction, [session_id, movie_id, preference]);
     pool.query(queries.incViews, [session_id]);
     if (preference === "like") pool.query(queries.incLikes, [session_id]);
+    else if (preference === "selected") {
+      pool.query(queries.insertSelected, [session_id, movie_id]);
+      res.send("Film selezionato");
+      return;
+    }
   }
 
   let num_interazioni = (
@@ -81,55 +76,6 @@ const addInteractionOld = async (req, res) => {
     i++;
     if (i > 50) break; //qui 50 indica il limite prima di considerare i film finiti
     next = await getMovieFunction(req.session.user_id);
-    duplicate = await checkFilm(next.id, session_id);
-  }
-  //console.log("Movie: " + next.title + " num_iterazioni resto: " + num_interazioni % 3 + " generi: " + next.genre_ids);//Debug
-  if (i <= 50) res.send(next);
-  else res.send({ nonext: true }); //Non ci sono più film da mostrare
-};
-
-const addInteraction = async (req, res) => {
-  const { preference, movie_id, session_id } = req.query;
-  user_id = (
-    await pool.query("select user_id from sessions where session_id = $1", [
-      session_id,
-    ])
-  ).rows[0].user_id;
-
-  const movie = (
-    await axios.get(
-      `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${TMDB_API_KEY}&language=en-US`
-    )
-  ).data;
-
-  if (!(await checkFilm(movie_id, session_id))) {
-    if (!(await checkMovie(movie_id))) {
-      await insertMovie(movie);
-    }
-    pool.query(queries.createInteraction, [session_id, movie_id, preference]);
-    pool.query(queries.incViews, [session_id]);
-    if (preference === "like") pool.query(queries.incLikes, [session_id]);
-  }
-
-  let num_interazioni = (
-    await pool.query(queries.getInteractionsCount, [user_id])
-  ).rows[0].count;
-  let next = null;
-  if (num_interazioni % 3 != 0)
-    //Ogni 2 film filtrati, viene mostrato un film randomico
-    next = await getMovieFunction(user_id);
-  else next = await getRandomMovie();
-
-  let duplicate = await checkFilm(next.id, session_id);
-  let i = 0;
-  while (duplicate) {
-    num_piaciuti = (await pool.query(queries.countPositive, [Number(user_id)]))
-      .rows[0].count;
-    if (num_piaciuti > THRESHOLD_FOR_FILTERING)
-      getMovieFunction = getFilteredMovieGenre;
-    i++;
-    if (i > 50) break; //qui 50 indica il limite prima di considerare i film finiti
-    next = await getMovieFunction(user_id);
     duplicate = await checkFilm(next.id, session_id);
   }
   //console.log("Movie: " + next.title + " num_iterazioni resto: " + num_interazioni % 3 + " generi: " + next.genre_ids);//Debug
@@ -168,30 +114,6 @@ const getRandomMovie = async () => {
 
   const movies = response.data.results;
   return movies[Math.ceil(Math.random() * movies.length - 1)];
-};
-
-const renderFirstMovieDiscovery = async (user, session_id, res) => {
-  try {
-    const movie_json = await getMovieFunction(user.user_id);
-    const firstMovie = new Movie(movie_json);
-
-    CONFIGURATION.then((config) => {
-      res.render("partials/movie_card.pug", {
-        movie: firstMovie,
-        config: config,
-        username: user.username,
-        session_id: session_id,
-        mod: "discovery",
-      });
-    }).catch((err) => {
-      console.log(err);
-    });
-  } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ message: "Errore durante la richiesta film randomico" });
-  }
 };
 
 const getMovieFunction = async (user_id) => {
@@ -234,8 +156,6 @@ const insertMovie = async (movie) => {
 module.exports = {
   getMovieFunction,
   initializeSession,
-  endSession,
-  addInteractionOld,
   chooseMod,
   addInteraction,
 };

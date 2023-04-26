@@ -15,6 +15,7 @@ const createSessionOld =
   "INSERT INTO sessions ( session_id, user_id ) VALUES ($1, $2)";
 const createInteraction =
   "INSERT INTO interactions ( session_id, movie_id, preference ) VALUES ($1, $2, $3)";
+const insertSelected = "INSERT INTO selected ( session_id, movie_id ) VALUES ($1, $2)";
 const incLikes =
   "UPDATE sessions SET n_likes = n_likes + 1  WHERE session_id = $1";
 const incViews =
@@ -66,6 +67,7 @@ module.exports = {
   createSession,
   createSessionOld,
   createInteraction,
+  insertSelected,
   incLikes,
   incViews,
   checkFilm,

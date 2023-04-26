@@ -13,6 +13,7 @@ const Movie = require("./../model/movie.js");
 const path = require("path");
 const session = require("express-session");
 
+/*
 const movieTest = {
   id: 238,
   title: "The Godfather",
@@ -22,6 +23,7 @@ const movieTest = {
   genres: [18, 80],
   rating: "8.7",
 };
+*/
 
 const initial = async (req, res) => {
   try {

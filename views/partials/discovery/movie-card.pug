@@ -1,0 +1,7 @@
+.card(style="width: 18rem;")
+    img#poster.card-img-top.border-radius-b-0(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
+    .card-body.overflow-scroll(style="max-height: 15rem;")
+        h5#title.card-title= movie.title
+        p#overview.card-text= movie.overview
+        p  
+            span#rating.badge.bg-primary= "Rating " + movie.rating
