@@ -61,22 +61,20 @@ $("#select").click(function () {
 function swap(new_movie) {
   movie_id1 = movie_id2;
   movie_id2 = new_movie.id;
-  $(".first-movie-card > .title").html($(".second-moviecard > .title").html());
-  $(".first-movie-card > .rating").html(
-    $(".second-moviecard > .rating").html()
+  $(".first-movie-card .title").html($(".second-movie-card .title").html());
+  $(".first-movie-card .rating").html($(".second-movie-card .rating").html());
+  $(".first-movie-card .overview").html(
+    $(".second-movie-card .overview").html()
   );
-  $(".first-movie-card > .overview").html(
-    $(".second-movie-card > .overview").html()
-  );
-  $(".first-movie-card > .poster").attr(
+  $(".first-movie-card .poster").attr(
     "src",
-    $(".second-movie-card > .poster").attr("src")
+    $(".second-movie-card .poster").attr("src")
   );
 
-  $(".second-movie-card > .title").html(new_movie.title);
-  $(".second-movie-card > .rating").html(new_movie.vote_average);
-  $(".second-movie-card > .overview").html(new_movie.overview);
-  $(".second-movie-card > .poster").attr(
+  $(".second-movie-card .title").html(new_movie.title);
+  $(".second-movie-card .rating").html(new_movie.vote_average);
+  $(".second-movie-card .overview").html(new_movie.overview);
+  $(".second-movie-card .poster").attr(
     "src",
     prefix_poster_path + new_movie.poster_path
   );
