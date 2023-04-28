@@ -1,0 +1,18 @@
+extends layouts
+
+block content
+    h1 Torneo
+    p sessione attuale: #{session_id}
+    include partials/watchnow/exit
+    .container
+        .row
+            .col
+                include partials/watchnow/movie-card
+            .col
+                include partials/watchnow/movie-card
+        .row
+            .col
+                include partials/watchnow/panel-tournament
+block scripts
+    script(src="/js/watchnow-tournament.js")
+

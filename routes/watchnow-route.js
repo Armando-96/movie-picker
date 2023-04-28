@@ -1,11 +1,11 @@
 const express = require("express");
-const whatchNowController = require("../controllers/watchnow-controllers.js");
+const watchNowController = require("../controllers/watchnow-controllers.js");
 const watchNowRoute = express.Router();
 
-watchNowRoute.get("/", whatchNowController.initial);
-watchNowRoute.get("/getNumLike", whatchNowController.getNumLikeInSession);
-watchNowRoute.get("/getLikeMovies", whatchNowController.getLikeMovies);
-//sessionRoute.get("/torneo", sessionController.torneo);
-//sessionRoute.get("/torneo/list", sessionController.torneo); // restituisce al chiamante un file JSON contenente l'array dei movie_id da mostrare
+watchNowRoute.get("/", watchNowController.initial);
+watchNowRoute.get("/getNumLike", watchNowController.getNumLikeInSession);
+watchNowRoute.get("/getLikeMovies", watchNowController.getLikeMovies);
+watchNowRoute.get("/tournament", watchNowController.tournament);
+//sessionRoute.get("/tournament/list", sessionController.tournament); // restituisce al chiamante un file JSON contenente l'array dei movie_id da mostrare
 
 module.exports = watchNowRoute;

@@ -29,11 +29,13 @@ const initial = async (req, res) => {
   try {
     const user_id = Number(req.session.user_id);
     const session_id = req.session.session_id;
-    const movie_json = await sessionController.getMovieFunction(user_id);
+    let movie_json = await sessionController.getMovieFunction(user_id);
     const firstMovie = new Movie(movie_json);
+    movie_json = await sessionController.getMovieFunction(user_id);
+    const secondMovie = new Movie(movie_json);
     CONFIGURATION.then((config) => {
       res.render("watchnow-initial", {
-        movie: firstMovie,
+        movies: [firstMovie, secondMovie],
         config: config,
         session_id: session_id,
         mod: "whatchnow",
@@ -49,6 +51,28 @@ const initial = async (req, res) => {
   }
 };
 
+const tournament = async (req, res) => {
+  try {
+    const user_id = Number(req.session.user_id);
+    const session_id = req.session.session_id;
+    CONFIGURATION.then((config) => {
+      res.render("watchnow-tournament", {
+        config: config,
+        session_id: session_id,
+        mod: "whatchnow",
+        movie: {},
+      });
+    }).catch((err) => {
+      console.log(err);
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Errore durante l'inizializzazione del torneo" });
+  }
+};
+
 const getNumLikeInSession = async (req, res) => {
   const session_id = req.session.session_id;
   const result = await pool.query(queries.getNumLikeInSession, [session_id]);
@@ -56,13 +80,23 @@ const getNumLikeInSession = async (req, res) => {
 };
 
 const getLikeMovies = async (req, res) => {
-  const session_id = req.session.session_id;
-  const result = await pool.query(queries.getLikeMoviesInSession, [session_id]);
-  res.send(JSON.stringify(result.rows)); //Invia un array di json con i film piaciuti nella sessione
+  try {
+    const session_id = req.session.session_id;
+    const result = await pool.query(queries.getLikeMoviesInSession, [
+      session_id,
+    ]);
+    res.send(JSON.stringify(result.rows)); //Invia un array di json con i film piaciuti nella sessione
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Errore durante la richiesta dei film piaciuti" });
+  }
 };
 
 module.exports = {
   initial,
+  tournament,
   getNumLikeInSession,
   getLikeMovies,
 };
