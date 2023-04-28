@@ -30,7 +30,6 @@ function addInteraction(preference_choice) {
       url: "/watchnow/getNumLike",
       success: function (data) {
         json = JSON.parse(data);
-        json.n_likes++;
         if (json.n_likes == 16) {
           window.location.replace("/watchnow/tournament");
           return;
