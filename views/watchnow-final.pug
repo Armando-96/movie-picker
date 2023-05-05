@@ -1,0 +1,11 @@
+extends layouts
+include partials/watchnow/movie-card
+block content
+    p sessione attuale: #{session_id}
+    .container.main-content
+        .row
+            .col
+                +movie-card(movie, config)(class="final-movie-card")
+block scripts
+    script(src="")
+
