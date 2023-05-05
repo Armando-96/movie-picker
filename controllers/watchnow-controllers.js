@@ -73,6 +73,28 @@ const tournament = async (req, res) => {
   }
 };
 
+const final = async (req, res) => {
+  try {
+    const session_id = req.session.session_id;
+    const movie = req.query.movie;
+    CONFIGURATION.then((config) => {
+      res.render("watchnow-final", {
+        config: config,
+        session_id: session_id,
+        mod: "whatchnow",
+        movie: movie,
+      });
+    }).catch((err) => {
+      console.log(err);
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Errore durante il rendering del film finale" });
+  }
+};
+
 const getNumLikeInSession = async (req, res) => {
   const session_id = req.session.session_id;
   const result = await pool.query(queries.getNumLikeInSession, [session_id]);
@@ -97,6 +119,7 @@ const getLikeMovies = async (req, res) => {
 module.exports = {
   initial,
   tournament,
+  final,
   getNumLikeInSession,
   getLikeMovies,
 };
