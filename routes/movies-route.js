@@ -81,4 +81,17 @@ moviesRoute.get("/trending", async (req, res) => {
   }
 });
 
+moviesRoute.get("/details", async (req, res) => {
+  try {
+    const { movie_id } = req.query;
+    const config = await CONFIGURATION;
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${TMDB_API_KEY}&language=en-US`
+    );
+    res.render("movie-details.pug", { movie: response.data, config: config });
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 module.exports = moviesRoute;

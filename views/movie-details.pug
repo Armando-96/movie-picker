@@ -1,0 +1,10 @@
+extends layouts
+block content
+    div.container
+        div.d-flex.justify-content-center
+                h2.my-2 #{movie.title}
+        div.row
+            div.col
+                p #{movie.overview}
+            div.col
+                img(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
