@@ -20,6 +20,7 @@ $(document).ready(function () {
           </div>
         </div>
       </div>`;
+
   $.get({
     async: false,
     url: "/api/movies/trending?page=" + page,
@@ -45,4 +46,6 @@ $(document).ready(function () {
       console.log(err);
     },
   });
+
+
 });
