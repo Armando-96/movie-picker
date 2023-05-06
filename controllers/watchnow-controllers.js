@@ -76,7 +76,8 @@ const tournament = async (req, res) => {
 const final = async (req, res) => {
   try {
     const session_id = req.session.session_id;
-    const movie = req.query.movie;
+    const movie_id = req.query.movie;
+    const movie = (await pool.query(queries.checkMovie, [movie_id])).rows[0];
     CONFIGURATION.then((config) => {
       res.render("watchnow-final", {
         config: config,

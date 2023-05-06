@@ -51,12 +51,6 @@ app.use(express.static("public"));
 //   ]
 // );
 
-// Homepage
-app.get("/test", (req, res) => {
-  res.render("layouts", { title: "Home" });
-  // res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
 // Registriamo gli endpoint
 app.use("/session", sessionRoute);
 app.use("/api/configuration", configurationRoute);
@@ -65,6 +59,10 @@ app.use("/user/login", loginRouter);
 app.use("/user/signup", signupRouter);
 app.use("/watchnow", watchNowRoute);
 app.use("/discovery", discoveryRoute);
+
+app.get("/test", (req, res) => {
+  res.sendFile(path.resolve("./public/test.html"));
+});
 
 // Pagina di errore 404
 app.use((req, res, next) => {

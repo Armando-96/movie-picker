@@ -36,3 +36,12 @@
   left: 50%;
   transform: translate(-50%, 0);
 }
+
+.img-container {
+  position: relative;
+}
+.img-container .overlay {
+  position: absolute;
+  bottom: 5%;
+  right: 6%;
+}
