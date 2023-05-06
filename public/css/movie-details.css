@@ -1,0 +1,24 @@
+.containerGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: "col1 col2";
+}
+
+@media (max-width: 1000px) {
+    .containerGrid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        grid-template-areas:
+            "col1"
+            "col2";
+    }
+}
+
+.col1 {
+    grid-area: col1;
+}
+
+.col2 {
+    grid-area: col2;
+}
