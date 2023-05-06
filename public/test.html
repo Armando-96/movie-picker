@@ -49,36 +49,96 @@
     <title>Document</title>
   </head>
   <body>
-    <div class="card" style="width: 18rem; height: 40rem">
-      <div class="img-container">
-        <img
-          src="http://image.tmdb.org/t/p/w300/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg"
-          alt=""
-          id="poster"
-          class="poster card-img-top border-radius-b-0"
-        />
-        <div class="overlay">
-          <span class="rating badge bg-primary" id="rating">Rating: 8.6</span>
+    <div class="container">
+      <div class="container">
+        <div class="row">
+          <div
+            class="col d-flex justify-content-center bg-primary"
+            style="position: relative; min-height: 32rem"
+          >
+            <div class="card">
+              <div class="img-container">
+                <img
+                  src="http://image.tmdb.org/t/p/w300/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg"
+                  alt=""
+                  id="poster"
+                  class="poster card-img-top border-radius-b-0"
+                />
+                <div class="overlay">
+                  <span class="rating badge bg-primary" id="rating"
+                    >Rating: 8.6</span
+                  >
+                </div>
+              </div>
+              <div class="card-body overflow-scroll mb-3">
+                <h5 class="title card-title" id="title">Schindler's List</h5>
+                <p class="overview card-text" id="overview">
+                  The true story of how businessman Oskar Schindler saved over a
+                  thousand Jewish lives from the Nazis while they worked as
+                  slaves in his factory during World War II. Lorem ipsum dolor
+                  sit amet consectetur adipisicing elit. Provident, voluptates
+                  nisi officiis blanditiis adipisci minima repudiandae deserunt
+                  beatae, quas dolorem ipsa numquam porro quae animi cum ut
+                  tenetur veniam quo.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="col d-flex justify-content-center bg-danger"
+            style="position: relative; min-height: 32rem"
+          >
+            <div class="card">
+              <div class="img-container">
+                <img
+                  src="http://image.tmdb.org/t/p/w300/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg"
+                  alt=""
+                  id="poster"
+                  class="poster card-img-top border-radius-b-0"
+                />
+                <div class="overlay">
+                  <span class="rating badge bg-primary" id="rating"
+                    >Rating: 8.6</span
+                  >
+                </div>
+              </div>
+              <div class="card-body overflow-scroll mb-3">
+                <h5 class="title card-title" id="title">Schindler's List</h5>
+                <p class="overview card-text" id="overview">
+                  The true story of how businessman Oskar Schindler saved over a
+                  thousand Jewish lives from the Nazis while they worked as
+                  slaves in his factory during World War II. Lorem ipsum dolor
+                  sit amet consectetur adipisicing elit. Provident, voluptates
+                  nisi officiis blanditiis adipisci minima repudiandae deserunt
+                  beatae, quas dolorem ipsa numquam porro quae animi cum ut
+                  tenetur veniam quo.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="card-body overflow-scroll" style="max-height: 15rem">
-        <h5 class="title card-title" id="title">Schindler's List</h5>
-        <p class="overview card-text" id="overview">
-          The true story of how businessman Oskar Schindler saved over a
-          thousand Jewish lives from the Nazis while they worked as slaves in
-          his factory during World War II. Lorem ipsum dolor sit amet
-          consectetur adipisicing elit. Provident, voluptates nisi officiis
-          blanditiis adipisci minima repudiandae deserunt beatae, quas dolorem
-          ipsa numquam porro quae animi cum ut tenetur veniam quo.
-        </p>
-      </div>
-    </div>
-    <div class="container" id="panel-initial">
-      <div class="row">
-        <div class="col">
-          <button class="btn" id="dislike" name="dislike">Dislike</button>
-          <button class="btn" id="select" name="select">Select</button>
-          <button class="btn" id="like" name="like">Like</button>
+      <div class="container" id="panel-initial">
+        <div class="row d-flex justify-content-center">
+          <div class="col-6 d-flex justify-content-evenly">
+            <button
+              class="btn btn-circle btn-dislike-color"
+              id="dislike"
+              name="dislike"
+            >
+              <i class="bi bi-hand-thumbs-down-fill" style="color: #c44141"></i>
+            </button>
+            <button
+              class="btn btn-circle btn-select-color"
+              id="select"
+              name="select"
+            >
+              <i class="bi bi-check-circle-fill" style="color: #41945f"></i>
+            </button>
+            <button class="btn btn-circle btn-like-color" id="like" name="like">
+              <i class="bi bi-hand-thumbs-up-fill" style="color: #2b95ff"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>

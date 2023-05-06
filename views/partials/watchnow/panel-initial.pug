@@ -1,6 +1,9 @@
-#panel-initial.container
-    .row
-        .col
-            button#dislike.btn(name="dislike", onclick="") Dislike
-            button#select.btn(name="select", onclick="") Select
-            button#like.btn(name="like", onclick="") Like
+#panel-initial.container.mt-4
+    .row.d-flex.justify-content-center
+        .col-6.d-flex.justify-content-evenly
+            button#dislike.btn.btn-circle.btn-dislike-color(name="dislike", onclick="")
+                i.bi.bi-hand-thumbs-down-fill(style="color: #c44141")
+            button#select.btn.btn-circle.btn-select-color(name="select", onclick="")
+                i.bi.bi-check-circle-fill(style="color: #41945f")
+            button#like.btn.btn-circle.btn-like-color(name="like", onclick="")
+                i.bi.bi-hand-thumbs-up-fill(style="color: #2b95ff")

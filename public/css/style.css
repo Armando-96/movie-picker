@@ -24,6 +24,11 @@
   border-radius: 0px 0px 8px 8px;
 }
 
+.card {
+  max-width: 18rem;
+  max-height: 40rem;
+}
+
 .first-movie-card {
   z-index: 100;
   position: absolute;
@@ -44,4 +49,17 @@
   position: absolute;
   bottom: 5%;
   right: 6%;
+}
+
+.btn-circle {
+  padding: 10px 15px;
+  border-radius: 50%;
+  border: 6px solid #d3d3d3;
+  font-size: 1.5rem;
+}
+
+.btn-circle:active,
+.btn-circle:focus,
+.btn-circle:hover {
+  border: 6px solid #d3d3d3;
 }

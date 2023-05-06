@@ -1,19 +1,20 @@
 extends layouts
 include partials/watchnow/movie-card
 block content
-    p sessione attuale: #{session_id}
-    include partials/watchnow/exit
-    include partials/watchnow/cumulator
     .container
-        .row
-            .col(style="position: relative; height: 40rem;")
-                +movie-card(movies[0], config)(class="first-movie-card")
-                +movie-card(movies[1], config)(class="second-movie-card")
-                
-    .container
-        .row
-            .col
-                include partials/watchnow/panel-initial
+        p sessione attuale: #{session_id}
+        include partials/watchnow/exit
+        include partials/watchnow/cumulator
+        .container
+            .row
+                .col(style="position: relative; height: 40rem;")
+                    +movie-card(movies[0], config)(class="first-movie-card")
+                    +movie-card(movies[1], config)(class="second-movie-card")
+                    
+        .container
+            .row
+                .col
+                    include partials/watchnow/panel-initial
 block scripts
     script.
         let movie_id1 = "#{movies[0].id}";
