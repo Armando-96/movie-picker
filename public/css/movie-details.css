@@ -22,3 +22,31 @@
 .col2 {
     grid-area: col2;
 }
+
+.innerGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas: "col3 col4";
+}
+
+@media (max-width: 530px) {
+    .innerGrid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        grid-template-areas:
+            "col3"
+            "col4";
+    }
+    .col4 {
+        margin-top: 10px;
+    }
+}
+
+.col3 {
+    grid-area: col3;
+}
+
+.col4 {
+    grid-area: col4;
+}
