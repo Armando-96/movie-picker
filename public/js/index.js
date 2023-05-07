@@ -1,4 +1,15 @@
 $(document).ready(function () {
+  let carouselInner = $(".carousel-inner");
+  carouselInner.hover(function () {
+    $(this).css("overflow", "visible");
+  },
+    function () {
+      const delay = 200; // milliseconds
+      setTimeout(function () {
+        carouselInner.css('overflow', 'hidden');
+      }, delay);
+    });
+
   const page = 1;
   const limitWidth = 768;
   const carouselHeaderItemActive = `<div class="carousel-item active">`
@@ -109,6 +120,4 @@ $(document).ready(function () {
       console.log(err);
     },
   });
-
-
 });

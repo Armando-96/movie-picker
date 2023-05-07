@@ -18,4 +18,6 @@ moviesRoute.get("/trending", movieController.trending);
 
 moviesRoute.get("/details", movieController.details);
 
+moviesRoute.get("/search", movieController.search);
+
 module.exports = moviesRoute;
