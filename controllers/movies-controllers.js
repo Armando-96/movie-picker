@@ -87,7 +87,7 @@ const details = async (req, res) => {
             `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${TMDB_API_KEY}&language=en-US`
         );
 
-        const responseTrailer = (await axios.get(
+        const responseVideos = (await axios.get(
             `https://api.themoviedb.org/3/movie/${movie_id}/videos?api_key=${TMDB_API_KEY}&language=en-US`
         )).data;
 
@@ -95,14 +95,37 @@ const details = async (req, res) => {
             `https://api.themoviedb.org/3/movie/${movie_id}/keywords?api_key=${TMDB_API_KEY}`
         )).data;
 
+        const responseCast = (await axios.get(
+            `https://api.themoviedb.org/3/movie/${movie_id}/credits?api_key=${TMDB_API_KEY}`
+        )).data.cast;
+
+        const responseImages = (await axios.get(
+            `https://api.themoviedb.org/3/movie/${movie_id}/images?api_key=${TMDB_API_KEY}&language=en-US&include_image_language=en`
+        )).data;
+
+        const responseSimilar = (await axios.get(
+            `https://api.themoviedb.org/3/movie/${movie_id}/similar?api_key=${TMDB_API_KEY}&language=en-US&page=1`
+        )).data;
+
         let trailerKey = null;
-        for (let i = 0; i < responseTrailer.results.length; i++) {
-            if (responseTrailer.results[i].type === "Trailer" && responseTrailer.results[i].site === "YouTube") {
-                trailerKey = responseTrailer.results[i].key;
+        for (let i = 0; i < responseVideos.results.length; i++) {
+            if (responseVideos.results[i].type === "Trailer" && responseVideos.results[i].site === "YouTube") {
+                trailerKey = responseVideos.results[i].key;
                 break;
             }
         }
-        res.render("movie-details.pug", { movie: response.data, trailerKey: trailerKey, keywords: responseKeywords.keywords, config: config });
+        res.render("movie-details.pug",
+            {
+                movie: response.data,
+                trailerKey: trailerKey,
+                videos: responseVideos.results,
+                posters: responseImages.posters,
+                logos: responseImages.logos,
+                similar: responseSimilar.results,
+                keywords: responseKeywords.keywords,
+                cast: responseCast,
+                config: config
+            });
     } catch (error) {
         console.error(error);
     }
