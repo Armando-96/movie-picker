@@ -2,9 +2,8 @@ extends layouts
 block content
     link(rel="stylesheet" href="/css/movie-details.css")
     div.container
-        div.d-flex.justify-content-center
-            div#titleContainer.my-4   
-                h2 #{movie.title}
+        div#titleContainer.d-flex.justify-content-center.my-4
+            h2 #{movie.title}
         div.containerGrid(style="border: 3px solid black; border-radius: 20px;  background-color: #383434; background-clip: padding-box;")
             div.col1(style="padding: 10px;")
                 div.row.innerGrid

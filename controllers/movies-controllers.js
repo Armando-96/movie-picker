@@ -6,6 +6,7 @@ const {
 } = require("../model/configuration.js");
 const Movie = require("../model/movie.js");
 const { TMDB_API_KEY, CONFIGURATION, TOTAL_PAGES_TRENDING } = require("../model/global-variables.js");
+const { subMonths, format } = require('date-fns');
 
 const topRated = async (req, res) => {
     try {
@@ -103,32 +104,54 @@ const details = async (req, res) => {
             `https://api.themoviedb.org/3/movie/${movie_id}/images?api_key=${TMDB_API_KEY}&language=en-US&include_image_language=en`
         )).data;
 
-        const responseSimilar = (await axios.get(
-            `https://api.themoviedb.org/3/movie/${movie_id}/similar?api_key=${TMDB_API_KEY}&language=en-US&page=1`
+        let genres = [];
+        for (let i = 0; i < response.data.genres.length; i++) {
+            genres.push(response.data.genres[i].id);
+        }
+        const oggi = new Date();
+        const unMeseFa = subMonths(oggi, 1);
+        const formatoData = "yyyy-MM-dd";
+        const dataFormattata = format(unMeseFa, formatoData);
+
+        let responseSimilar = (await axios.get(//Utilizziamo movie discover invece di get similar perchè restituisce film troppo vecchi e senza dati
+            `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&page=1&with_genres=${genres}&sort_by=release_date.desc&release_date.lte=${dataFormattata}&vote_count.gte=100`
         )).data;
 
-        let trailerKey = null;
-        for (let i = 0; i < responseVideos.results.length; i++) {
-            if (responseVideos.results[i].type === "Trailer" && responseVideos.results[i].site === "YouTube") {
-                trailerKey = responseVideos.results[i].key;
-                break;
+        //Modifica di efficienza usare Promise.all
+
+        {
+            for (let i = 0; i < responseSimilar.results.length; i++) {
+                if (movie_id == responseSimilar.results[i].id) {
+                    responseSimilar.results.splice(i, 1);
+                    break;
+                }
             }
+
+            let trailerKey = null;
+            for (let i = 0; i < responseVideos.results.length; i++) {
+                if (responseVideos.results[i].type === "Trailer" && responseVideos.results[i].site === "YouTube") {
+                    trailerKey = responseVideos.results[i].key;
+                    break;
+                }
+            }
+            res.render("movie-details.pug",
+                {
+                    movie: response.data,
+                    trailerKey: trailerKey,
+                    videos: responseVideos.results,
+                    posters: responseImages.posters,
+                    logos: responseImages.logos,
+                    similar: responseSimilar.results,
+                    keywords: responseKeywords.keywords,
+                    cast: responseCast,
+                    config: config
+                });
         }
-        res.render("movie-details.pug",
-            {
-                movie: response.data,
-                trailerKey: trailerKey,
-                videos: responseVideos.results,
-                posters: responseImages.posters,
-                logos: responseImages.logos,
-                similar: responseSimilar.results,
-                keywords: responseKeywords.keywords,
-                cast: responseCast,
-                config: config
-            });
+
     } catch (error) {
         console.error(error);
     }
+
 };
 
 const search = async (req, res) => {
