@@ -143,8 +143,6 @@ const details = async (req, res) => {
             }
         }
 
-
-
         res.render("movie-details.pug",
             {
                 movie: response.data,

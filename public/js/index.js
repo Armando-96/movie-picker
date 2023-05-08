@@ -122,7 +122,44 @@ $(document).ready(function () {
     },
   });
 
-  //da aggiungere get su /search/getGenres e per people ancora da ideare
+
+  $("#show-genres").click(function () {
+
+    if ($("#show-genres").html() == "Select genres →") {
+
+      $.get("/api/movies/search/getGenres", function (data, status) {
+        if (status == "success") {
+          $("#choseGenresPeople").animate({ width: '60%' });
+          $("#choseGenresPeople").empty();
+          setTimeout(function () {
+            $("#choseGenresPeople").css("display", "block");
+            //Aggiungere un titolo tipo scegli i generi
+            for (let i = 0; i < data.length; i++) {
+              let checkbox =
+                `
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                ${data[i].genre_name}
+                </label>
+                `;
+              $("#choseGenresPeople").append(checkbox);
+            }
+          }, 500);
+
+        } else {
+          alert("Error");
+        }
+      });
+
+      $("#show-genres").html("Hide genres &#8595;");
+
+    } else {
+      $("#show-genres").html("Select genres &#8594;");
+      $("#choseGenresPeople").fadeToggle("slow");
+    }
+  });
+
+
 
   $("#myFormSearch").submit(function (event) {
     event.preventDefault();
