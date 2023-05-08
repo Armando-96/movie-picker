@@ -20,4 +20,6 @@ moviesRoute.get("/details", movieController.details);
 
 moviesRoute.get("/search", movieController.search);
 
+moviesRoute.get("/search/getGenres", movieController.getGenres);
+
 module.exports = moviesRoute;

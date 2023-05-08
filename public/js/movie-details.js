@@ -1,6 +1,6 @@
 if (logo != null) {
     //sostituisce il contenuto di #titleContainer con il logo
-    $('#titleContainer').html(`<img src="${config.images.base_url + config.images.poster_sizes[3] + logo}" alt="logo" style="max-width: 33%;">`);
+    $('#titleContainer').html(`<img src="${config.images.base_url + config.images.poster_sizes[3] + logo}" alt="logo" style="max-width: 33%; max-height: 200px">`);
 }
 
 $('#rating').append(`<div class="progress-bar progress-bar-striped progress-bar-animated" role = "progressbar" style = "width: ${M.vote_average * 10}%;" aria-valuenow="${M.vote_average * 10}" aria-valuemin="0" aria-valuemax="100" > Rating: ${M.vote_average}</div>`);

@@ -7,3 +7,34 @@ img.posterImage:hover {
     position: relative;
     cursor: pointer;
 }
+
+#formContainer{
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+#myFormSearch {
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    border: 2px solid black;
+    background-color: #2b3447;
+    border-radius: 20px;
+    padding: 10px;
+    width: 45%;
+    min-width: 370px;
+}
+
+#myFormSearch > .col, .row {
+    margin-top: 10px;
+}
+
+#show-people , #show-genres{
+    transition: color 0.3s ease-in-out;
+}
+
+#show-people:hover , #show-genres:hover{
+    color: #f5c518;
+    cursor: pointer;
+}

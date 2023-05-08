@@ -87,45 +87,66 @@
   <div id="containerCustomSearch" class="container">
     <br>
     <h3>Do a custom search!</h3>
-    <form id="myFormSearch" method="get" action="http://localhost:3000/api/movies/search">
-      <div class="row">
-        <div class="col">
-          <label for="page">Page</label>
-          <input class="form-control" type="number" name="page" size="3" maxlength="3" value="1">
+    <div id="formContainer" class="d-flex flex-wrap">
+      <form id="myFormSearch">
+        <div class="row">
+          <div class="col">
+            <label for="page">Page</label>
+            <input class="form-control" type="number" name="page" size="3" maxlength="3" value="1">
+          </div>
+          <div class="col">
+            <label for="year">Year</label>
+            <input class="form-control" type="number" name="year" size="4" maxlength="4">
+          </div>
+          <div class="col">
+            <label for="release_date_gte">Release Date &#8805;</label>
+            <input class="form-control" type="date" name="release_date_gte">
+          </div>
         </div>
-        <div class="col">
-          <label for="year">Year</label>
-          <input class="form-control" type="number" name="year" size="4" maxlength="4">
+        <div class="row">
+          <div class="col">
+            <label for="sort_by">Sort by</label>
+            <select class="form-select" name="sort_by">
+              <option value="" selected>None</option>
+              <option value="popularity.desc">Popularity Descending</option>
+              <option value="popularity.asc">Popularity Ascending</option>
+              <option value="vote_average.desc">Rating Descending</option>
+              <option value="vote_average.asc">Rating Ascending</option>
+              <option value="primary_release_date.desc">Release Date Descending</option>
+              <option value="primary_release_date.asc">Release Date Ascending</option>
+              <option value="title.asc">Title (A-Z)</option>
+              <option value="title.desc">Title (Z-A)</option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="vote_average_gte">Vote Average &#8805;</label>
+            <input class="form-control" type="number" name="vote_average_gte" step="0.1">
+          </div>
         </div>
-        <div class="col">
-          <label for="release_date_gte">Release Date Greater Than</label>
-          <input class="form-control" type="date" name="release_date_gte">
+        <div class="row d-flex justify-content-center">
+          <a id="show-genres" class="btn">Select genres &#8594;</a>
+          <input class="form-control" type="text" name="with_genres" style="display: none;">
         </div>
+        <div class="row d-flex justify-content-center">
+          <a id="show-people" class="btn">Select people &#8594;</a>
+          <input class="form-control" type="text" name="with_people" style="display: none;">
+        </div>
+        <div class="row d-flex justify-content-center">
+          <button type="submit" class="btn btn-primary" style="width:30%; min-width: 100px;">Search</button>
+        </div>
+      </form>
+      <div id="choseGenres">
+
       </div>
-      <div class="row">
-        <div class="col">
-          <label for="with_genres">Genres</label>
-          <input class="form-control" type="text" name="with_genres">
-        </div>
-        <div class="col">
-          <label for="sort_by">Sort by</label>
-          <input class="form-control" type="text" name="sort_by">
-        </div>
-        <div class="col">
-          <label for="vote_average_gte">Vote Average Greater Than</label>
-          <input class="form-control" type="number" name="vote_average_gte" step="0.1">
-        </div>
+      <div id="chosePeople">
+
       </div>
-      <div class="row">
-        <div class="col">
-          <label for="with_people">With People</label>
-          <input class="form-control" type="text" name="with_people">
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary">Search</button>
-    </form>
+    </div>
   </div>
 
+  <div id="debugDiv">
+    Div di debugging
+  </div>
 </body>
 
 

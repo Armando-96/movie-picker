@@ -5,6 +5,8 @@ const {
     initialConfiguration,
 } = require("../model/configuration.js");
 const Movie = require("../model/movie.js");
+const pool = require("./../db/db.js");
+const queries = require("./../db/queries.js");
 const { TMDB_API_KEY, CONFIGURATION, TOTAL_PAGES_TRENDING } = require("../model/global-variables.js");
 const { subMonths, format } = require('date-fns');
 
@@ -167,17 +169,25 @@ const search = async (req, res) => {
     try {
         const { page, with_genres, year, release_date_gte, sort_by, vote_average_gte, with_people } = req.query;
 
-        let request = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US`;
+        let request = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&vote_count.gte=50`;
         if (page) request = request.concat(`&page=${page}`);
         if (with_genres) request = request.concat(`&with_genres=${with_genres}`);
-        if (year) request = request.concat(`&year=${year}`);
-        if (release_date_gte) request = request.concat(`&release_date.gte=${release_date_gte}`);
+        if (year) request = request.concat(`&primary_release_year=${year}`);
+        if (release_date_gte) request = request.concat(`&primary_release_date.gte=${release_date_gte}`);
         if (sort_by) request = request.concat(`&sort_by=${sort_by}`);
         if (vote_average_gte) request = request.concat(`&vote_average.gte=${vote_average_gte}`);
         if (with_people) request = request.concat(`&with_people=${with_people}`);
-
         const response = await axios.get(request);
         res.send(response.data);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const getGenres = async (req, res) => {
+    try {
+        const genres = await pool.query(queries.checkGenres);
+        res.send(genres.rows);
     } catch (error) {
         console.error(error);
     }
@@ -189,4 +199,5 @@ module.exports = {
     trending,
     details,
     search,
+    getGenres,
 }

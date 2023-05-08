@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
   let carouselInner = $(".carousel-inner");
   carouselInner.hover(function () {
     $(this).css("overflow", "visible");
@@ -120,4 +121,21 @@ $(document).ready(function () {
       console.log(err);
     },
   });
+
+  //da aggiungere get su /search/getGenres e per people ancora da ideare
+
+  $("#myFormSearch").submit(function (event) {
+    event.preventDefault();
+    let formData = $(this).serializeArray().filter(function (e) { return e.value != ""; });
+    formData = "?" + $.param(formData);
+    alert(formData);
+    $.get("/api/movies/search" + formData, function (data, status) {
+      if (status == "success") {
+        $("#debugDiv").text(JSON.stringify(data));
+      } else {
+        alert("Error");
+      }
+    });
+  });
+
 });
