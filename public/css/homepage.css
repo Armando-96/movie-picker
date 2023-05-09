@@ -21,9 +21,53 @@ img.posterImage:hover {
     cursor: pointer;
 }
 
-#choseGenresPeople {
-    display: flex;
+#choseContainer {
+    margin: 10px;
     transition: transform 0.3s ease-in-out;
+}
+
+#choseGenres {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+}
+
+#chosePeople {
+    display: none;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+}
+
+#searchPeopleContainer{
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+#choseGenres > div {
+    display: inline-block;
+    margin: 2px;
+}
+
+#choseGenres > h5 {
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
 
 #myFormSearch {
@@ -37,12 +81,45 @@ img.posterImage:hover {
     width: 45%;
     min-width: 370px;
     max-width: 500px;
+    max-height: 310px;
     transition: transform 0.3s ease-in-out;
 }
 
 #formContainer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
     transition: transform 0.3s ease-in-out;
+}
+
+@media (max-width: 768px){
+    #formContainer {
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        transition: transform 0.3s ease-in-out;
+    }
+    #choseContainer {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100% !important;
+        transition: transform 0.3s ease-in-out;
+    }
+}
+
+.searchPeopleImage{
+    width: 83.25px;
+    height: 125.1px;
+    border-radius: 50%;
+    overflow: hidden;
+    opacity: 0.8;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.searchPeopleImage:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+#searchPeopleResults{
+    gap: 20px;
 }

@@ -30,9 +30,10 @@ for (let i = 0; i < K.length; i++) {
 }
 
 for (let i = 0; i < C.length; i++) {
+    let profile_path = C[i].profile_path ? config.images.base_url + config.images.profile_sizes[1] + C[i].profile_path : "/images/image-placeholder.png";
     $('#cast').append(
         `<div class="card flex-item" style="width: 10%; height: 10%; min-width: 110px;">
-            <img src="${config.images.base_url + config.images.profile_sizes[1] + C[i].profile_path}" class="card-img-top" style="border-radius: 10px;">
+            <img src="${profile_path}" class="card-img-top" style="border-radius: 10px;">
             <div class="card-body">
                 <h5 class="card-title">${C[i].character}</h5>
                 <p class="card-text">${C[i].name}</p>
