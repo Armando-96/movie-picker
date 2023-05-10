@@ -1,13 +1,17 @@
 extends layouts
 include partials/watchnow/movie-card
 block content
-    .container
+    .container.d-flex.flex-column.justify-content-between(style="height: 90vh")
         p sessione attuale: #{session_id}
-        include partials/watchnow/exit
-        include partials/watchnow/cumulator
         .container
             .row
-                .col(style="position: relative; height: 40rem;")
+                include partials/watchnow/exit
+            .row
+                .col.d-flex.justify-content-center
+                    include partials/watchnow/cumulator
+        .container
+            .row
+                .col.wn-initial-card-container(style="position: relative; min-height: 32rem;")
                     +movie-card(movies[0], config)(class="first-movie-card")
                     +movie-card(movies[1], config)(class="second-movie-card")
                     

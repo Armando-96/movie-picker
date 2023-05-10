@@ -1,0 +1,6 @@
+.discovery-container:hover,
+.watchnow-container:hover {
+  cursor: pointer;
+  scale: 1.05;
+  transition: all 0.3s ease-in-out;
+}
