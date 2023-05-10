@@ -1,2 +1,12 @@
-#exit.container
-    button#exit.btn(name="exit", onclick="exit()") Exit
+button.btn-close(type="button", data-bs-toggle="modal", data-bs-target="#modal")
+#modal.modal.fade(tabindex="-1", aria-labelledby="modalLabel", aria-hidden="true")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                h1#modalLabel.modal-title.fs-5 Exit Watch Now
+                button.btn-close(type="button", data-bs-dismiss="modal", aria-label="Close")
+                
+            .modal-body Are you sure you want to get out of watchnow mode?
+            .modal-footer
+                button.btn.btn-secondary(type="button", data-bs-dismiss="modal") Remain
+                button.btn.btn-primary(type="button", onclick="exit()") Exit

@@ -60,8 +60,12 @@ app.use("/user/signup", signupRouter);
 app.use("/watchnow", watchNowRoute);
 app.use("/discovery", discoveryRoute);
 
-app.get("/test", (req, res) => {
+app.get("/test/wn/tournament", (req, res) => {
   res.sendFile(path.resolve("./public/test.html"));
+});
+
+app.get("/test/wn/initial", (req, res) => {
+  res.sendFile(path.resolve("./public/test-watchnow-initial.html"));
 });
 
 // Pagina di errore 404

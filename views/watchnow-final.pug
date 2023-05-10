@@ -4,7 +4,18 @@ block content
     p sessione attuale: #{session_id}
     .container.main-content
         .row
-            .col
+            h1.display-5.text-center.final-title.mb-5 We have a winner!
+        .row
+            .col.d-flex.justify-content-center
                 +movie-card(movie, config)(class="final-movie-card")
 block scripts
-    script(src="")
+    script(src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js")
+    script.
+        element = document.querySelector(".final-title");
+        party.confetti(element, {
+        debug: false,
+        gravity: 800,
+        zIndex: 99999,
+        shapes: ["square", "circle", "roundedRectangle"],
+        count: party.variation.range(20, 40)
+        });

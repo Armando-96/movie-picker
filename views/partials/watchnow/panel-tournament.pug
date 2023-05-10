@@ -1,5 +1,7 @@
 #panel-initial.container
-    .row
-        .col
-            button#left.btn(name="left") Sinistra
-            button#right.btn(name="right") Destra
+    .row.d-flex.justify-content-center
+        .col-6.d-flex.justify-content-evenly
+            button#left.btn(name="left") 
+                i.bi.bi-arrow-left-circle-fill.btn-circle(style="color: #2b95ff")
+            button#right.btn(name="right")
+                i.bi.bi-arrow-right-circle-fill.btn-circle(style="color: #2b95ff")

@@ -75,3 +75,7 @@ $("#left").click(function () {
 $("#right").click(function () {
   updateLeft();
 });
+
+function exit() {
+  window.location.replace("/user/login");
+}

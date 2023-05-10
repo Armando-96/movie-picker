@@ -17,6 +17,7 @@ function addInteraction(preference_choice) {
         $("#body").html("<h1>Film selezionato</h1>"); //In attesa di sviluppo, da inserire una pagina di ringraziamenti o qualcosa del genere
         return;
       } else {
+        if ($("#cumulator").text() == "16/16") return;
         swap(data);
       }
     },
@@ -30,11 +31,12 @@ function addInteraction(preference_choice) {
       url: "/watchnow/getNumLike",
       success: function (data) {
         json = JSON.parse(data);
-        if (json.n_likes == 16) {
+        if (json.n_likes >= 16) {
           window.location.replace("/watchnow/tournament");
           return;
         }
         $("#cumulator").text(json.n_likes + "/16");
+        $("#cumulator").css("width", (json.n_likes / 16) * 100 + "%");
       },
       error: function () {
         alert("Errore nella richiesta di getNumLike");
@@ -78,4 +80,8 @@ function swap(new_movie) {
     "src",
     prefix_poster_path + new_movie.poster_path
   );
+}
+
+function exit() {
+  window.location.replace("/user/login");
 }
