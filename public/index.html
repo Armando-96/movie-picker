@@ -129,16 +129,28 @@
           <input class="form-control" type="text" name="with_genres" style="display: none;">
         </div>
         <div class="row d-flex justify-content-center">
-          <a id="show-people" class="btn">Select people &#8594;</a>
-          <input class="form-control" type="text" name="with_people" style="display: none;">
+          <a id="show-people" class="btn">Select an actor &#8594;</a>
+          <input class="form-control" type="text" id="with_people" style="display: none;">
         </div>
         <div class="row d-flex justify-content-center">
           <button type="submit" class="btn btn-primary" style="width:30%; min-width: 100px;">Search</button>
         </div>
       </form>
+      <div id="choseContainer">
+        <div id="choseGenres">
+        </div>
+        <div id="chosePeople">
+          <div id="searchPeopleContainer">
+            <label for="personSearchInput">
+              <h5>Search People:</h5>
+            </label>
+            <input type="text" id="personSearchInput">
+            <button id="personSearchButton" class="btn btn-outline-secondary">Search</button>
+          </div>
+          <div id="searchPeopleResults" class="d-flex flex-wrap justify-content-center mt-2">
 
-      <div id="choseGenresPeople">
-
+          </div>
+        </div>
       </div>
 
     </div>

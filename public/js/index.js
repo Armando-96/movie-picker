@@ -124,25 +124,25 @@ $(document).ready(function () {
 
 
   $("#show-genres").click(function () {
-
-    if ($("#show-genres").html() == "Select genres →") {
-
+    if (!$("#choseGenres").find("input[type=checkbox]").length) {
       $.get("/api/movies/search/getGenres", function (data, status) {
         if (status == "success") {
-          $("#choseGenresPeople").animate({ width: '60%' });
-          $("#choseGenresPeople").empty();
+          $("#choseContainer").animate({ width: '60%', height: '100%' });
+          $("#choseGenres").empty();
           setTimeout(function () {
-            $("#choseGenresPeople").css("display", "block");
-            //Aggiungere un titolo tipo scegli i generi
+            $("#choseGenres").css("display", "block");
+            $("#choseGenres").append("<h5>Genres</h5>");
             for (let i = 0; i < data.length; i++) {
               let checkbox =
                 `
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                ${data[i].genre_name}
-                </label>
+                <div class="genre-checkbox">
+                  <input class="form-check-input" type="checkbox" value="${data[i].genre_id}" id="flexCheckDefault">
+                  <label class="form-check-label" for="flexCheckDefault">
+                  ${data[i].genre_name}
+                  </label>
+                </div>
                 `;
-              $("#choseGenresPeople").append(checkbox);
+              $("#choseGenres").append(checkbox);
             }
           }, 500);
 
@@ -153,9 +153,113 @@ $(document).ready(function () {
 
       $("#show-genres").html("Hide genres &#8595;");
 
+    } else if ($("#choseGenres").css("display") == "none") {
+
+      $("#choseContainer").animate({ width: '60%', height: '100%' });
+      $("#show-genres").html("Hide genres &#8595;");
+      setTimeout(function () {
+        $("#choseGenres").fadeIn("slow");
+      }, 500);
+
     } else {
+
       $("#show-genres").html("Select genres &#8594;");
-      $("#choseGenresPeople").fadeToggle("slow");
+      $("#choseGenres").fadeOut("slow");
+
+      if ($("#chosePeople").css("display") == "none") {
+        setTimeout(function () {
+          $("#choseContainer").animate({ width: '0px' });
+        }, 500);
+      }
+    }
+
+  });
+
+  $("#show-people").click(function () {
+    if ($("#chosePeople").css("display") == "none") {
+
+      $("#choseContainer").animate({ width: '60%', height: '100%' });
+      $("#show-people").html("Hide actors &#8595;");
+      setTimeout(function () {
+        $("#chosePeople").fadeIn("slow");
+      }, 500);
+
+    } else {
+
+      $("#show-people").html("Select people &#8594;");
+      setTimeout(function () { $("#chosePeople").fadeOut("slow"); }, 100);
+
+      if ($("#choseGenres").css("display") == "none" || !$("#choseGenres").find("input[type=checkbox]").length) {
+
+        let currentPositionDown = $(window).scrollTop() + $(window).height();
+        let formSearchPosition = $('#myFormSearch').offset().top + $('#myFormSearch').outerHeight();
+        let delta = currentPositionDown - formSearchPosition;
+        if (delta > 0) {
+          $('html, body').animate({
+            scrollTop: currentPositionDown - delta - $(window).height() + 5
+          }, 10);
+        }
+
+        setTimeout(function () {
+          $("#choseContainer").animate({ width: '0px' });
+        }, 500);
+
+      }
+
+    }
+  });
+
+  $("#personSearchButton").click(function () {
+    let query = '"' + $("#personSearchInput").val() + '"';
+    if (query) {
+      $.get("/api/movies/search/person?query=" + query, function (data, status) {
+        if (status == "success") {
+          $("#searchPeopleResults").empty();
+          for (let i = 0; i < data.people.length; i++) {
+            let profile_path = data.people[i].profile_path ? data.prefix_profile_path + data.people[i].profile_path : "/images/image-placeholder.png";
+            let person =
+              `
+              <div class="person">
+                <img class="searchPeopleImage" src="${profile_path}" alt="person image">
+                <p>${data.people[i].name}</p>
+                <input type="checkbox" class="inputPerson" name="${data.people[i].name}" value="${data.people[i].id}" style="display: none;" >
+              </div>
+              `;
+            $("#searchPeopleResults").append(person);
+          }
+
+          $(".person").click(function () {
+            $(this).find("input[type=checkbox]").prop("checked", !$(this).find("input[type=checkbox]").prop("checked"));
+
+            $("#show-people").html("Select people &#8594;");
+            setTimeout(function () { $("#chosePeople").fadeOut("slow"); }, 100);
+
+            if ($("#choseGenres").css("display") == "none" || !$("#choseGenres").find("input[type=checkbox]").length) {
+
+              let currentPositionDown = $(window).scrollTop() + $(window).height();
+              let formSearchPosition = $('#myFormSearch').offset().top + $('#myFormSearch').outerHeight();
+              let delta = currentPositionDown - formSearchPosition;
+              if (delta > 0) {
+                $('html, body').animate({
+                  scrollTop: currentPositionDown - delta - $(window).height() + 5
+                }, 10);
+              }
+
+              setTimeout(function () {
+                $("#choseContainer").animate({ width: '0px' });
+              }, 500);
+
+            }
+
+            let person = $("#searchPeopleResults").find("input[type=checkbox]:checked");
+            $("#with_people").val(person.val());
+            $("#show-people").text("Actor selected: " + person.attr("name"));
+          });
+
+        } else {
+          alert("Error");
+        }
+      });
     }
   });
 
@@ -165,6 +269,17 @@ $(document).ready(function () {
     event.preventDefault();
     let formData = $(this).serializeArray().filter(function (e) { return e.value != ""; });
     formData = "?" + $.param(formData);
+    let genresCheckbox = $("#choseGenres");
+    let genres = genresCheckbox.find("input[type=checkbox]:checked");
+    let person_id = $("#with_people").val();
+    if (person_id) formData += "&with_people=" + person_id;
+    if (genres.length > 0) {
+      let genresString = genres[0].value;
+      for (let i = 1; i < genres.length; i++) {
+        genresString += "," + genres[i].value;
+      }
+      formData += "&with_genres=" + genresString;
+    }
     alert(formData);
     $.get("/api/movies/search" + formData, function (data, status) {
       if (status == "success") {

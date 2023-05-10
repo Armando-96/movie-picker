@@ -62,16 +62,27 @@ const trending = async (req, res) => {
 
         if (page > TOTAL_PAGES_TRENDING) return res.status(404).json({ message: "Pagina non trovata" });
 
-        const response = await axios.get(
-            `https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}&page=${page}`
-        );
+        let p = page;
+
+        if (!p) p = 1;
+        let movieArray = [];
+        while (movieArray.length < 20) {
+            const response = await axios.get(
+                `https://api.themoviedb.org/3/trending/movie/day?api_key=${TMDB_API_KEY}&page=${p}`
+            );
+            const movies = response.data.results;
+            for (let i = 0; i < movies.length; i++) {
+                if (movies[i].vote_count > 20) movieArray.push(new Movie(movies[i]));
+                if (movieArray.length >= 20) break;
+            }
+            p++;
+        }
 
         const config = await CONFIGURATION;
 
         const movies = {
             prefix_poster_path: config.images.base_url + config.images.backdrop_sizes[0],
-            page: response.data.page,
-            results: response.data.results
+            results: movieArray,
         }
         res.send(movies);
     } catch (error) {
@@ -109,9 +120,15 @@ const details = async (req, res) => {
 
 
         let genres = [];
-        for (let i = 0; i < response.data.genres.length; i++) {
+        let genres_length = 3;
+        if (response.data.genres.length < 3) {
+            genres_length = response.data.genres.length;
+        }
+
+        for (let i = 0; i < genres_length; i++) {
             genres.push(response.data.genres[i].id);
         }
+
         const oggi = new Date();
         const unMeseFa = subMonths(oggi, 1);
         const formatoData = "yyyy-MM-dd";
@@ -191,6 +208,29 @@ const getGenres = async (req, res) => {
     }
 }
 
+const searchPerson = async (req, res) => {
+    try {
+        const configPromise = CONFIGURATION;
+
+        const { page, query } = req.query;
+        const p = page ? page : 1;
+        const response = await axios.get(
+            `https://api.themoviedb.org/3/search/person?api_key=${TMDB_API_KEY}&language=en-US&page=${p}&include_adult=false&query=${query}`
+        );
+
+        const config = await configPromise;
+
+        let toSend = {
+            prefix_profile_path: config.images.base_url + config.images.profile_sizes[1],
+            people: response.data.results,
+        }
+
+        res.send(toSend);
+
+    } catch (error) {
+        console.error(error);
+    }
+}
 module.exports = {
     topRated,
     random,
@@ -198,4 +238,5 @@ module.exports = {
     details,
     search,
     getGenres,
+    searchPerson,
 }
