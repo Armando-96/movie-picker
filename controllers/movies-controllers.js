@@ -182,6 +182,8 @@ const details = async (req, res) => {
 
 const search = async (req, res) => {
     try {
+        const promiseConfig = CONFIGURATION;
+
         const { page, with_genres, year, release_date_gte, sort_by, vote_average_gte, with_people } = req.query;
 
         let request = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&vote_count.gte=50`;
@@ -193,7 +195,17 @@ const search = async (req, res) => {
         if (vote_average_gte) request = request.concat(`&vote_average.gte=${vote_average_gte}`);
         if (with_people) request = request.concat(`&with_people=${with_people}`);
         const response = await axios.get(request);
-        res.send(response.data);
+        const config = await promiseConfig;
+
+        let toSend = {
+            prefix_poster_path: config.images.base_url + config.images.poster_sizes[3],
+            page: page,
+            results: response.data.results,
+            total_pages: response.data.total_pages,
+            total_results: response.data.total_results
+        };
+        res.send(toSend);
+
     } catch (error) {
         console.error(error);
     }
@@ -231,6 +243,42 @@ const searchPerson = async (req, res) => {
         console.error(error);
     }
 }
+
+const getHomePageDetails = async (req, res) => {
+    try {
+        const { movie_id } = req.query;
+        const promiseConfig = CONFIGURATION;
+        const response = await axios.get(
+            `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${TMDB_API_KEY}&language=en-US`
+        );
+        const config = await promiseConfig;
+        res.send({
+            movie: response.data,
+            prefix_poster_path: config.images.base_url + config.images.backdrop_sizes[1],
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const movieByName = async (req, res) => {
+    try {
+        const promiseConfig = CONFIGURATION;
+        const { movie_name } = req.query;
+        const response = await axios.get(
+            `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&language=en-US&query=${movie_name}&page=1&include_adult=false`
+        );
+        const config = await promiseConfig;
+        res.send({
+            page: response.data.page,
+            movie: response.data.results,
+            prefix_poster_path: config.images.base_url + config.images.poster_sizes[3],
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 module.exports = {
     topRated,
     random,
@@ -239,4 +287,6 @@ module.exports = {
     search,
     getGenres,
     searchPerson,
+    getHomePageDetails,
+    movieByName
 }

@@ -84,9 +84,25 @@
   </div>
   <!--fine carosello-->
 
-  <div id="containerCustomSearch" class="container">
-    <br>
+  <div class="container my-5">
+    <label for="searchInput" class="">
+      <h3>Search for a movie by name:</h3>
+    </label>
+    <div class="row">
+      <div class="col">
+        <input id="searchInputByName" class="form-control" type="text" placeholder="Search" aria-label="Search">
+      </div>
+      <div class="col">
+        <button id="searchButtonByName" class="btn btn-primary">Search</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container my-4">
     <h3>Do a custom search!</h3>
+  </div>
+
+  <div id="containerCustomSearch">
     <div id="formContainer" class="d-flex justify-content-center">
 
       <form id="myFormSearch">
@@ -156,8 +172,15 @@
     </div>
   </div>
 
-  <div id="debugDiv">
-    Div di debugging
+  <div id="searchResults">
+    <div id="headTitle">
+
+    </div>
+
+    <div id="moviesResults">
+
+    </div>
+
   </div>
 </body>
 

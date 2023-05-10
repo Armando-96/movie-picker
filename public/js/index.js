@@ -186,7 +186,7 @@ $(document).ready(function () {
 
     } else {
 
-      $("#show-people").html("Select people &#8594;");
+      $("#show-people").html("Select an actor &#8594;");
       setTimeout(function () { $("#chosePeople").fadeOut("slow"); }, 100);
 
       if ($("#choseGenres").css("display") == "none" || !$("#choseGenres").find("input[type=checkbox]").length) {
@@ -280,14 +280,78 @@ $(document).ready(function () {
       }
       formData += "&with_genres=" + genresString;
     }
-    alert(formData);
+    //alert(formData);
     $.get("/api/movies/search" + formData, function (data, status) {
       if (status == "success") {
-        $("#debugDiv").text(JSON.stringify(data));
+        $("#headTitle").empty();
+        $('#headTitle')
+          .prepend(`<h2 class="text-center">Movies found</h2>`);
+
+        $("#moviesResults").empty();
+        for (let i = 0; i < data.results.length; i++) {
+          let poster = data.results[i].poster_path ? data.prefix_poster_path + data.results[i].poster_path : "/images/image-placeholder.png";
+          $('#moviesResults').append(
+            `
+            <div class="flex-item movie-found">
+              <img src="${poster}" class="card-img-top">
+              <div class="movie-desc">
+                <div class="movie-title" style="font-size: 100%;height: 30px;">${data.results[i].title}</div>
+              </div>
+              <div class="d-flex justify-content-center my-4" style="bottom: 0;">
+                <a style="bottom: 10px; font-size: 100%;" href="/api/movies/details?movie_id=${data.results[i].id}" class="btn btn-outline-secondary">Details</a>
+              </div>
+            </div>
+            `
+          );
+        }
+
+        $('html, body').animate({
+          scrollTop: $("#searchResults").offset().top - 10
+        }, 10);
+
       } else {
         alert("Error");
       }
     });
   });
 
+  $("#searchButtonByName").click(function () {
+    let movie_name = $("#searchInputByName").val();
+    if (!movie_name) return;
+
+    let request = "/api/movies/home/movieByName?movie_name=" + movie_name;
+    $.get(request, function (data, status) {
+      if (status != "success") { alert("Error"); return; }
+
+      $("#headTitle").empty();
+      $('#headTitle')
+        .prepend(`<h2 class="text-center">Movies found</h2>`);
+
+      $("#moviesResults").empty();
+      for (let i = 0; i < data.movie.length; i++) {
+        let poster = data.movie[i].poster_path ? data.prefix_poster_path + data.movie[i].poster_path : "/images/image-placeholder.png";
+        $('#moviesResults').append(
+          `
+            <div class="flex-item movie-found">
+              <img src="${poster}" class="card-img-top">
+              <div class="movie-desc">
+                <div class="movie-title" style="font-size: 100%;height: 30px;">${data.movie[i].title}</div>
+              </div>
+              <div class="d-flex justify-content-center my-4" style="bottom: 0;">
+                <a style="bottom: 10px; font-size: 100%;" href="/api/movies/details?movie_id=${data.movie[i].id}" class="btn btn-outline-secondary">Details</a>
+              </div>
+            </div>
+            `
+        );
+      }
+
+      $('html, body').animate({
+        scrollTop: $("#searchResults").offset().top - 10
+      }, 10);
+
+    });
+
+  });
+
 });
+

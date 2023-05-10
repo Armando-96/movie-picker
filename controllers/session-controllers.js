@@ -85,12 +85,12 @@ const addInteraction = async (req, res) => {
 
 //Funzione che restituisce un film filtrato in json
 const getFilteredMovieGenre = async (user_id) => {
-  const magior3Genres = (await pool.query(queries.getMagior2Genres, [user_id]))
+  const magior2Genres = (await pool.query(queries.getMagior2Genres, [user_id]))
     .rows;
   let genresString = "";
-  for (let i = 0; i < magior3Genres.length; i++) {
-    genresString += magior3Genres[i].genre_id;
-    if (i != magior3Genres.length - 1) genresString += ",";
+  for (let i = 0; i < magior2Genres.length; i++) {
+    genresString += magior2Genres[i].genre_id;
+    if (i != magior2Genres.length - 1) genresString += ",";
   }
 
   const page = Math.ceil(Math.random() * TOTAL_PAGES_DISCOVER);
