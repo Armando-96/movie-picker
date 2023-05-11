@@ -63,7 +63,6 @@ const trending = async (req, res) => {
         if (page > TOTAL_PAGES_TRENDING) return res.status(404).json({ message: "Pagina non trovata" });
 
         let p = page;
-
         if (!p) p = 1;
         let movieArray = [];
         while (movieArray.length < 20) {
@@ -78,11 +77,25 @@ const trending = async (req, res) => {
             p++;
         }
 
+        //Chiediamo i video del primo film della lista per cercare il trailer e restituirlo
+        const responseVideos = (await axios.get(
+            `https://api.themoviedb.org/3/movie/${movieArray[0].id}/videos?api_key=${TMDB_API_KEY}&language=en-US`
+        )).data;
+
+        let trailerKey = null;
+        for (let i = 0; i < responseVideos.results.length; i++) {
+            if (responseVideos.results[i].type === "Trailer" && responseVideos.results[i].site === "YouTube") {
+                trailerKey = responseVideos.results[i].key;
+                break;
+            }
+        }
+
         const config = await CONFIGURATION;
 
         const movies = {
             prefix_poster_path: config.images.base_url + config.images.backdrop_sizes[0],
             results: movieArray,
+            trailerKeyFirstMovie: trailerKey,
         }
         res.send(movies);
     } catch (error) {

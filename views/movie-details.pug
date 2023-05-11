@@ -58,8 +58,9 @@ block content
             h3.my-4 Production Companies
             div#productionCompanies.flex-wrap
             
-            h3.my-4 Production Countries
-            div#productionCountries.flex-wrap
+            div#productionCompaniesContainer
+                h3.my-4 Production Countries
+                div#productionCountries.flex-wrap
 
             div#similarContainer.my-4
                 h3 Similar Movies
@@ -73,7 +74,8 @@ block content
         let C = !{JSON.stringify(cast)};//Array di oggetti cast (id, name, character, profile_path)
         let V = !{JSON.stringify(videos)};//Array di oggetti video (id, key, name, site, type)
         let P = !{JSON.stringify(posters)};//Array di oggetti poster (file_path)
-        let logo = !{JSON.stringify(logos)}[0].file_path;
+        let logos = !{JSON.stringify(logos)};
+        let logo = logos.length > 0 ? logos[0].file_path : null;
         let similar = !{JSON.stringify(similar)};//Array di oggetti movie (id, title, poster_path, release_date)
 
     script(src="../../js/movie-details.js")

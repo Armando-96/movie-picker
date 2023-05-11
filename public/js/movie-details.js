@@ -98,9 +98,9 @@ for (let i = 0; i < M.production_countries.length; i++) {
 for (let i = 0; i < similar.length; i++) {
     $('#similar').append(
         `
-        <div class="card flex-item" style="width: 32%; min-width: 300px;">
+        <div class="card flex-item" style="width: 32%; min-width: 300px; height:auto;">
             <img src="${config.images.base_url + config.images.poster_sizes[3] + similar[i].backdrop_path}" class="card-img-top">
-            <div class="card-body ">
+            <div class="card-body">
                 <h3 class="card-title">${similar[i].title}</h3>
                 <div class="card-text overflow-auto" style="max-height: 100px;">${similar[i].overview}</div>
                 <div class="d-flex justify-content-center my-4" style="bottom: 0;">

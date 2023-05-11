@@ -1,3 +1,5 @@
+
+
 $(document).ready(function () {
 
   let carouselInner = $(".carousel-inner");
@@ -42,6 +44,9 @@ $(document).ready(function () {
     async: false,
     url: "/api/movies/trending?page=" + page,
     success: function (data) {
+      //Aggiungiamo il video di sfondo ovvero il trailer del primo film
+      $("#bg-video").attr("src", `https://www.youtube.com/embed/${data.trailerKeyFirstMovie}?autoplay=1&loop=1&controls=0&showinfo=0&mute=1&playlist=${data.trailerKeyFirstMovie}`);
+
       const prefix_poster_path = data.prefix_poster_path;
 
       if (window.innerWidth < limitWidth) {
@@ -185,8 +190,11 @@ $(document).ready(function () {
       }, 500);
 
     } else {
+      if ($(".person").find("input[type=checkbox]:checked").length == 0)
+        $("#show-people").html("Select an actor &#8594;");
+      else
+        $("#show-people").html("Actor selected: " + $("#searchPeopleResults").find("input[type=checkbox]:checked").attr("name"));
 
-      $("#show-people").html("Select an actor &#8594;");
       setTimeout(function () { $("#chosePeople").fadeOut("slow"); }, 100);
 
       if ($("#choseGenres").css("display") == "none" || !$("#choseGenres").find("input[type=checkbox]").length) {
@@ -231,29 +239,30 @@ $(document).ready(function () {
           $(".person").click(function () {
             $(this).find("input[type=checkbox]").prop("checked", !$(this).find("input[type=checkbox]").prop("checked"));
 
-            $("#show-people").html("Select people &#8594;");
             setTimeout(function () { $("#chosePeople").fadeOut("slow"); }, 100);
 
             if ($("#choseGenres").css("display") == "none" || !$("#choseGenres").find("input[type=checkbox]").length) {
-
-              let currentPositionDown = $(window).scrollTop() + $(window).height();
-              let formSearchPosition = $('#myFormSearch').offset().top + $('#myFormSearch').outerHeight();
-              let delta = currentPositionDown - formSearchPosition;
-              if (delta > 0) {
-                $('html, body').animate({
-                  scrollTop: currentPositionDown - delta - $(window).height() + 5
-                }, 10);
-              }
-
               setTimeout(function () {
                 $("#choseContainer").animate({ width: '0px' });
               }, 500);
+            }
 
+            let currentPositionDown = $(window).scrollTop() + $(window).height();
+            let formSearchPosition = $('#myFormSearch').offset().top + $('#myFormSearch').outerHeight();
+            let delta = currentPositionDown - formSearchPosition;
+            if (delta > 0) {
+              $('html, body').animate({
+                scrollTop: currentPositionDown - delta - $(window).height() + 5
+              }, 10);
             }
 
             let person = $("#searchPeopleResults").find("input[type=checkbox]:checked");
             $("#with_people").val(person.val());
-            $("#show-people").text("Actor selected: " + person.attr("name"));
+            if (person.attr("name"))
+              $("#show-people").text("Actor selected: " + person.attr("name"));
+            else
+              $("#show-people").html("Select people &#8594;");
+
           });
 
         } else {
