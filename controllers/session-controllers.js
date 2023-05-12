@@ -138,13 +138,31 @@ const checkMovie = async (movie_id) => {
 };
 
 const insertMovie = async (movie) => {
-  if (movie.backdrop_path == null) movie.backdrop_path = "Non disponibile";
+  if (movie.poster_path == null) movie.poster_path = "Non disponibile";
   await pool.query(queries.insertMovie, [
     movie.id,
     movie.title,
     movie.overview,
     movie.runtime,
-    movie.backdrop_path,
+    movie.poster_path,
+    movie.vote_average,
+  ]);
+  const genres = movie.genres;
+  for (let i = 0; i < genres.length; i++) {
+    pool.query(queries.insertMovieGenres, [movie.id, genres[i].id]);
+  }
+};
+
+const insertMovieById = async (movie_id) => {
+  const movie = (await axios.get(`https://api.themoviedb.org/3/movie/${movie_id}?api_key=${TMDB_API_KEY}&language=en-US`)).data;
+  if (movie.poster_path == null) movie.poster_path = "Non disponibile";
+
+  await pool.query(queries.insertMovie, [
+    movie.id,
+    movie.title,
+    movie.overview,
+    movie.runtime,
+    movie.poster_path,
     movie.vote_average,
   ]);
   const genres = movie.genres;
@@ -158,4 +176,7 @@ module.exports = {
   initializeSession,
   chooseMod,
   addInteraction,
+  checkMovie,
+  insertMovie,
+  insertMovieById,
 };

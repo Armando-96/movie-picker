@@ -7,8 +7,9 @@ block content
         div.containerGrid(style="border: 3px solid black; border-radius: 20px;  background-color: #383434; background-clip: padding-box;")
             div.col1(style="padding: 10px;")
                 div.row.innerGrid
-                    div.col3.d-flex.justify-content-center(style="align-self: start;")
+                    div.col3.d-flex.justify-content-center(style="align-self: start; position: relative;")
                         img(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path, style="width: 100%; height: 100%; border-radius: 20px;")
+                        a#addFav
                     div.col4
                         div#rating.progress.my-2(style="background-color: black;")
                         div.my-2 Release date: #{movie.release_date}
@@ -64,7 +65,7 @@ block content
 
             div#similarContainer.my-4
                 h3 Similar Movies
-                div#similar.d-flex.flex-wrap.justify-content-center(style="gap: 10px;")
+                div#similar.d-flex.flex-wrap.justify-content-center.my-4(style="gap: 20px;")
                 
         
     script.
@@ -77,5 +78,6 @@ block content
         let logos = !{JSON.stringify(logos)};
         let logo = logos.length > 0 ? logos[0].file_path : null;
         let similar = !{JSON.stringify(similar)};//Array di oggetti movie (id, title, poster_path, release_date)
-
+        let user_id = !{JSON.stringify(user_id)};
+        let favourite = !{JSON.stringify(favourite)};
     script(src="../../js/movie-details.js")

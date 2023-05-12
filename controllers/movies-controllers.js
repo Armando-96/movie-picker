@@ -9,6 +9,7 @@ const pool = require("./../db/db.js");
 const queries = require("./../db/queries.js");
 const { TMDB_API_KEY, CONFIGURATION, TOTAL_PAGES_TRENDING } = require("../model/global-variables.js");
 const { subMonths, format } = require('date-fns');
+const profileController = require("./profile-controllers.js");
 
 const topRated = async (req, res) => {
     try {
@@ -173,6 +174,14 @@ const details = async (req, res) => {
             }
         }
 
+        let user_id = false;
+        if (req.session.user_id) user_id = req.session.user_id;
+        let favourite = false;
+        if (user_id) {
+            let movie_id_string = movie_id.toString();
+            results = await profileController.checkFavourite(user_id, movie_id_string);
+            if (results.length > 0) favourite = true;
+        }
         res.render("movie-details.pug",
             {
                 movie: response.data,
@@ -183,7 +192,9 @@ const details = async (req, res) => {
                 similar: responseSimilar.results,
                 keywords: responseKeywords.keywords,
                 cast: responseCast.cast,
-                config: config
+                config: config,
+                user_id: user_id,
+                favourite: favourite,
             });
 
 

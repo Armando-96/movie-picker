@@ -12,6 +12,10 @@ const profileController = require("../controllers/profile-controllers.js");
 
 profileRoute.get("/", profileController.getProfilePage);
 
+profileRoute.get("/addFav", profileController.addFavourite);
+
+profileRoute.get("/removeFav", profileController.removeFavourite);
+
 module.exports = profileRoute;
 
 

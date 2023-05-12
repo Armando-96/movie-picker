@@ -16,6 +16,14 @@ CREATE TABLE USERS
     CONSTRAINT unique_username UNIQUE (username)
 );
 
+CREATE TABLE FAVOURITES (
+    user_id INTEGER,
+    movie_id TEXT,
+    PRIMARY KEY (user_id, movie_id),
+    FOREIGN KEY (user_id) REFERENCES USERS(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (movie_id) REFERENCES MOVIES(movie_id) ON DELETE CASCADE
+);
+
 CREATE TABLE MOVIES (
     movie_id TEXT,
     title TEXT NOT NULL,

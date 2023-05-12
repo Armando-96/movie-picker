@@ -1,4 +1,12 @@
 extends layouts
 block content
+    link(rel='stylesheet', href='/css/profile-page.css')
     .container
         h1.my-4 #{username}'s Profile
+        h3.my-4 Favourites
+        #containerFavourites.scrollbar-custom
+
+    script.
+        let favourites = !{JSON.stringify(favourites)};
+        let config = !{JSON.stringify(config)};
+    script(src='../../js/profile-page.js')
