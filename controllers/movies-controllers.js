@@ -9,6 +9,7 @@ const pool = require("./../db/db.js");
 const queries = require("./../db/queries.js");
 const { TMDB_API_KEY, CONFIGURATION, TOTAL_PAGES_TRENDING } = require("../model/global-variables.js");
 const { subMonths, format } = require('date-fns');
+const profileController = require("./profile-controllers.js");
 
 const topRated = async (req, res) => {
     try {
@@ -63,7 +64,6 @@ const trending = async (req, res) => {
         if (page > TOTAL_PAGES_TRENDING) return res.status(404).json({ message: "Pagina non trovata" });
 
         let p = page;
-
         if (!p) p = 1;
         let movieArray = [];
         while (movieArray.length < 20) {
@@ -78,11 +78,25 @@ const trending = async (req, res) => {
             p++;
         }
 
+        //Chiediamo i video del primo film della lista per cercare il trailer e restituirlo
+        const responseVideos = (await axios.get(
+            `https://api.themoviedb.org/3/movie/${movieArray[0].id}/videos?api_key=${TMDB_API_KEY}&language=en-US`
+        )).data;
+
+        let trailerKey = null;
+        for (let i = 0; i < responseVideos.results.length; i++) {
+            if (responseVideos.results[i].type === "Trailer" && responseVideos.results[i].site === "YouTube") {
+                trailerKey = responseVideos.results[i].key;
+                break;
+            }
+        }
+
         const config = await CONFIGURATION;
 
         const movies = {
             prefix_poster_path: config.images.base_url + config.images.backdrop_sizes[0],
             results: movieArray,
+            trailerKeyFirstMovie: trailerKey,
         }
         res.send(movies);
     } catch (error) {
@@ -160,6 +174,14 @@ const details = async (req, res) => {
             }
         }
 
+        let user_id = false;
+        if (req.session.user_id) user_id = req.session.user_id;
+        let favourite = false;
+        if (user_id) {
+            let movie_id_string = movie_id.toString();
+            results = await profileController.checkFavourite(user_id, movie_id_string);
+            if (results.length > 0) favourite = true;
+        }
         res.render("movie-details.pug",
             {
                 movie: response.data,
@@ -170,7 +192,9 @@ const details = async (req, res) => {
                 similar: responseSimilar.results,
                 keywords: responseKeywords.keywords,
                 cast: responseCast.cast,
-                config: config
+                config: config,
+                user_id: user_id,
+                favourite: favourite,
             });
 
 
@@ -182,6 +206,8 @@ const details = async (req, res) => {
 
 const search = async (req, res) => {
     try {
+        const promiseConfig = CONFIGURATION;
+
         const { page, with_genres, year, release_date_gte, sort_by, vote_average_gte, with_people } = req.query;
 
         let request = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&vote_count.gte=50`;
@@ -193,7 +219,17 @@ const search = async (req, res) => {
         if (vote_average_gte) request = request.concat(`&vote_average.gte=${vote_average_gte}`);
         if (with_people) request = request.concat(`&with_people=${with_people}`);
         const response = await axios.get(request);
-        res.send(response.data);
+        const config = await promiseConfig;
+
+        let toSend = {
+            prefix_poster_path: config.images.base_url + config.images.poster_sizes[3],
+            page: page,
+            results: response.data.results,
+            total_pages: response.data.total_pages,
+            total_results: response.data.total_results
+        };
+        res.send(toSend);
+
     } catch (error) {
         console.error(error);
     }
@@ -231,6 +267,42 @@ const searchPerson = async (req, res) => {
         console.error(error);
     }
 }
+
+const getHomePageDetails = async (req, res) => {
+    try {
+        const { movie_id } = req.query;
+        const promiseConfig = CONFIGURATION;
+        const response = await axios.get(
+            `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${TMDB_API_KEY}&language=en-US`
+        );
+        const config = await promiseConfig;
+        res.send({
+            movie: response.data,
+            prefix_poster_path: config.images.base_url + config.images.backdrop_sizes[1],
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const movieByName = async (req, res) => {
+    try {
+        const promiseConfig = CONFIGURATION;
+        const { movie_name } = req.query;
+        const response = await axios.get(
+            `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&language=en-US&query=${movie_name}&page=1&include_adult=false`
+        );
+        const config = await promiseConfig;
+        res.send({
+            page: response.data.page,
+            movie: response.data.results,
+            prefix_poster_path: config.images.base_url + config.images.poster_sizes[3],
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 module.exports = {
     topRated,
     random,
@@ -239,4 +311,6 @@ module.exports = {
     search,
     getGenres,
     searchPerson,
+    getHomePageDetails,
+    movieByName
 }

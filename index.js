@@ -15,6 +15,7 @@ const signupRouter = require("./routes/signup-route.js");
 const sessionRoute = require("./routes/session-route.js");
 const watchNowRoute = require("./routes/watchnow-route.js");
 const discoveryRoute = require("./routes/discovery-route.js");
+const profileRoute = require("./routes/profile-route.js");
 
 const PORT = 3000;
 const SIX_HOURS = 1000 * 60 * 60 * 6;
@@ -59,6 +60,7 @@ app.use("/user/login", loginRouter);
 app.use("/user/signup", signupRouter);
 app.use("/watchnow", watchNowRoute);
 app.use("/discovery", discoveryRoute);
+app.use("/profile", profileRoute);
 
 app.get("/test/wn/tournament", (req, res) => {
   res.sendFile(path.resolve("./public/test.html"));

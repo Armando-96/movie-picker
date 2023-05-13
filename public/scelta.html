@@ -1,186 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
-    />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/scelta.css" />
-    <script src="./js/jQuery.js"></script>
-    <script src="./js/index.js"></script>
-    <style type="text/css">
-      @font-face {
-        font-weight: 400;
-        font-style: normal;
-        font-family: circular;
 
-        src: url("chrome-extension://liecbddmkiiihnedobmlmillhodjkdmb/fonts/CircularXXWeb-Regular.woff2")
-          format("woff2");
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/scelta.css" />
+  <script src="./js/jQuery.js"></script>
+  <script src="./js/index.js"></script>
+  <style type="text/css">
+    @font-face {
+      font-weight: 400;
+      font-style: normal;
+      font-family: circular;
 
-      @font-face {
-        font-weight: 500;
-        font-style: normal;
-        font-family: circular;
+      src: url("chrome-extension://liecbddmkiiihnedobmlmillhodjkdmb/fonts/CircularXXWeb-Regular.woff2") format("woff2");
+    }
 
-        src: url("chrome-extension://liecbddmkiiihnedobmlmillhodjkdmb/fonts/CircularXXWeb-Medium.woff2")
-          format("woff2");
-      }
+    @font-face {
+      font-weight: 500;
+      font-style: normal;
+      font-family: circular;
 
-      @font-face {
-        font-weight: 700;
-        font-style: normal;
-        font-family: circular;
+      src: url("chrome-extension://liecbddmkiiihnedobmlmillhodjkdmb/fonts/CircularXXWeb-Medium.woff2") format("woff2");
+    }
 
-        src: url("chrome-extension://liecbddmkiiihnedobmlmillhodjkdmb/fonts/CircularXXWeb-Bold.woff2")
-          format("woff2");
-      }
-    </style>
-    <title>Choose Mod</title>
-  </head>
+    @font-face {
+      font-weight: 700;
+      font-style: normal;
+      font-family: circular;
 
-  <body data-bs-theme="dark">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">MoviePicker</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <a class="nav-link active" href="/">Home</a>
-            <a class="nav-link" href="/api/configuration">Configuration</a>
-            <a class="nav-link" href="/user/login">Login</a>
-            <a class="nav-link" href="/user/signup">Register</a>
-          </div>
+      src: url("chrome-extension://liecbddmkiiihnedobmlmillhodjkdmb/fonts/CircularXXWeb-Bold.woff2") format("woff2");
+    }
+  </style>
+  <title>Choose Mod</title>
+</head>
+
+<body data-bs-theme="dark">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">MoviePicker</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="position:relative;">
+        <div class="navbar-nav">
+          <a class="nav-link active" href="/">Home</a>
+          <a class="nav-link" href="/api/configuration">Configuration</a>
+          <a class="nav-link" href="/user/login">Login</a>
+          <a class="nav-link" href="/user/signup">Register</a>
+          <a class="nav-link" href="./api/movies/top_rated">Top Rated Movies</a>
+          <a class="nav-link" href="/api/movies/random">Random Movie</a>
+          <a class="nav-link" href="/profile" style="position:absolute; right:0px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+              class="bi bi-person-circle" viewBox="0 0 16 16">
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+              <path fill-rule="evenodd"
+                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+            </svg>
+          </a>
         </div>
       </div>
-    </nav>
-    <main>
-      <div class="container py-4">
-        <div class="p-5 mb-4 rounded-3 bg-primary">
-          <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold text-light">Choose mode</h1>
-            <p class="col-md-8 fs-4 text-light-emphasis">
-              MoviePicker allows you to choose between two modes of operation,
-              so you can find the ideal movie to watch alone or with friends!
+    </div>
+  </nav>
+  <main>
+    <div class="container py-4">
+      <div class="p-5 mb-4 rounded-3 bg-primary">
+        <div class="container-fluid py-5">
+          <h1 class="display-5 fw-bold text-light">Choose mode</h1>
+          <p class="col-md-8 fs-4 text-light-emphasis">
+            MoviePicker allows you to choose between two modes of operation,
+            so you can find the ideal movie to watch alone or with friends!
+          </p>
+        </div>
+      </div>
+
+      <div class="row align-items-md-stretch">
+        <div class="col-md-6">
+          <div class="discovery-container h-100 p-5 text-bg-dark border rounded-3">
+            <h2 class="mb-4">Discovery Mode</h2>
+            <p>
+              Discovery mode allows you to browse through the various movie
+              offerings. You will have to decide whether you like or dislike
+              the proposed movie or whether you have finally found what you
+              were looking for.
             </p>
+            <p>
+              You won't have to do anything else, our algorithm will do the
+              rest: find the movies most akin to the movies you've liked.
+            </p>
+            <button id="discovery" value="discovery" value="watchNow" name="mod" class="btn btn-primary mt-3"
+              type="button">
+              Go to Discovery
+            </button>
           </div>
         </div>
-
-        <div class="row align-items-md-stretch">
-          <div class="col-md-6">
-            <div
-              class="discovery-container h-100 p-5 text-bg-dark border rounded-3"
-            >
-              <h2 class="mb-4">Discovery Mode</h2>
-              <p>
-                Discovery mode allows you to browse through the various movie
-                offerings. You will have to decide whether you like or dislike
-                the proposed movie or whether you have finally found what you
-                were looking for.
-              </p>
-              <p>
-                You won't have to do anything else, our algorithm will do the
-                rest: find the movies most akin to the movies you've liked.
-              </p>
-              <button
-                id="discovery"
-                value="discovery"
-                value="watchNow"
-                name="mod"
-                class="btn btn-primary mt-3"
-                type="button"
-              >
-                Go to Discovery
-              </button>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div
-              class="watchnow-container h-100 p-5 bg-body-tertiary border rounded-3"
-            >
-              <h2>
-                WatchNow Mode
-                <span class="badge text-bg-success mb-2">New</span>
-              </h2>
-              <p>
-                The watchNow mode allows you to choose from several movie
-                suggestions recommended by our algorithm. Here's where the fun
-                comes in: you'll have to like 16 movies that will be proposed to
-                you, after which the tournament phase will be activated.
-              </p>
-              <p>
-                The rules are simple: the movies in the tournament are presented
-                in pairs, you decide which one to keep and continue like that
-                until the end. 16 movies, but only one winner!
-              </p>
-              <button
-                id="watchnow"
-                class="btn btn-primary mt-3"
-                name="mod"
-                type="button"
-              >
-                Go to WatchNow
-              </button>
-            </div>
+        <div class="col-md-6">
+          <div class="watchnow-container h-100 p-5 bg-body-tertiary border rounded-3">
+            <h2>
+              WatchNow Mode
+              <span class="badge text-bg-success mb-2">New</span>
+            </h2>
+            <p>
+              The watchNow mode allows you to choose from several movie
+              suggestions recommended by our algorithm. Here's where the fun
+              comes in: you'll have to like 16 movies that will be proposed to
+              you, after which the tournament phase will be activated.
+            </p>
+            <p>
+              The rules are simple: the movies in the tournament are presented
+              in pairs, you decide which one to keep and continue like that
+              until the end. 16 movies, but only one winner!
+            </p>
+            <button id="watchnow" class="btn btn-primary mt-3" name="mod" type="button">
+              Go to WatchNow
+            </button>
           </div>
         </div>
-
-        <footer class="pt-3 mt-4 text-body-secondary border-top">© 2023</footer>
       </div>
-    </main>
-  </body>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-    crossorigin="anonymous"
-  ></script>
-  <script src="/js/jQuery.js"></script>
-  <script>
-    $(document).ready(function () {
-      $("#discovery").click(function () {
-        $.ajax({
-          url: "/session",
-          type: "GET",
-          data: {
-            mod: "discovery",
-          },
-          success: function (data) {
-            window.location.href = "/discovery";
-          },
-        });
-      });
-      $("#watchnow").click(function () {
-        $.ajax({
-          url: "/session",
-          type: "GET",
-          data: {
-            mod: "watchNow",
-          },
-          success: function (data) {
-            window.location.href = "/watchNow";
-          },
-        });
+
+      <footer class="pt-3 mt-4 text-body-secondary border-top">© 2023</footer>
+    </div>
+  </main>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+<script src="/js/jQuery.js"></script>
+<script>
+  $(document).ready(function () {
+    $("#discovery").click(function () {
+      $.ajax({
+        url: "/session",
+        type: "GET",
+        data: {
+          mod: "discovery",
+        },
+        success: function (data) {
+          window.location.href = "/discovery";
+        },
       });
     });
-  </script>
+    $("#watchnow").click(function () {
+      $.ajax({
+        url: "/session",
+        type: "GET",
+        data: {
+          mod: "watchNow",
+        },
+        success: function (data) {
+          window.location.href = "/watchNow";
+        },
+      });
+    });
+  });
+</script>
+
 </html>
