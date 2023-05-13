@@ -54,6 +54,17 @@ const getInteractionsCount = //query per recuperare il numero di interazioni di 
   where u.user_id = $1;`;
 const getNumLikeInSession = "select n_likes from sessions where session_id = $1;";
 const getLikeMoviesInSession = "select m.movie_id, m.title, m.overview, m.poster_path, m.rating from interactions i join movies m on i.movie_id = m.movie_id where session_id = $1 and preference = 'like';";
+const getGenreStatics = `
+  select genre_name , count(*) quantity
+  from (select * from interactions where preference = 'like' or preference = 'selected'
+      order by interaction_date desc limit 50) i 
+    join sessions s on i.session_id = s.session_id
+    join movies m on m.movie_id = i.movie_id
+    join movies_genres mg on mg.movie_id = m.movie_id
+    join genres g on g.genre_id = mg.genre_id
+  where s.user_id = $1
+  group by genre_name
+  `
 
 module.exports = {
   getUsers,
@@ -81,4 +92,5 @@ module.exports = {
   getInteractionsCount,
   getNumLikeInSession,
   getLikeMoviesInSession,
+  getGenreStatics,
 };

@@ -4,9 +4,18 @@ block content
     .container
         h1.my-4 #{username}'s Profile
         h3.my-4 Favourites
-        #containerFavourites.scrollbar-custom
+        #containerFavourites.scrollbar-custom.my-4
+        h3.my-4 Genre Statistics for lasts liked movies
+        #containerGenreStatics
+            canvas#myChart
+        h3.my-4 Most liked actors 
+        #containerLikedActors 
 
+
+    script(src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0")
     script.
         let favourites = !{JSON.stringify(favourites)};
         let config = !{JSON.stringify(config)};
+        let genreStatics = !{JSON.stringify(genreStatics)};
+        let mostLikedActors = !{JSON.stringify(mostLikedActors)};
     script(src='../../js/profile-page.js')
