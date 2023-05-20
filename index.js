@@ -70,6 +70,10 @@ app.get("/test/wn/initial", (req, res) => {
   res.sendFile(path.resolve("./public/test-watchnow-initial.html"));
 });
 
+app.get("/test/card", (req, res) => {
+  res.sendFile(path.resolve("./public/test-card.html"));
+});
+
 // Pagina di errore 404
 app.use((req, res, next) => {
   res.status(404).sendFile(path.join(__dirname, "public", "404.html"));

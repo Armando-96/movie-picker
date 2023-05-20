@@ -1,15 +1,18 @@
 extends layouts
 include partials/watchnow/movie-card
 block content
-    .container.d-flex.flex-column.justify-content-between(style="height: 90vh")
+    .container.d-flex.flex-column.justify-content-between(style="height: 80vh")
         p sessione attuale: #{session_id}
         .container
-            .row
-                include partials/watchnow/exit
-            .row
+            .row.d-flex.justify-content-between
+                .col-1
+                    include partials/watchnow/exit
+                .col-1
+                    button.btn.btn-lg.btn-secondary(style="padding: 8px 24px; font-size: 1.75rem; border-radius: 50%", data-bs-container="body", data-bs-toggle="popover", data-bs-placement="bottom", data-bs-content="The rules are simple: the movies in the tournament are presented in pairs, you decide which one to keep and continue like that until the end. 16 movies, but only one winner!") ?
+        .container
+            .row.my-3
                 .col.d-flex.justify-content-center
                     include partials/watchnow/cumulator
-        .container
             .row
                 .col.wn-initial-card-container(style="position: relative; min-height: 32rem;")
                     +movie-card(movies[0], config)(class="first-movie-card")
@@ -24,5 +27,7 @@ block scripts
         let movie_id1 = "#{movies[0].id}";
         let movie_id2 = "#{movies[1].id}";
         let prefix_poster_path = "#{config.images.base_url}" + "#{config.images.backdrop_sizes[0]}";
+        [...document.querySelectorAll('[data-bs-toggle="popover"]')]
+        .forEach(el => new bootstrap.Popover(el))
     script(src="/js/watchnow-initial.js")
 

@@ -1,16 +1,24 @@
 extends layouts
-include partials/watchnow/movie-card
+include partials/watchnow/movie-card-final
 block content
     p sessione attuale: #{session_id}
     .container.main-content
         .row
-            h1.display-5.text-center.final-title.mb-5 We have a winner!
+            h1.display-5.text-center.final-title.mb-5.text-light We have a winner!
         .row
             .col.d-flex.justify-content-center
-                +movie-card(movie, config)(class="final-movie-card")
+                +movie-card-final(movie, config)(class="final-movie-card first-movie-card")
 block scripts
     script(src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js")
     script.
+        $("body").addClass("bg-success");
+        $(".card-reveal").hide();
+        $(".bi-share-fill").click(function () {
+            $(".card-reveal").slideDown("150");
+        });
+        $(".bi-x-lg").click(function () {
+            $(".card-reveal").slideUp("150");
+        });
         element = document.querySelector(".final-title");
         party.confetti(element, {
         debug: false,

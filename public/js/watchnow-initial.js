@@ -1,3 +1,11 @@
+$(".card-reveal").hide();
+$(".bi-share-fill").click(function () {
+  $(".card-reveal").slideDown("150");
+});
+$(".bi-x-lg").click(function () {
+  $(".card-reveal").slideUp("150");
+});
+
 function addInteraction(preference_choice) {
   preference = preference_choice;
   $.get({

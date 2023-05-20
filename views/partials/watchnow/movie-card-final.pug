@@ -1,4 +1,4 @@
-mixin movie-card(movie, config)
+mixin movie-card-final(movie, config)
     .container.card-container
         .card(class!=attributes.class)
             .img-container
@@ -12,7 +12,15 @@ mixin movie-card(movie, config)
                     .col-3.text-center
                         i.bi.bi-share-fill
                 p#overview.overview.card-text= movie.overview
-                
+            .card-footer
+                .row.text-center
+                    .col-2
+                        a(href= "/api/movies/details?movie_id=" + movie.movie_id)
+                            button.btn.btn-danger.btn-lg.btn-block
+                                i.bi.bi-heart.favourite-button
+                    .col-10
+                        a(href= "/api/movies/details?movie_id=" + movie.movie_id)
+                            button.btn.btn-success.btn-lg.btn-block Go To Movie Details
         .card.card-reveal.text-center.white(class!=attributes.class, style="z-index: 1000")
             .d-flex.flex-column.h-100.text-center
                 .card-header
