@@ -15,9 +15,8 @@ mixin movie-card-final(movie, config)
             .card-footer
                 .row.text-center
                     .col-2
-                        a(href= "/api/movies/details?movie_id=" + movie.movie_id)
-                            button.btn.btn-danger.btn-lg.btn-block
-                                i.bi.bi-heart.favourite-button
+                        button.btn.btn-danger.btn-lg.btn-block
+                            i.bi.bi-heart.favourite-button
                     .col-10
                         a(href= "/api/movies/details?movie_id=" + movie.movie_id)
                             button.btn.btn-success.btn-lg.btn-block Go To Movie Details
