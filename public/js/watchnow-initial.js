@@ -22,7 +22,7 @@ function addInteraction(preference_choice) {
       if (data.nonext) {
         $("#body").html("<h1>Non ci sono più film da mostrare</h1>");
       } else if (preference_choice == "selected") {
-        $("#body").html("<h1>Film selezionato</h1>"); //In attesa di sviluppo, da inserire una pagina di ringraziamenti o qualcosa del genere
+        redirectToSelected(); //In attesa di sviluppo, da inserire una pagina di ringraziamenti o qualcosa del genere
         return;
       } else {
         if ($("#cumulator").text() == "16/16") return;
@@ -88,6 +88,10 @@ function swap(new_movie) {
     "src",
     prefix_poster_path + new_movie.poster_path
   );
+}
+
+function redirectToSelected() {
+  window.location.replace("/watchnow/final?movie=" + movie_id1);
 }
 
 function exit() {
