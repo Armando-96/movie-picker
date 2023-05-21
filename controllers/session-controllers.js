@@ -44,6 +44,8 @@ const addInteraction = async (req, res) => {
     await insertMovie(movie);
   }
 
+  await pool.query(queries.createInteraction, [session_id, movie_id, preference]);
+
   if (preference === "like") pool.query(queries.incLikes, [session_id]);
   else if (preference === "selected") {
     pool.query(queries.insertSelected, [session_id, movie_id]);
@@ -51,7 +53,6 @@ const addInteraction = async (req, res) => {
     return;
   }
 
-  await pool.query(queries.createInteraction, [session_id, movie_id, preference]);
   let num_interazioni = (
     await pool.query(queries.getInteractionsCount, [req.session.user_id])
   ).rows[0].count;

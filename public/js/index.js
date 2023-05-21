@@ -135,8 +135,8 @@ $(document).ready(function () {
           $("#choseContainer").animate({ width: '60%', height: '100%' });
           $("#choseGenres").empty();
           setTimeout(function () {
-            $("#choseGenres").css("display", "block");
-            $("#choseGenres").append("<h5>Genres</h5>");
+            //$("#choseGenres").css("display", "block");
+            $("#choseGenres").append("<h5 style='margin-bottom: 50px;'>Genres</h5>");
             for (let i = 0; i < data.length; i++) {
               let checkbox =
                 `
@@ -149,6 +149,9 @@ $(document).ready(function () {
                 `;
               $("#choseGenres").append(checkbox);
             }
+            $("#choseGenres").css("border", "2px solid black");
+            $("#choseGenres").css("padding", "40px");
+            $("#choseGenres").css("display", "block");
           }, 500);
 
         } else {
