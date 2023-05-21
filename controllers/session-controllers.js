@@ -37,28 +37,25 @@ const initializeSession = async (user_id, req, res) => {
 const addInteraction = async (req, res) => {
   const { preference, movie_id } = req.query;
   const session_id = Number(req.session.session_id);
-  const movie = (
-    await axios.get(
-      `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${TMDB_API_KEY}&language=en-US`
-    )
-  ).data;
-  if (!(await checkFilm(movie_id, session_id))) {
-    if (!(await checkMovie(movie_id))) {
-      await insertMovie(movie);
-    }
-    await pool.query(queries.createInteraction, [session_id, movie_id, preference]);
-    pool.query(queries.incViews, [session_id]);
-    if (preference === "like") pool.query(queries.incLikes, [session_id]);
-    else if (preference === "selected") {
-      pool.query(queries.insertSelected, [session_id, movie_id]);
-      res.send("Film selezionato");
-      return;
-    }
+  pool.query(queries.incViews, [session_id]);
+
+  if (!(await checkMovie(movie_id))) {
+    const movie = (await axios.get(`https://api.themoviedb.org/3/movie/${movie_id}?api_key=${TMDB_API_KEY}&language=en-US`)).data;
+    await insertMovie(movie);
   }
 
+  if (preference === "like") pool.query(queries.incLikes, [session_id]);
+  else if (preference === "selected") {
+    pool.query(queries.insertSelected, [session_id, movie_id]);
+    res.send("Film selezionato");
+    return;
+  }
+
+  await pool.query(queries.createInteraction, [session_id, movie_id, preference]);
   let num_interazioni = (
     await pool.query(queries.getInteractionsCount, [req.session.user_id])
   ).rows[0].count;
+
   let next = null;
   if (num_interazioni % 3 != 0)//Ogni 2 film filtrati, viene mostrato un film randomico
     next = await getMovieFunction(req.session.user_id);

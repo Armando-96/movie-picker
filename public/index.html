@@ -1,337 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home-MoviePiker</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="./css/homepage.css" />
-    <script src="./js/jQuery.js"></script>
-    <script src="./js/index.js"></script>
-  </head>
 
-  <body id="body" data-bs-theme="dark">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">MoviePicker</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home-MoviePiker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
+  <link rel="stylesheet" href="./css/homepage.css" />
+  <script src="./js/jQuery.js"></script>
+  <script src="./js/index.js"></script>
+</head>
+
+<body id="body" data-bs-theme="dark">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">MoviePicker</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="position: relative">
+        <div class="navbar-nav">
+          <a class="nav-link active" href="/">Home</a>
+          <a class="nav-link" href="/user/login">Login</a>
+          <a class="nav-link" href="/user/signup">Register</a>
+          <a class="nav-link" href="/profile" style="position: absolute; right: 0px">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+              class="bi bi-person-circle" viewBox="0 0 16 16">
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+              <path fill-rule="evenodd"
+                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <div class="" id="intro-container">
+    <div class="container col-xxl-8 px-4 py-3">
+      <div class="row flex-lg-row-reverse align-items-center g-5 py-2">
+        <div class="col-10 col-sm-8 col-lg-6">
+          <img src="/images/hero-homepage.png" class="d-block mx-lg-auto img-fluid rounded" alt="Bootstrap Themes"
+            width="700" height="500" loading="lazy" />
+        </div>
+        <div class="col-lg-6">
+          <h1 class="display-5 fw-bold lh-1 mb-3">
+            Stop zapping on your streaming platforms
+          </h1>
+          <p class="lead">
+            Escape the endless cycle of late-night channel surfing and
+            discover your perfect movie match. With our services, finding the
+            ideal film for your evening has never been easier.
+          </p>
+
+          <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">
+              Sign in
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <br />
+    <h3>Trending Movie Today!</h3>
+    <br />
+  </div>
+
+  <iframe id="bg-video" frameborder="0" allow="autoplay;fullscreen" allowfullscreen></iframe>
+
+  <!--inizio carosello--Carosello con gli attuali film di tendenza.-->
+  <div id="carousel" class="carousel slide d-flex justify-content-center" data-bs-ride="carousel">
+    <div class="carousel-inner" style="width: 82%">
+      <!--inseriti runtime-->
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev"
+      style="width: 9%">
+      <span class="" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-arrow-bar-left"
+          viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+            d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5ZM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5Z" />
+        </svg>
+      </span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next"
+      style="width: 9%">
+      <span class="" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-arrow-bar-right"
+          viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+            d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8Zm-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5Z" />
+        </svg>
+      </span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <!--fine carosello-->
+
+  <div class="container my-5">
+    <label for="searchInput" class="">
+      <h3>Search for a movie by name:</h3>
+    </label>
+    <div class="row">
+      <div class="col">
+        <input id="searchInputByName" class="form-control" type="text" placeholder="Search" aria-label="Search" />
+      </div>
+      <div class="col">
+        <button id="searchButtonByName" class="btn btn-primary">
+          Search
         </button>
-        <div
-          class="collapse navbar-collapse"
-          id="navbarNavAltMarkup"
-          style="position: relative"
-        >
-          <div class="navbar-nav">
-            <a class="nav-link active" href="/">Home</a>
-            <a class="nav-link" href="/api/configuration">Configuration</a>
-            <a class="nav-link" href="/user/login">Login</a>
-            <a class="nav-link" href="/user/signup">Register</a>
-            <a class="nav-link" href="./api/movies/top_rated"
-              >Top Rated Movies</a
-            >
-            <a class="nav-link" href="/api/movies/random">Random Movie</a>
-            <a
-              class="nav-link"
-              href="/profile"
-              style="position: absolute; right: 0px"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="currentColor"
-                class="bi bi-person-circle"
-                viewBox="0 0 16 16"
-              >
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                <path
-                  fill-rule="evenodd"
-                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
-                />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <div class="bg-dark">
-      <div class="container col-xxl-8 px-4 py-3">
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-2">
-          <div class="col-10 col-sm-8 col-lg-6">
-            <img
-              src="/images/hero-homepage.png"
-              class="d-block mx-lg-auto img-fluid rounded"
-              alt="Bootstrap Themes"
-              width="700"
-              height="500"
-              loading="lazy"
-            />
-          </div>
-          <div class="col-lg-6">
-            <h1 class="display-5 fw-bold lh-1 mb-3">
-              Stop zapping on your streaming platforms
-            </h1>
-            <p class="lead">
-              Escape the endless cycle of late-night channel surfing and
-              discover your perfect movie match. With our services, finding the
-              ideal film for your evening has never been easier.
-            </p>
-
-            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-              <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">
-                Sign in
-              </button>
-              <button
-                type="button"
-                class="btn btn-outline-secondary btn-lg px-4"
-              >
-                See Top Rated
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
-    <div class="container">
-      <br />
-      <h3>Trending Movie Today!</h3>
-      <br />
-    </div>
+  </div>
 
-    <iframe
-      id="bg-video"
-      frameborder="0"
-      allow="autoplay;fullscreen"
-      allowfullscreen
-    ></iframe>
+  <div class="container my-4">
+    <h3>Do a custom search!</h3>
+  </div>
 
-    <!--inizio carosello--Carosello con gli attuali film di tendenza.-->
-    <div
-      id="carousel"
-      class="carousel slide d-flex justify-content-center"
-      data-bs-ride="carousel"
-    >
-      <div class="carousel-inner" style="width: 82%">
-        <!--inseriti runtime-->
-      </div>
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#carousel"
-        data-bs-slide="prev"
-        style="width: 9%"
-      >
-        <span class="" aria-hidden="true">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
-            fill="currentColor"
-            class="bi bi-arrow-bar-left"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5ZM10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5Z"
-            />
-          </svg>
-        </span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#carousel"
-        data-bs-slide="next"
-        style="width: 9%"
-      >
-        <span class="" aria-hidden="true">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="40"
-            height="40"
-            fill="currentColor"
-            class="bi bi-arrow-bar-right"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M6 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L12.293 7.5H6.5A.5.5 0 0 0 6 8Zm-2.5 7a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5Z"
-            />
-          </svg>
-        </span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div>
-    <!--fine carosello-->
-
-    <div class="container my-5">
-      <label for="searchInput" class="">
-        <h3>Search for a movie by name:</h3>
-      </label>
-      <div class="row">
-        <div class="col">
-          <input
-            id="searchInputByName"
-            class="form-control"
-            type="text"
-            placeholder="Search"
-            aria-label="Search"
-          />
+  <div id="containerCustomSearch">
+    <div id="formContainer" class="d-flex justify-content-center">
+      <form id="myFormSearch">
+        <div class="row">
+          <div class="col">
+            <label for="page">Page</label>
+            <input class="form-control" type="number" name="page" size="3" maxlength="3" value="1" />
+          </div>
+          <div class="col">
+            <label for="year">Year</label>
+            <input class="form-control" type="number" name="year" size="4" maxlength="4" />
+          </div>
+          <div class="col">
+            <label for="release_date_gte">Release Date &#8805;</label>
+            <input class="form-control" type="date" name="release_date_gte" />
+          </div>
         </div>
-        <div class="col">
-          <button id="searchButtonByName" class="btn btn-primary">
+        <div class="row">
+          <div class="col">
+            <label for="sort_by">Sort by</label>
+            <select class="form-select" name="sort_by">
+              <option value="" selected>None</option>
+              <option value="popularity.desc">Popularity Descending</option>
+              <option value="popularity.asc">Popularity Ascending</option>
+              <option value="vote_average.desc">Rating Descending</option>
+              <option value="vote_average.asc">Rating Ascending</option>
+              <option value="primary_release_date.desc">
+                Release Date Descending
+              </option>
+              <option value="primary_release_date.asc">
+                Release Date Ascending
+              </option>
+              <option value="title.asc">Title (A-Z)</option>
+              <option value="title.desc">Title (Z-A)</option>
+            </select>
+          </div>
+          <div class="col">
+            <label for="vote_average_gte">Vote Average &#8805;</label>
+            <input class="form-control" type="number" name="vote_average_gte" step="0.1" />
+          </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+          <a id="show-genres" class="btn">Select genres &#8594;</a>
+          <input class="form-control" type="text" name="with_genres" style="display: none" />
+        </div>
+        <div class="row d-flex justify-content-center">
+          <a id="show-people" class="btn">Select an actor &#8594;</a>
+          <input class="form-control" type="text" id="with_people" style="display: none" />
+        </div>
+        <div class="row d-flex justify-content-center">
+          <button type="submit" class="btn btn-primary" style="width: 30%; min-width: 100px">
             Search
           </button>
         </div>
-      </div>
-    </div>
-
-    <div class="container my-4">
-      <h3>Do a custom search!</h3>
-    </div>
-
-    <div id="containerCustomSearch">
-      <div id="formContainer" class="d-flex justify-content-center">
-        <form id="myFormSearch">
-          <div class="row">
-            <div class="col">
-              <label for="page">Page</label>
-              <input
-                class="form-control"
-                type="number"
-                name="page"
-                size="3"
-                maxlength="3"
-                value="1"
-              />
+      </form>
+      <div id="choseContainer">
+        <div id="choseGenres"></div>
+        <div id="chosePeople">
+          <div id="searchPeopleContainer">
+            <div class="col-auto">
+              <label for="personSearchInput">
+                <h5>Search an actor</h5>
+              </label>
             </div>
-            <div class="col">
-              <label for="year">Year</label>
-              <input
-                class="form-control"
-                type="number"
-                name="year"
-                size="4"
-                maxlength="4"
-              />
+            <div class="col-auto">
+              <input type="text" id="personSearchInput" class="form-control" />
             </div>
-            <div class="col">
-              <label for="release_date_gte">Release Date &#8805;</label>
-              <input class="form-control" type="date" name="release_date_gte" />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <label for="sort_by">Sort by</label>
-              <select class="form-select" name="sort_by">
-                <option value="" selected>None</option>
-                <option value="popularity.desc">Popularity Descending</option>
-                <option value="popularity.asc">Popularity Ascending</option>
-                <option value="vote_average.desc">Rating Descending</option>
-                <option value="vote_average.asc">Rating Ascending</option>
-                <option value="primary_release_date.desc">
-                  Release Date Descending
-                </option>
-                <option value="primary_release_date.asc">
-                  Release Date Ascending
-                </option>
-                <option value="title.asc">Title (A-Z)</option>
-                <option value="title.desc">Title (Z-A)</option>
-              </select>
-            </div>
-            <div class="col">
-              <label for="vote_average_gte">Vote Average &#8805;</label>
-              <input
-                class="form-control"
-                type="number"
-                name="vote_average_gte"
-                step="0.1"
-              />
-            </div>
-          </div>
-          <div class="row d-flex justify-content-center">
-            <a id="show-genres" class="btn">Select genres &#8594;</a>
-            <input
-              class="form-control"
-              type="text"
-              name="with_genres"
-              style="display: none"
-            />
-          </div>
-          <div class="row d-flex justify-content-center">
-            <a id="show-people" class="btn">Select an actor &#8594;</a>
-            <input
-              class="form-control"
-              type="text"
-              id="with_people"
-              style="display: none"
-            />
-          </div>
-          <div class="row d-flex justify-content-center">
-            <button
-              type="submit"
-              class="btn btn-primary"
-              style="width: 30%; min-width: 100px"
-            >
+            <button id="personSearchButton" class="btn btn-primary">
               Search
             </button>
           </div>
-        </form>
-        <div id="choseContainer">
-          <div id="choseGenres"></div>
-          <div id="chosePeople">
-            <div id="searchPeopleContainer">
-              <div class="col-auto">
-                <label for="personSearchInput">
-                  <h5>Search an actor</h5>
-                </label>
-              </div>
-              <div class="col-auto">
-                <input
-                  type="text"
-                  id="personSearchInput"
-                  class="form-control"
-                />
-              </div>
-              <button id="personSearchButton" class="btn btn-outline-secondary">
-                Search
-              </button>
-            </div>
-            <div
-              id="searchPeopleResults"
-              class="d-flex flex-wrap justify-content-center mt-2"
-            ></div>
-          </div>
+          <div id="searchPeopleResults" class="d-flex flex-wrap justify-content-center mt-2"></div>
         </div>
       </div>
     </div>
+  </div>
 
-    <div id="searchResults">
-      <div id="headTitle"></div>
+  <div id="searchResults">
+    <div id="headTitle"></div>
 
-      <div id="moviesResults"></div>
-    </div>
-  </body>
+    <div id="moviesResults"></div>
+  </div>
+</body>
 
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-    crossorigin="anonymous"
-  ></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+
 </html>
