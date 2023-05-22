@@ -1,7 +1,35 @@
-.card(style="width: 18rem;")
-    img#poster.card-img-top.border-radius-b-0(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
-    .card-body.overflow-scroll(style="max-height: 15rem;")
-        h5#title.card-title= movie.title
-        p#overview.card-text= movie.overview
-        p  
-            span#rating.badge.bg-primary= "Rating " + movie.rating
+mixin movie-card-discovery(movie, config)
+    .container.card-container
+        .card(class!=attributes.class)
+            .img-container
+                img#poster.poster.card-img-top.border-radius-b-0(src= config.images.base_url + config.images.backdrop_sizes[0] + movie.poster_path)
+                .overlay
+                    span#rating.rating.badge.bg-primary= "Rating " + movie.rating
+            .card-body.overflow-scroll.mb-3
+                .card-title.row
+                    .col-9
+                        h5#title.title= movie.title
+                    .col-3.text-center
+                        i.bi.bi-share-fill
+                p#overview.overview.card-text= movie.overview
+                
+        .card.card-reveal.text-center.white(class!=attributes.class, style="z-index: 1000")
+            .d-flex.flex-column.h-100.text-center
+                .card-header
+                    h4.card-body.font-weight-bold.my-4
+                        i.bi.bi-x-lg
+                .card-body.card-body.d-flex.flex-column.justify-content-center
+                    h5.card-title.my-4 Share to your friends
+                    .btn-group.m-3(role="group", aria-label="Basic example")
+                        a.btn(href="#", style="background-color: #e4405f; color: white")
+                            i.bi.bi-instagram
+                        a.btn(href="#", style="background-color: #0077b5; color: white")
+                            i.bi.bi-facebook
+                        a.btn(href="#", style="background-color: #55acee; color: white")
+                            i.bi.bi-twitter
+                        a.btn(href="#", style="background-color: #3b5998; color: white")
+                            i.bi.bi-linkedin
+                .card-footer.text-muted 
+                    | Made with  
+                    i.bi.bi-heart-fill
+                    |   by Lorenzo and Armando      

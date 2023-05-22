@@ -1,18 +1,25 @@
 extends layouts
-
+include partials/discovery/movie-card
 block content
-    p sessione attuale: #{session_id}
-    include partials/watchnow/exit
-    .container
-        .row
-            .col
-                include partials/discovery/movie-card
-        .row
-            .col
-                include partials/discovery/panel-initial
+    .container.d-flex.flex-column.justify-content-between(style="height: 80vh")
+        p sessione attuale: #{session_id}
+        .container
+            .row.d-flex.justify-content-between
+                .col-1
+                    include partials/watchnow/exit
+                .col-1
+                    button.btn.btn-lg.btn-secondary(style="padding: 8px 24px; font-size: 1.75rem; border-radius: 50%", data-bs-container="body", data-bs-toggle="popover", data-bs-placement="bottom", data-bs-content="Discovery mode allows you to browse through the various movie offerings. You will have to decide whether you like or dislike the proposed movie or whether you have finally found what you were looking for.") ?
+        .container
+            .row.wn-initial-card-container(style="position: relative; min-height: 32rem;")
+                +movie-card-discovery(movie, config)(class="first-movie-card")
+            .row
+                .col
+                    include partials/discovery/panel-initial
 block scripts
+    script(src="/js/discovery-initial.js")
     script.
         let movie_id = "#{movie.id}";
         let prefix_poster_path = "#{config.images.base_url}" + "#{config.images.backdrop_sizes[0]}";
-    script(src="/js/discovery-initial.js")
+        [...document.querySelectorAll('[data-bs-toggle="popover"]')]
+        .forEach(el => new bootstrap.Popover(el))
 

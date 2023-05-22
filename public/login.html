@@ -1,70 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous" />
-  <link rel="stylesheet" href="/css/style.css" />
-</head>
-
-<body data-bs-theme="dark">
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">MoviePicker</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="position:relative;">
-        <div class="navbar-nav">
-          <a class="nav-link active" href="/">Home</a>
-          <a class="nav-link" href="/api/configuration">Configuration</a>
-          <a class="nav-link" href="/user/login">Login</a>
-          <a class="nav-link" href="/user/signup">Register</a>
-          <a class="nav-link" href="./api/movies/top_rated">Top Rated Movies</a>
-          <a class="nav-link" href="/api/movies/random">Random Movie</a>
-          <a class="nav-link" href="/profile" style="position:absolute; right:0px;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-              class="bi bi-person-circle" viewBox="0 0 16 16">
-              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-              <path fill-rule="evenodd"
-                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-            </svg>
-          </a>
+  <body data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">MoviePicker</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse"
+          id="navbarNavAltMarkup"
+          style="position: relative"
+        >
+          <div class="navbar-nav">
+            <a class="nav-link active" href="/">Home</a>
+            <a class="nav-link" href="/api/configuration">Configuration</a>
+            <a class="nav-link" href="/user/login">Login</a>
+            <a class="nav-link" href="/user/signup">Register</a>
+            <a class="nav-link" href="./api/movies/top_rated"
+              >Top Rated Movies</a
+            >
+            <a class="nav-link" href="/api/movies/random">Random Movie</a>
+            <a
+              class="nav-link"
+              href="/profile"
+              style="position: absolute; right: 0px"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="currentColor"
+                class="bi bi-person-circle"
+                viewBox="0 0 16 16"
+              >
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                <path
+                  fill-rule="evenodd"
+                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+                />
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
+    </nav>
+    <div class="container w-100 mx-auto my-5">
+      <main
+        class="form-signin text-center py-3 px-4 w-100 m-auto bg-body-tertiary rounded"
+      >
+        <h1 class="h3 mb-3 fw-normal">Effettua il login</h1>
+
+        <form action="http://localhost:3000/user/login" method="post">
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control border-radius-b-0"
+              id="username"
+              name="username"
+              placeholder="username"
+              required
+            />
+            <label for="username">Username</label>
+          </div>
+          <div class="form-floating mb-4">
+            <input
+              type="password"
+              class="form-control border-radius-t-0"
+              id="password"
+              name="password"
+              placeholder="Password"
+              required
+            />
+            <label for="password">Password</label>
+          </div>
+          <input
+            class="btn btn-primary btn-lg w-100"
+            type="submit"
+            value="Accedi"
+          />
+        </form>
+        <h3 class="h6 fw-normal mt-3">
+          <a href="/register.html">Crea un account</a>
+        </h3>
+      </main>
     </div>
-  </nav>
-  <div class="container w-100 mx-auto my-5">
-    <main class="form-signin text-center py-3 px-4 w-100 m-auto bg-body-tertiary rounded">
-      <h1 class="h3 mb-3 fw-normal">Effettua il login</h1>
 
-      <form action="http://localhost:3000/user/login" method="post">
-        <div class="form-floating">
-          <input type="text" class="form-control border-radius-b-0" id="username" name="username" placeholder="username"
-            required />
-          <label for="username">Username</label>
-        </div>
-        <div class="form-floating mb-4">
-          <input type="password" class="form-control border-radius-t-0" id="password" name="password"
-            placeholder="Password" required />
-          <label for="password">Password</label>
-        </div>
-        <input class="btn btn-primary btn-lg w-100" type="submit" value="Accedi" />
-      </form>
-      <h3 class="h6 fw-normal mt-3">
-        <a href="/register.html">Crea un account</a>
-      </h3>
-    </main>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-    crossorigin="anonymous"></script>
-</body>
-
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/jQuery.js"></script>
+    <script>
+      var url = window.location.search;
+      var searchParams = new URLSearchParams(url);
+      var from_home = searchParams.get("from_home");
+      if (from_home === "true") {
+        $("form").attr(
+          "action",
+          "http://localhost:3000/user/login?from_home=true"
+        );
+      }
+    </script>
+  </body>
 </html>
