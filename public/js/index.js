@@ -1,7 +1,7 @@
 
 
 $(document).ready(function () {
-
+  //Permetto ai carousel item di avere overflow visibile quando il mouse è sopra per permettere all'animazione di essere vista correttamente
   let carouselInner = $(".carousel-inner");
   carouselInner.hover(function () {
     $(this).css("overflow", "visible");
@@ -13,6 +13,7 @@ $(document).ready(function () {
       }, delay);
     });
 
+  //Definiamo delle costanti che useremo successivamente
   const page = 1;
   const limitWidth = 768;
   const carouselHeaderItemActive = `<div class="carousel-item active">`
@@ -20,35 +21,37 @@ $(document).ready(function () {
   const carouselItemMultiple =
     `   <div class="row">
           <div class="col">
-            <img src="img1.jpg" class="d-block w-100 posterImage">
+            <img class="d-block w-100 posterImage">
           </div>
           <div class="col">
-            <img src="img2.jpg" class="d-block w-100 posterImage">
+            <img class="d-block w-100 posterImage">
           </div>
           <div class="col">
-            <img src="img3.jpg" class="d-block w-100 posterImage">
+            <img class="d-block w-100 posterImage">
           </div>
           <div class="col">
-            <img src="img4.jpg" class="d-block w-100 posterImage">
+            <img class="d-block w-100 posterImage">
           </div>
           <div class="col">
-            <img src="img5.jpg" class="d-block w-100 posterImage">
+            <img class="d-block w-100 posterImage">
           </div>
         </div>
       </div>`;
   const carouselItemSingle =
-    `<img src="img1.jpg" class="d-block w-100 posterImage">
+    `<img class="d-block w-100 posterImage">
       </div>`;
 
+  //Chiamata ajax per ottenere i film in tendenza
   $.get({
     async: false,
     url: "/api/movies/trending?page=" + page,
     success: function (data) {
-      //Aggiungiamo il video di sfondo ovvero il trailer del primo film
+      //Aggiungiamo il video di sfondo ovvero il trailer del primo film di tendenza
       $("#bg-video").attr("src", `https://www.youtube.com/embed/${data.trailerKeyFirstMovie}?autoplay=1&loop=1&controls=0&showinfo=0&mute=1&playlist=${data.trailerKeyFirstMovie}`);
-
+      //Prefisso da aggiungere all'attributo src per ottenere il poster dei film
       const prefix_poster_path = data.prefix_poster_path;
 
+      //Se la larghezza della finestra è sotto una certa soglia, allora mostriamo un solo poster per volta altrimenti ne mostriamo 5
       if (window.innerWidth < limitWidth) {
         $("#carousel").attr("class", "carousel slide d-flex justify-content-center container")
         $("#carousel").attr("style", "max-width: 450px;")
@@ -70,7 +73,7 @@ $(document).ready(function () {
           }
         }
       }
-
+      //Aggiungiamo i poster dei film agli elementi carousel-item
       const moviePosters = $(".posterImage");
       for (let i = 0; i < moviePosters.length; i++) {
         if (data.results[i].poster_path != null) {
@@ -81,7 +84,7 @@ $(document).ready(function () {
           );
         }
       }
-
+      //Aggiungo un event listener per poter permettere di cambiare il carosello quando la finestra viene ridimensionata (per esemio su mobile quando si gira il telefono)
       window.addEventListener('resize', function () {
         if (window.innerWidth < limitWidth) {
           $('div.carousel-inner').empty();//Elimina tutti i nodi figli diretti di carousel-inner
@@ -127,15 +130,14 @@ $(document).ready(function () {
     },
   });
 
-
+  //Tasto per mostrare i generi nel form di ricerca
   $("#show-genres").click(function () {
-    if (!$("#choseGenres").find("input[type=checkbox]").length) {
+    if (!$("#choseGenres").find("input[type=checkbox]").length) {//Controlla se i generi siano già stati caricati se non lo sono fa una chiamata ajax per ottenerli
       $.get("/api/movies/search/getGenres", function (data, status) {
         if (status == "success") {
           $("#choseContainer").animate({ width: '60%', height: '100%' });
           $("#choseGenres").empty();
           setTimeout(function () {
-            //$("#choseGenres").css("display", "block");
             $("#choseGenres").append("<h5 style='margin-bottom: 50px;'>Genres</h5>");
             for (let i = 0; i < data.length; i++) {
               let checkbox =
@@ -161,7 +163,7 @@ $(document).ready(function () {
 
       $("#show-genres").html("Hide genres &#8595;");
 
-    } else if ($("#choseGenres").css("display") == "none") {
+    } else if ($("#choseGenres").css("display") == "none") {//Se i generi sono già stati caricati allora fa un altro controllo, se sono nascosti li mostra altrimenti li nasconde
 
       $("#choseContainer").animate({ width: '60%', height: '100%' });
       $("#show-genres").html("Hide genres &#8595;");
@@ -173,7 +175,7 @@ $(document).ready(function () {
 
       $("#show-genres").html("Select genres &#8594;");
       $("#choseGenres").fadeOut("slow");
-
+      //Se anche gli attori sono nascosti allora centro il form di ricerca con un'animazione
       if ($("#chosePeople").css("display") == "none") {
         setTimeout(function () {
           $("#choseContainer").animate({ width: '0px' });
@@ -182,7 +184,7 @@ $(document).ready(function () {
     }
 
   });
-
+  //Tasto per mostrare l'input per la ricerca degli attori
   $("#show-people").click(function () {
     if ($("#chosePeople").css("display") == "none") {
 
@@ -223,6 +225,7 @@ $(document).ready(function () {
   $("#personSearchButton").click(function () {
     let query = '"' + $("#personSearchInput").val() + '"';
     if (query) {
+      //Chiamata ajax per ottenere gli attori con il nome inserito
       $.get("/api/movies/search/person?query=" + query, function (data, status) {
         if (status == "success") {
           $("#searchPeopleResults").empty();
@@ -238,7 +241,7 @@ $(document).ready(function () {
               `;
             $("#searchPeopleResults").append(person);
           }
-
+          //Click su un attore per selezionarlo e inserirlo nella ricerca
           $(".person").click(function () {
             $(this).find("input[type=checkbox]").prop("checked", !$(this).find("input[type=checkbox]").prop("checked"));
 
@@ -249,7 +252,7 @@ $(document).ready(function () {
                 $("#choseContainer").animate({ width: '0px' });
               }, 500);
             }
-
+            //Inseriamo un animazione per non far scattare la pagina verso l'alto
             let currentPositionDown = $(window).scrollTop() + $(window).height();
             let formSearchPosition = $('#myFormSearch').offset().top + $('#myFormSearch').outerHeight();
             let delta = currentPositionDown - formSearchPosition;
@@ -258,7 +261,7 @@ $(document).ready(function () {
                 scrollTop: currentPositionDown - delta - $(window).height() + 5
               }, 10);
             }
-
+            //Modifichiamo l'estetica del tasto a seconda sia stato selezionato un attore oppure no
             let person = $("#searchPeopleResults").find("input[type=checkbox]:checked");
             $("#with_people").val(person.val());
             if (person.attr("name"))
@@ -279,10 +282,11 @@ $(document).ready(function () {
 
   $("#myFormSearch").submit(function (event) {
     event.preventDefault();
-    let formData = $(this).serializeArray().filter(function (e) { return e.value != ""; });
-    formData = "?" + $.param(formData);
+    //Costruiamo la query da passare al server
+    let formData = $(this).serializeArray().filter(function (e) { return e.value != ""; });//Crea un array di oggetti con i campi del form
+    formData = "?" + $.param(formData); //Crea una stringa con i campi del form separati da & per la query
     let genresCheckbox = $("#choseGenres");
-    let genres = genresCheckbox.find("input[type=checkbox]:checked");
+    let genres = genresCheckbox.find("input[type=checkbox]:checked"); //Array di checkbox selezionati
     let person_id = $("#with_people").val();
     if (person_id) formData += "&with_people=" + person_id;
     if (genres.length > 0) {
@@ -292,7 +296,7 @@ $(document).ready(function () {
       }
       formData += "&with_genres=" + genresString;
     }
-    //alert(formData);
+    //Chiamata ajax per ottenere i film con i parametri inseriti
     $.get("/api/movies/search" + formData, function (data, status) {
       if (status == "success") {
         $("#headTitle").empty();
@@ -327,11 +331,13 @@ $(document).ready(function () {
     });
   });
 
+  //Ricerca film per nome
   $("#searchButtonByName").click(function () {
     let movie_name = $("#searchInputByName").val();
     if (!movie_name) return;
 
     let request = "/api/movies/home/movieByName?movie_name=" + movie_name;
+    //Chiamata ajax per ottenere i film con il nome inserito
     $.get(request, function (data, status) {
       if (status != "success") { alert("Error"); return; }
 

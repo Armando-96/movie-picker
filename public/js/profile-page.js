@@ -2,10 +2,10 @@
 $(document).ready(function () {
     for (let i = 0; i < favourites.length; i++) {
         $("#containerFavourites").append(`
-            <div class="container-card">
-                <div class="card m-3">
-                    <div class="row g-0">
-                        <div class="col-md-4 container-img">
+            <div class="container-card m-3">
+                <div class="card">
+                    <div class="row">
+                        <div class="container-img">
                             <img src="${config.images.base_url + config.images.poster_sizes[3] + favourites[i].poster_path}" class="img-fluid rounded-start poster-img" alt="Movie image">
                         </div>
                         <div class="col">
