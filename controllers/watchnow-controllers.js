@@ -76,6 +76,7 @@ const tournament = async (req, res) => {
 const final = async (req, res) => {
   try {
     const session_id = req.session.session_id;
+    const user_id = Number(req.session.user_id);
     const movie_id = req.query.movie;
     const movie = (await pool.query(queries.checkMovie, [movie_id])).rows[0];
     CONFIGURATION.then((config) => {
@@ -84,6 +85,7 @@ const final = async (req, res) => {
         session_id: session_id,
         mod: "whatchnow",
         movie: movie,
+        user_id: user_id,
       });
     }).catch((err) => {
       console.log(err);
