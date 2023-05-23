@@ -21,24 +21,24 @@ $(document).ready(function () {
   const carouselItemMultiple =
     `   <div class="row">
           <div class="col">
-            <img src="img1.jpg" class="d-block w-100 posterImage">
+            <img class="d-block w-100 posterImage">
           </div>
           <div class="col">
-            <img src="img2.jpg" class="d-block w-100 posterImage">
+            <img class="d-block w-100 posterImage">
           </div>
           <div class="col">
-            <img src="img3.jpg" class="d-block w-100 posterImage">
+            <img class="d-block w-100 posterImage">
           </div>
           <div class="col">
-            <img src="img4.jpg" class="d-block w-100 posterImage">
+            <img class="d-block w-100 posterImage">
           </div>
           <div class="col">
-            <img src="img5.jpg" class="d-block w-100 posterImage">
+            <img class="d-block w-100 posterImage">
           </div>
         </div>
       </div>`;
   const carouselItemSingle =
-    `<img src="img1.jpg" class="d-block w-100 posterImage">
+    `<img class="d-block w-100 posterImage">
       </div>`;
 
   //Chiamata ajax per ottenere i film in tendenza

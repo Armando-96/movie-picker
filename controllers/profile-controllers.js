@@ -114,7 +114,7 @@ const getGenreStatics = async (user_id) => {
 const getMostLikedActors = async (user_id) => {
   const movies_id = (
     await pool.query(
-      "SELECT movie_id FROM interactions i JOIN sessions s ON i.session_id = s.session_id WHERE user_id = $1 ORDER BY interaction_date limit 50;",
+      "SELECT movie_id FROM interactions i JOIN sessions s ON i.session_id = s.session_id WHERE user_id = $1 and i.preference = 'like' ORDER BY interaction_date limit 50;",
       [user_id]
     )
   ).rows;
