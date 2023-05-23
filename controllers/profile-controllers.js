@@ -19,11 +19,11 @@ const getProfilePage = async (req, res) => {
   const { user_id, username } = req.session;
   let promiseFavourites = getFavouritesDetails(user_id);
   let promiseGenreStatics = getGenreStatics(user_id);
-  let promiseMostLikedActors = getMostLikedActors(user_id);
+  //let promiseMostLikedActors = getMostLikedActors(user_id);
 
   let favourites = await promiseFavourites;
   let genreStatics = await promiseGenreStatics;
-  let mostLikedActors = await promiseMostLikedActors;
+  //let mostLikedActors = await promiseMostLikedActors;
 
   if (user_id) {
     res.render("profile-page.pug", {
@@ -31,7 +31,7 @@ const getProfilePage = async (req, res) => {
       user_id: user_id,
       favourites: favourites,
       genreStatics: genreStatics,
-      mostLikedActors: mostLikedActors,
+      mostLikedActors: {}, //mostLikedActors,
       config: await CONFIGURATION,
     });
   } else res.redirect("user/login?from_home=true");
