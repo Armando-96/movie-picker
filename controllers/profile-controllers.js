@@ -84,6 +84,13 @@ const checkFavourite = async (user_id, movie_id) => {
   ).rows;
 };
 
+const checkFavouriteBool = async (req, res) => {
+  const { user_id, movie_id } = req.query;
+  let result = await checkFavourite(user_id, movie_id);
+  if (result.length > 0) res.status(200).send("true");
+  else res.status(200).send("false");
+};
+
 const removeFavourite = async (req, res) => {
   const { user_id, movie_id } = req.query;
   pool.query(
@@ -160,4 +167,5 @@ module.exports = {
   checkFavourite,
   getGenreStatics,
   getMostLikedActors,
+  checkFavouriteBool,
 };

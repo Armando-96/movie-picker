@@ -2,6 +2,8 @@ const express = require("express");
 const watchNowController = require("../controllers/watchnow-controllers.js");
 const watchNowRoute = express.Router();
 
+watchNowRoute.use("/", watchNowController.checkLogin); // il middleware checkLogin viene eseguito per ogni richiesta e prende come terzo argomento next.
+
 watchNowRoute.get("/", watchNowController.initial);
 watchNowRoute.get("/getNumLike", watchNowController.getNumLikeInSession);
 watchNowRoute.get("/getLikeMovies", watchNowController.getLikeMovies);

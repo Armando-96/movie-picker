@@ -22,7 +22,7 @@ function addInteraction(preference_choice) {
       if (data.nonext) {
         $("#body").html("<h1>Non ci sono più film da mostrare</h1>");
       } else if (preference_choice == "selected") {
-        $("#body").html("<h1>Film selezionato</h1>"); //In attesa di sviluppo, da inserire una pagina di ringraziamenti o qualcosa del genere
+        redirectToSelected(movie_id); //In attesa di sviluppo, da inserire una pagina di ringraziamenti o qualcosa del genere
         return;
       } else {
         movie_id = data.id;
@@ -47,9 +47,13 @@ $("#like").click(function () {
 });
 
 $("#end").click(function () {
-  $("#body").html("<h1>Pagina di ringraziamenti</h1>"); //In attesa di sviluppo, da inserire una pagina di ringraziamenti o qualcosa del genere
+  addInteraction("selected");
 });
 
 function exit() {
   window.location.replace("/user/login");
+}
+
+function redirectToSelected(movie_id) {
+  window.location.replace("/discovery/final?movie=" + movie_id);
 }

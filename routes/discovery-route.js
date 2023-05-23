@@ -4,4 +4,6 @@ const discoveryRoute = express.Router();
 
 discoveryRoute.get("/", discoveryController.initial);
 
+discoveryRoute.get("/final", discoveryController.final);
+
 module.exports = discoveryRoute;

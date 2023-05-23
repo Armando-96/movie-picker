@@ -117,10 +117,16 @@ const getLikeMovies = async (req, res) => {
   }
 };
 
+const checkLogin = async (req, res, next) => {
+  if (req.session.username) next();
+  else res.sendFile(path.resolve("./public/login.html"));
+};
+
 module.exports = {
   initial,
   tournament,
   final,
   getNumLikeInSession,
   getLikeMovies,
+  checkLogin,
 };
