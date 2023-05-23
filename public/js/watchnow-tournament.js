@@ -14,13 +14,8 @@ $("document").ready(function () {
   });
 });
 
-$(".card-reveal").hide();
-$(".bi-share-fill").click(function () {
-  $(".card-reveal").slideDown("150");
-});
-$(".bi-x-lg").click(function () {
-  $(".card-reveal").slideUp("150");
-});
+$(".card-reveal").remove();
+$(".share-button-container").remove();
 
 function getMovie() {
   if (movies.length == 0) {

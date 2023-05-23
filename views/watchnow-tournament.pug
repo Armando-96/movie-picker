@@ -3,8 +3,14 @@ include partials/watchnow/movie-card
 block content
     .container.main-content.d-flex.flex-column.justify-content-between(style="height: 90vh")
         .container
-            .row
-                include partials/watchnow/exit
+            .row.d-flex.justify-content-center.my-4
+                .col-3.col-sm-1.d-flex.justify-content-center.align-items-center
+                    include partials/watchnow/exit
+                .col-9.col-sm-11.text-center
+                    h2 WatchNow  
+                        span.badge.bg-success   Mode
+                    h4.mt-4
+                        span.badge.bg-light.text-dark   Phase 2 - tournament
         .container
             .row
                 .col.d-flex.justify-content-center
