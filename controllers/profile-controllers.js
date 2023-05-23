@@ -16,6 +16,8 @@ const {
 } = require("../model/global-variables.js");
 
 const getProfilePage = async (req, res) => {
+  console.time("promises-getProfilePage")
+
   const { user_id, username } = req.session;
   let promiseFavourites = getFavouritesDetails(user_id);
   let promiseGenreStatics = getGenreStatics(user_id);
@@ -25,7 +27,10 @@ const getProfilePage = async (req, res) => {
   let genreStatics = await promiseGenreStatics;
   let mostLikedActors = await promiseMostLikedActors;
 
+  console.timeEnd("promises-getProfilePage")
+
   if (user_id) {
+    //render genera la pagina html utilizzando il template engine pug
     res.render("profile-page.pug", {
       username: username,
       user_id: user_id,
