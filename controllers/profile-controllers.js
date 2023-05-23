@@ -112,29 +112,36 @@ const getGenreStatics = async (user_id) => {
 };
 
 const getMostLikedActors = async (user_id) => {
+  //Interroghiamo il nostro db per ottenere gli ultimi 100 film piaciuti dall'utente
   const movies_id = (
     await pool.query(
-      "SELECT movie_id FROM interactions i JOIN sessions s ON i.session_id = s.session_id WHERE user_id = $1 and i.preference = 'like' ORDER BY interaction_date limit 50;",
+      "SELECT movie_id FROM interactions i JOIN sessions s ON i.session_id = s.session_id WHERE user_id = $1 and i.preference = 'like' ORDER BY interaction_date limit 100;",
       [user_id]
     )
   ).rows;
   let actors = {};
   let actorsValues = {};
   let promises = [];
-
+  //Utilizziamo axios che è una libreria che permette di fare richieste http per ottenere il cast dei film
   for (let i = 0; i < movies_id.length; i++) {
+    //Inseriamo le promise della richiesta http in un array in modo che vengano eseguite in parallelo
     promises.push(
       axios.get(
         `https://api.themoviedb.org/3/movie/${movies_id[i].movie_id}/credits?api_key=${TMDB_API_KEY}`
       )
     );
+    //Test per mostrare l'efficienza dell'esecuzione parallela delle richieste http
+    //await promises[i];
   }
+  //Una promise alla volta inserisco gli attori di ciascun film in un dizionario che ha come chiave l'id dell'attore e come valore il numero di volte che è apparso nei film
   for (let i = 0; i < promises.length; i++) {
     await promises[i].then((result) => {
       let cast = result.data.cast;
       for (let j = 0; j < cast.length; j++) {
+        //Se l'attore non è già presente nel dizionario lo inserisco inizializzando il suo valore a 1 altrimenti incremento soltanto il suo valore
         if (!actors[cast[j].id]) {
           actors[cast[j].id] = 1;
+          //Se non è gia stato fatto, inseriamo i dati di ciascun attore in un altro dizionario actorsValues che ha come chiave l'id dell'attore e come valore un oggetto con i dati dell'attore
           let actor = {
             id: cast[j].id,
             name: cast[j].name,
@@ -146,14 +153,15 @@ const getMostLikedActors = async (user_id) => {
     });
   }
 
-  const entries = Object.entries(actors);
-  entries.sort((a, b) => b[1] - a[1]);
-  let fisrt10ActorsId = entries.slice(0, 20);
+  const entries = Object.entries(actors); //Converto l'oggetto in un array di coppie chiave valore
+  entries.sort((a, b) => b[1] - a[1]);  //Ordino l'array in base al valore ovvero il numero di volte che l'attore è apparso nei film
+  //In questa funzione (a, b) rappresentano due diversi elementi dell'array, a[1] e b[1] rappresentano il valore di ciascun elemento e dopo l'arraow function viene specificato il criterio di ordinamento
+  let fisrt10ActorsId = entries.slice(0, 20); //Prendo i primi 10 attori
 
   let ret = [];
   for (let i = 0; i < fisrt10ActorsId.length; i++) {
-    actorsValues[fisrt10ActorsId[i][0]].count = fisrt10ActorsId[i][1];
-    ret.push(actorsValues[fisrt10ActorsId[i][0]]);
+    actorsValues[fisrt10ActorsId[i][0]].count = fisrt10ActorsId[i][1]; //Aggiungo il numero di volte che l'attore è apparso nei film nell'attributo count
+    ret.push(actorsValues[fisrt10ActorsId[i][0]]);//Aggiungo l'attore corrente all'array di ritorno
   }
   return ret;
 };
