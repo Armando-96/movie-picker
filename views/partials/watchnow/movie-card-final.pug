@@ -14,6 +14,9 @@ mixin movie-card-final(movie, config)
                 p#overview.overview.card-text= movie.overview
             .card-footer
                 .row.text-center
+                    .col-2
+                        button.btn.btn-danger.btn-lg.btn-block
+                            i.bi.bi-heart.favourite-button
                     .col-12
                         a(href= "/api/movies/details?movie_id=" + movie.movie_id)
                             button.btn.btn-success.btn-lg.btn-block Go To Movie Details

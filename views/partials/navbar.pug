@@ -13,9 +13,14 @@ block navbar
                 span.navbar-toggler-icon
             #navbarNavAltMarkup.collapse.navbar-collapse(style="position:relative;")
                 .navbar-nav
-                    a.nav-link.active(href="/") Home
-                    a.nav-link(href="/user/login") Login
-                    a.nav-link(href="/user/signup") Register
+                    .btn-group
+                        button.btn.btn-primary(type="button", onclick="location.href = '/user/login';") Modes 
+                        button.btn.btn-primary.dropdown-toggle.dropdown-toggle-split(type="button", data-bs-toggle="dropdown", aria-expanded="false")
+                        ul.dropdown-menu
+                            li
+                                a.dropdown-item(href="/discovery") Discovery
+                            li
+                                a.dropdown-item(href="/watchnow") WatchNow
                     a.nav-link(href='/profile', style='position:absolute; right:0px;')
                         svg(xmlns="http://www.w3.org/2000/svg", width="24", height="24", fill="currentColor",class="bi bi-person-circle", viewBox="0 0 16 16")
                             path(d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z")

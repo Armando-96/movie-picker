@@ -2,12 +2,11 @@ extends layouts
 include partials/discovery/movie-card
 block content
     .container.d-flex.flex-column.justify-content-between(style="height: 80vh")
-        p sessione attuale: #{session_id}
         .container
-            .row.d-flex.justify-content-between
+            .row.d-flex.justify-content-between.my-4
                 .col-1
                     include partials/watchnow/exit
-                .col-1
+                .col-3.col-sm-1
                     button.btn.btn-lg.btn-secondary(style="padding: 8px 24px; font-size: 1.75rem; border-radius: 50%", data-bs-container="body", data-bs-toggle="popover", data-bs-placement="bottom", data-bs-content="Discovery mode allows you to browse through the various movie offerings. You will have to decide whether you like or dislike the proposed movie or whether you have finally found what you were looking for.") ?
         .container
             .row.wn-initial-card-container(style="position: relative; min-height: 32rem;")

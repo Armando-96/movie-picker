@@ -1,6 +1,5 @@
 const pool = require("./../db/db.js");
 const queries = require("./../db/queries.js");
-const axios = require("axios");
 const {
   TMDB_API_KEY,
   CONFIGURATION,
@@ -12,18 +11,6 @@ const sessionController = require("./session-controllers.js");
 const Movie = require("./../model/movie.js");
 const path = require("path");
 const session = require("express-session");
-
-/*
-const movieTest = {
-  id: 238,
-  title: "The Godfather",
-  overview:
-    "Spanning the years 1945 to 1955, a chronicle of the fictional Italian-American Corleone crime family. When organized crime family patriarch, Vito Corleone barely survives an attempt on his life, his youngest son, Michael steps in to take care of the would-be killers, launching a campaign of bloody revenge.",
-  poster_path: "/3bhkrj58Vtu7enYsRolD1fZdja1.jpg",
-  genres: [18, 80],
-  rating: "8.7",
-};
-*/
 
 const initial = async (req, res) => {
   try {
@@ -53,7 +40,6 @@ const initial = async (req, res) => {
 
 const tournament = async (req, res) => {
   try {
-    const user_id = Number(req.session.user_id);
     const session_id = req.session.session_id;
     CONFIGURATION.then((config) => {
       res.render("watchnow-tournament", {

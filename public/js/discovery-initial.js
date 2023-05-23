@@ -25,11 +25,15 @@ function addInteraction(preference_choice) {
         redirectToSelected(movie_id); //In attesa di sviluppo, da inserire una pagina di ringraziamenti o qualcosa del genere
         return;
       } else {
-        movie_id = data.id;
-        $("#title").html(data.title);
-        $("#rating").html(data.vote_average);
-        $("#overview").html(data.overview);
-        $("#poster").attr("src", prefix_poster_path + data.poster_path);
+        addPlaceholder();
+        setTimeout(function () {
+          removePlaceholder();
+          movie_id = data.id;
+          $("#title").html(data.title);
+          $("#rating").html(data.vote_average);
+          $("#overview").html(data.overview);
+          $("#poster").attr("src", prefix_poster_path + data.poster_path);
+        }, 250);
       }
     },
     error: function () {
@@ -56,4 +60,23 @@ function exit() {
 
 function redirectToSelected(movie_id) {
   window.location.replace("/discovery/final?movie=" + movie_id);
+}
+
+function addPlaceholder() {
+  $("#title")
+    .addClass("placeholder-glow")
+    .html("<span class='placeholder col-12'></span>");
+  $("#rating").hide();
+  $("#overview")
+    .addClass("placeholder-glow")
+    .html(
+      '<span class="placeholder col-12"></span><span class="placeholder col-12"></span><span class="placeholder col-12"></span><span class="placeholder col-12"></span>'
+    );
+  $("#poster").attr("src", "/images/placeholder-image.png");
+}
+
+function removePlaceholder() {
+  $("#title").removeClass("placeholder-glow").html("");
+  $("#rating").show();
+  $("#overview").removeClass("placeholder-glow");
 }
