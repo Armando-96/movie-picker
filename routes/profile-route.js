@@ -20,4 +20,6 @@ profileRoute.get("/addFav", profileController.addFavourite);
 
 profileRoute.get("/removeFav", profileController.removeFavourite);
 
+profileRoute.get("/checkFav", profileController.checkFavouriteBool);
+
 module.exports = profileRoute;

@@ -16,22 +16,63 @@ party.confetti(element, {
 });
 
 let user_id = getCookieValue("user_id");
-let movie_id = localStorage.getItem("movie_id");
 
-$(".favourite-button").click(addFavourite);
+let inFav = checkFavourite();
+$(".favourite-button").click(toggleFavourite);
 
-function addFavourite() {
+function checkFavourite() {
   $.ajax({
-    url: "/profile/addFav",
+    url: "/profile/checkFav",
     method: "GET",
     data: { user_id: user_id, movie_id: movie_id },
     success: function (response) {
-      $(".favourite-button").removeClass("bi-heart").addClass("bi-heart-fill");
-    },
-    error: function (xhr, status, error) {
-      alert("Error adding this film to your favourites");
+      if (response === "true") {
+        $(".favourite-button")
+          .removeClass("bi-heart")
+          .addClass("bi-heart-fill");
+        return true;
+      } else {
+        $(".favourite-button")
+          .removeClass("bi-heart-fill")
+          .addClass("bi-heart");
+        return false;
+      }
     },
   });
+}
+
+function toggleFavourite() {
+  if (inFav) {
+    $.ajax({
+      url: "/profile/removeFav",
+      method: "GET",
+      data: { user_id: user_id, movie_id: movie_id },
+      success: function (response) {
+        $(".favourite-button")
+          .removeClass("bi-heart-fill")
+          .addClass("bi-heart");
+        inFav = false;
+      },
+      error: function (xhr, status, error) {
+        alert("Error removing this film to your favourites");
+      },
+    });
+  } else {
+    $.ajax({
+      url: "/profile/addFav",
+      method: "GET",
+      data: { user_id: user_id, movie_id: movie_id },
+      success: function (response) {
+        $(".favourite-button")
+          .removeClass("bi-heart")
+          .addClass("bi-heart-fill");
+        inFav = true;
+      },
+      error: function (xhr, status, error) {
+        alert("Error adding this film to your favourites");
+      },
+    });
+  }
 }
 
 function getCookieValue(cookieName) {

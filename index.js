@@ -43,14 +43,6 @@ app.use(
 
 // Definizione delle cartelle statiche
 app.use(express.static("public"));
-// app.use(
-//   ["/css", "/bootstrap/js", "/bootstrap/jquery"],
-//   [
-//     express.static(path.join(__dirname, "node_modules/bootstrap/dist/css")),
-//     express.static(path.join(__dirname, "node_modules/bootstrap/dist/js")),
-//     express.static(path.join(__dirname, "node_modules/jquery/dist")),
-//   ]
-// );
 
 // Registriamo gli endpoint
 app.use("/session", sessionRoute);
@@ -61,18 +53,6 @@ app.use("/user/signup", signupRouter);
 app.use("/watchnow", watchNowRoute);
 app.use("/discovery", discoveryRoute);
 app.use("/profile", profileRoute);
-
-app.get("/test/wn/tournament", (req, res) => {
-  res.sendFile(path.resolve("./public/test.html"));
-});
-
-app.get("/test/wn/initial", (req, res) => {
-  res.sendFile(path.resolve("./public/test-watchnow-initial.html"));
-});
-
-app.get("/test/card", (req, res) => {
-  res.sendFile(path.resolve("./public/test-card.html"));
-});
 
 // Pagina di errore 404
 app.use((req, res, next) => {

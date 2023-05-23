@@ -1,0 +1,23 @@
+extends layouts
+include partials/discovery/movie-card-final
+block content
+    .container.main-content
+        .row
+            .col.text-center
+                h1.display-5.text-center.final-title.my-5.text-light Film Selected!
+        .row
+            .col.d-flex.justify-content-center
+                +movie-card-final(movie, config)(class="final-movie-card first-movie-card") 
+block scripts
+    script(src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js")
+    script(src="/js/discovery-initial.js")
+    script.
+        localStorage.setItem("movie_id", "#{movie.movie_id}");
+        element = document.querySelector(".final-title");
+        party.confetti(element, {
+        debug: false,
+        gravity: 800,
+        zIndex: 99999,
+        shapes: ["square", "circle", "roundedRectangle"],
+        count: party.variation.range(20, 40),
+        });
