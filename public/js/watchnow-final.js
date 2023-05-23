@@ -15,7 +15,7 @@ party.confetti(element, {
   count: party.variation.range(20, 40),
 });
 
-let user_id = getCookieValue("user_id").toString();
+//let user_id = getCookieValue("user_id").toString();
 
 let inFav = checkFavourite();
 $(".favourite-button").click(toggleFavourite);
