@@ -1,3 +1,10 @@
+if (user_id) {
+
+} else {
+    $(".navbar-nav > .btn-group").css("display", "none");
+    $(".navbar-nav").append(`<a class="nav-link" href="/user/login">Login</a>`);
+}
+
 if (logo != null) {
     //sostituisce il contenuto di #titleContainer con il logo
     $('#titleContainer').html(`<img src="${config.images.base_url + config.images.poster_sizes[3] + logo}" alt="logo" style="max-width: 33%; max-height: 200px">`);
