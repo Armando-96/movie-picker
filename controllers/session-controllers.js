@@ -38,21 +38,21 @@ const addInteraction = async (req, res) => {
   const { preference, movie_id } = req.query;
   const session_id = Number(req.session.session_id);
   pool.query(queries.incViews, [session_id]);
-
+  //Controlla se il film è presente nel database, altrimenti lo inserisce
   if (!(await checkMovie(movie_id))) {
     const movie = (await axios.get(`https://api.themoviedb.org/3/movie/${movie_id}?api_key=${TMDB_API_KEY}&language=en-US`)).data;
     await insertMovie(movie);
   }
-
+  //Inserisce l'interazione nel database
   await pool.query(queries.createInteraction, [session_id, movie_id, preference]);
-
+  //Incrementa il numero di like o inserisce nella tabella selected il film a seconda che sia stato selezionato o che sia stato messo like
   if (preference === "like") pool.query(queries.incLikes, [session_id]);
   else if (preference === "selected") {
     pool.query(queries.insertSelected, [session_id, movie_id]);
     res.send("Film selezionato");
     return;
   }
-
+  //Conta il numero di inerazioni fatte dall'utente
   let num_interazioni = (
     await pool.query(queries.getInteractionsCount, [req.session.user_id])
   ).rows[0].count;
@@ -62,6 +62,7 @@ const addInteraction = async (req, res) => {
     next = await getMovieFunction(req.session.user_id);
   else next = await getRandomMovie();
 
+  //Controlla che il film non sia già stato mostrato nella sessione corrente
   let duplicate = await checkFilm(next.id, session_id);
 
   let i = 0;
@@ -72,8 +73,6 @@ const addInteraction = async (req, res) => {
     else next = await getRandomMovie();
     duplicate = await checkFilm(next.id, session_id);
   }
-
-  //console.log("Movie: " + next.title + " num_iterazioni resto: " + num_interazioni % 3 + " generi: " + next.genre_ids);//Debug
   if (i <= 50) res.send(next);
   else res.send({ nonext: true }); //Non ci sono più film da mostrare
 };
